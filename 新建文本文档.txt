@@ -1,0 +1,93 @@
+PS C:\Users\Photonics\Desktop\zzx> & C:/Users/Photonics/AppData/Local/Programs/Python/Python313/python.exe c:/Users/Photonics/Desktop/zzx/src/ui/app.py
+步骤 1: 初始化光设备...
+Present Instruments: 
+1 :  GPIB  |  SANTEC,TSL-710,20090003,0003.0051
+
+2 :  GPIB  |  SANTEC,MPM-210,20090002,Ver.1.12
+
+保存参数到文件 c:\Users\Photonics\Desktop\zzx\src\config\last_ref_params.json...
+
+测量插损...
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\Photonics\AppData\Local\Programs\Python\Python313\Lib\logging\__init__.py", line 
+1151, in emit
+    msg = self.format(record)
+  File "C:\Users\Photonics\AppData\Local\Programs\Python\Python313\Lib\logging\__init__.py", line 
+999, in format
+    return fmt.format(record)
+           ~~~~~~~~~~^^^^^^^^
+  File "C:\Users\Photonics\AppData\Local\Programs\Python\Python313\Lib\logging\__init__.py", line 
+712, in format
+    record.message = record.getMessage()
+                     ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Photonics\AppData\Local\Programs\Python\Python313\Lib\logging\__init__.py", line 
+400, in getMessage
+    msg = msg % self.args
+          ~~~~^~~~~~~~~~~
+TypeError: not all arguments converted during string formatting
+Call stack:
+  File "c:\Users\Photonics\Desktop\zzx\src\ui\app.py", line 24, in <module>
+    main()
+  File "c:\Users\Photonics\Desktop\zzx\src\ui\app.py", line 20, in main
+    sys.exit(app.exec())
+  File "c:\Users\Photonics\Desktop\zzx\src\ui\panels\measurement_panel.py", line 259, in _on_measure_clicked
+    self._worker.run_measurement()
+  File "c:\Users\Photonics\Desktop\zzx\src\ui\workers.py", line 491, in run_measurement
+    ref_meas.measure_insertion_loss()
+  File "c:\Users\Photonics\Desktop\zzx\src\reference_measurement.py", line 534, in measure_insertion_loss
+    self.ilsts.sts_measurement()
+  File "c:\Users\Photonics\Desktop\zzx\src\santec\sts_process.py", line 457, in sts_measurement   
+    logger.error("Error while performing DUT measurement, ",
+Message: 'Error while performing DUT measurement, '
+Arguments: ('-1110: ReferenceNotExist',)
+--- Logging error ---
+Traceback (most recent call last):
+  File "c:\Users\Photonics\Desktop\zzx\src\ui\log_console.py", line 64, in emit
+    msg = self.format(record)
+  File "C:\Users\Photonics\AppData\Local\Programs\Python\Python313\Lib\logging\__init__.py", line 
+999, in format
+    return fmt.format(record)
+           ~~~~~~~~~~^^^^^^^^
+  File "C:\Users\Photonics\AppData\Local\Programs\Python\Python313\Lib\logging\__init__.py", line 
+712, in format
+    record.message = record.getMessage()
+                     ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Photonics\AppData\Local\Programs\Python\Python313\Lib\logging\__init__.py", line 
+400, in getMessage
+    msg = msg % self.args
+          ~~~~^~~~~~~~~~~
+TypeError: not all arguments converted during string formatting
+Call stack:
+  File "c:\Users\Photonics\Desktop\zzx\src\ui\app.py", line 24, in <module>
+    main()
+  File "c:\Users\Photonics\Desktop\zzx\src\ui\app.py", line 20, in main
+    sys.exit(app.exec())
+  File "c:\Users\Photonics\Desktop\zzx\src\ui\panels\measurement_panel.py", line 259, in _on_measure_clicked
+    self._worker.run_measurement()
+  File "c:\Users\Photonics\Desktop\zzx\src\ui\workers.py", line 491, in run_measurement
+    ref_meas.measure_insertion_loss()
+  File "c:\Users\Photonics\Desktop\zzx\src\reference_measurement.py", line 534, in measure_insertion_loss
+    self.ilsts.sts_measurement()
+  File "c:\Users\Photonics\Desktop\zzx\src\santec\sts_process.py", line 457, in sts_measurement   
+    logger.error("Error while performing DUT measurement, ",
+  File "C:\Users\Photonics\AppData\Local\Programs\Python\Python313\Lib\logging\__init__.py", line 
+1549, in error
+    self._log(ERROR, msg, args, **kwargs)
+  File "C:\Users\Photonics\AppData\Local\Programs\Python\Python313\Lib\logging\__init__.py", line 
+1665, in _log
+    self.handle(record)
+  File "C:\Users\Photonics\AppData\Local\Programs\Python\Python313\Lib\logging\__init__.py", line 
+1681, in handle
+    self.callHandlers(record)
+  File "C:\Users\Photonics\AppData\Local\Programs\Python\Python313\Lib\logging\__init__.py", line 
+1737, in callHandlers
+    hdlr.handle(record)
+  File "C:\Users\Photonics\AppData\Local\Programs\Python\Python313\Lib\logging\__init__.py", line 
+1027, in handle
+    self.emit(record)
+  File "c:\Users\Photonics\Desktop\zzx\src\ui\log_console.py", line 67, in emit
+    self.handleError(record)
+Message: 'Error while performing DUT measurement, '
+Arguments: ('-1110: ReferenceNotExist',)
+测量插损过程中出错: -1110: ReferenceNotExist

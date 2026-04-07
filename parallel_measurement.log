@@ -1,0 +1,341 @@
+2026-04-05 14:27:38,910 - __main__ - INFO - 初始化 ParallelController...
+2026-04-05 14:27:38,978 - ParallelController - INFO - 电压控制器初始化成功 (port=COM3)
+2026-04-05 14:27:40,720 - SANTEC_IL_STS - INFO - Project Version: 2.8.9, Date: 2024-11-19
+2026-04-05 14:27:40,817 - SANTEC_IL_STS - INFO - Python Version: 3.13.7 (tags/v3.13.7:bcee1c3, Aug 14 2025, 14:15:11) [MSC v.1944 64 bit (AMD64)]
+2026-04-05 14:27:40,817 - SANTEC_IL_STS - INFO - Python Implementation: CPythonArchitecture: 64bit
+2026-04-05 14:27:40,818 - SANTEC_IL_STS - INFO - Operating System: Windows 10
+2026-04-05 14:27:40,819 - SANTEC_IL_STS - INFO - Platform ID: Windows-10-10.0.19045-SP0
+2026-04-05 14:27:40,819 - SANTEC_IL_STS - INFO - Machine: AMD64
+2026-04-05 14:27:40,819 - SANTEC_IL_STS - INFO - Processor: Intel64 Family 6 Model 69 Stepping 1, GenuineIntel
+2026-04-05 14:27:40,820 - SANTEC_IL_STS - INFO - Getting DLL path, root: c:\Users\Photonics\Desktop\zzx\src\santec\DLL\
+2026-04-05 14:27:40,967 - SANTEC_IL_STS - INFO - Adding Instrument DLL to the root, result: InstrumentDLL, Version=2.9.0.0, Culture=neutral, PublicKeyToken=null
+2026-04-05 14:27:40,968 - SANTEC_IL_STS - INFO - Adding STSProcess DLL to the root, result: STSProcess, Version=2.2.6.0, Culture=neutral, PublicKeyToken=null
+2026-04-05 14:27:42,662 - SANTEC_IL_STS - INFO - Initializing Instrument Addresses
+2026-04-05 14:27:42,662 - SANTEC_IL_STS - INFO - Getting GPIB resources
+2026-04-05 14:27:42,663 - SANTEC_IL_STS - INFO - Available GPIB resources: ['GPIB0::1::INSTR', 'GPIB0::16::INSTR', 'GPIB1::16::INSTR']
+2026-04-05 14:27:42,663 - SANTEC_IL_STS - INFO - Opening resource: GPIB0::1::INSTR
+2026-04-05 14:27:42,705 - SANTEC_IL_STS - INFO - Opened instrument: SANTEC,TSL-710,20090003,0003.0051
+
+2026-04-05 14:27:42,707 - SANTEC_IL_STS - INFO - Opening resource: GPIB0::16::INSTR
+2026-04-05 14:27:42,742 - SANTEC_IL_STS - INFO - Opened instrument: SANTEC,MPM-210,20090002,Ver.1.12
+
+2026-04-05 14:27:42,744 - SANTEC_IL_STS - INFO - Opening resource: GPIB1::16::INSTR
+2026-04-05 14:27:42,780 - SANTEC_IL_STS - INFO - Opened instrument: Ceyear Technologies,3671G,QZNC000284,2.2.0
+
+2026-04-05 14:27:42,783 - SANTEC_IL_STS - INFO - Current instruments: [<santec.get_address.Instrument object at 0x000001C77B7BAE40>, <santec.get_address.Instrument object at 0x000001C77B02B4D0>]
+2026-04-05 14:27:42,785 - SANTEC_IL_STS - INFO - 自动选择TSL: GPIB0::1::INSTR
+2026-04-05 14:27:42,786 - SANTEC_IL_STS - INFO - 自动选择MPM: GPIB0::16::INSTR
+2026-04-05 14:27:42,855 - SANTEC_IL_STS - INFO - 自动选择DAQ设备: Dev1
+2026-04-05 14:27:42,856 - SANTEC_IL_STS - INFO - Initializing Tsl Instrument class.
+2026-04-05 14:27:42,868 - SANTEC_IL_STS - INFO - Tsl Instrument details, Interface: GPIB, Address: , Port: 5000, Instrument:<santec.get_address.Instrument object at 0x000001C77B7BAE40>, Gpib connect type: ni
+2026-04-05 14:27:42,868 - SANTEC_IL_STS - INFO - Connect Tsl instrument
+2026-04-05 14:27:42,869 - SANTEC_IL_STS - INFO - Connect Tsl instrument, type GPIB
+2026-04-05 14:27:43,231 - SANTEC_IL_STS - INFO - Connected to Tsl instrument.
+2026-04-05 14:27:43,232 - SANTEC_IL_STS - INFO - Get TSL spec wavelength
+2026-04-05 14:27:43,253 - SANTEC_IL_STS - INFO - TSL spec wavelength: min_wav=1480.0, max_wav=1640.0
+2026-04-05 14:27:43,254 - SANTEC_IL_STS - INFO - Get TSL name
+2026-04-05 14:27:43,257 - SANTEC_IL_STS - INFO - TSL name: TSL-710
+2026-04-05 14:27:43,257 - SANTEC_IL_STS - INFO - Checking laser diode status
+2026-04-05 14:27:43,270 - SANTEC_IL_STS - INFO - Laser diode ON.
+2026-04-05 14:27:43,271 - SANTEC_IL_STS - INFO - Initializing Mpm Instrument class.
+2026-04-05 14:27:43,272 - SANTEC_IL_STS - INFO - Mpm Instrument details, Interface: GPIB, Address: , Port: 5000, Instrument:<santec.get_address.Instrument object at 0x000001C77B02B4D0>, Gpib connect type: ni
+2026-04-05 14:27:43,273 - SANTEC_IL_STS - INFO - Connect Mpm instrument
+2026-04-05 14:27:43,308 - SANTEC_IL_STS - INFO - Connected to Mpm instrument.
+2026-04-05 14:27:43,309 - SANTEC_IL_STS - INFO - Initializing Spu Instrument class.
+2026-04-05 14:27:43,311 - SANTEC_IL_STS - INFO - Spu Device details, Device Name: Dev1
+2026-04-05 14:27:43,311 - SANTEC_IL_STS - INFO - Connect Spu device
+2026-04-05 14:27:43,433 - SANTEC_IL_STS - INFO - Connected to Spu device. device_answer: USB-6210,32509105,Dev1
+2026-04-05 14:27:43,433 - SANTEC_IL_STS - INFO - Writing to TSL, command: *CLS
+2026-04-05 14:27:43,436 - SANTEC_IL_STS - INFO - Writing to TSL, command: *RST
+2026-04-05 14:27:45,439 - SANTEC_IL_STS - INFO - Initializing STS Process class.
+2026-04-05 14:27:45,441 - SANTEC_IL_STS - INFO - STS Process details, TslInstrument: TslInstrument, MpmInstrument: MpmInstrument, SpuDevice: <santec.daq_device_class.SpuDevice object at 0x000001C77B7BB0E0>
+2026-04-05 14:27:52,879 - SANTEC_IL_STS - INFO - Set TSL power: 10.0
+2026-04-05 14:27:52,966 - SANTEC_IL_STS - INFO - Set TSL sweep params: start_wavelength=1545.0, stop_wavelength=1555.0, sweep_step=0.0001, sweep_speed=1.0
+2026-04-05 14:27:52,966 - SANTEC_IL_STS - INFO - TSL busy check
+2026-04-05 14:27:52,971 - SANTEC_IL_STS - INFO - TSL busy check done.
+2026-04-05 14:27:53,545 - SANTEC_IL_STS - INFO - TSL sweep params set, actual_step=0.001
+2026-04-05 14:27:53,546 - SANTEC_IL_STS - INFO - TSL busy check
+2026-04-05 14:27:53,552 - SANTEC_IL_STS - INFO - TSL busy check done.
+2026-04-05 14:27:53,553 - SANTEC_IL_STS - INFO - STS set selected channels for measurement
+2026-04-05 14:27:53,553 - SANTEC_IL_STS - INFO - Loading selected channels from previous scan params
+2026-04-05 14:27:53,554 - SANTEC_IL_STS - INFO - Loaded the selected channels: 0,1;
+2026-04-05 14:27:53,555 - SANTEC_IL_STS - INFO - STS set selected ranges
+2026-04-05 14:27:53,555 - SANTEC_IL_STS - INFO - Loading selected ranges from previous scan params
+2026-04-05 14:27:53,556 - SANTEC_IL_STS - INFO - Using the loaded dynamic ranges: 1
+2026-04-05 14:27:53,556 - SANTEC_IL_STS - INFO - Selected ranges: [1]
+2026-04-05 14:27:53,557 - SANTEC_IL_STS - INFO - Set STS data struct
+2026-04-05 14:27:53,558 - SANTEC_IL_STS - INFO - Clear all the sts data struct lists.
+2026-04-05 14:27:53,561 - SANTEC_IL_STS - INFO - Configure STSDatastruct for each measurement
+2026-04-05 14:27:53,562 - SANTEC_IL_STS - INFO - Configure STSDataStruct for merge
+2026-04-05 14:27:53,563 - SANTEC_IL_STS - INFO - STS data struct set.
+2026-04-05 14:27:53,565 - SANTEC_IL_STS - INFO - Setting STS params
+2026-04-05 14:27:53,565 - SANTEC_IL_STS - INFO - Set MPM logging params: start_wavelength=1545.0, stop_wavelength=1555.0, sweep_step=0.0001, sweep_speed=1.0, trigger_step=0.0
+2026-04-05 14:27:53,902 - SANTEC_IL_STS - INFO - MPM logging params set.
+2026-04-05 14:27:53,903 - SANTEC_IL_STS - INFO - Set SPU logging params: start_wavelength=1545.0, stop_wavelength=1555.0, sweep_speed=1.0, tsl_actual_step=0.001
+2026-04-05 14:27:53,911 - SANTEC_IL_STS - INFO - SPU logging params set.
+2026-04-05 14:27:53,912 - SANTEC_IL_STS - INFO - MPM get averaging time
+2026-04-05 14:27:53,917 - SANTEC_IL_STS - INFO - MPM averaging time: 0.1
+2026-04-05 14:27:53,917 - SANTEC_IL_STS - INFO - Clearing STS meas data
+2026-04-05 14:27:53,926 - SANTEC_IL_STS - INFO - Clearing STS ref data
+2026-04-05 14:27:53,926 - SANTEC_IL_STS - INFO - Making sweep wavelength table
+2026-04-05 14:27:53,930 - SANTEC_IL_STS - INFO - Making target wavelength table
+2026-04-05 14:27:53,935 - SANTEC_IL_STS - INFO - STS rescaling settings
+2026-04-05 14:27:53,936 - SANTEC_IL_STS - INFO - MPM get averaging time
+2026-04-05 14:27:53,941 - SANTEC_IL_STS - INFO - MPM averaging time: 0.1
+2026-04-05 14:27:53,942 - SANTEC_IL_STS - INFO - STS params set.
+2026-04-05 14:27:53,949 - ParallelController - INFO - 光学测量系统初始化成功
+2026-04-05 14:28:00,688 - ParallelController - INFO - VNA 初始化成功 (GPIB=16)
+2026-04-05 14:28:00,689 - ParallelController - INFO - ParallelController 初始化完成 (workers=2)
+2026-04-05 14:28:00,689 - __main__ - INFO - 系统状态: {'initialized': True, 'measurement_count': 0, 'voltage_controller': {'connected': False, 'current_voltages': [0.0, 0.0, 0.0, 0.0]}, 'optical_system': {'connected': True}, 'vna': {'connected': True}}
+2026-04-05 14:28:00,690 - __main__ - INFO - 
+=== 执行单次并行测量 ===
+2026-04-05 14:28:01,997 - SANTEC_IL_STS - INFO - STS reference operation
+2026-04-05 14:28:01,998 - SANTEC_IL_STS - INFO - STS reference of Slot0 Ch1
+2026-04-05 14:28:01,998 - SANTEC_IL_STS - INFO - MPM set range
+2026-04-05 14:28:02,001 - SANTEC_IL_STS - INFO - MPM range set.
+2026-04-05 14:28:02,002 - SANTEC_IL_STS - INFO - STS sweep proces
+2026-04-05 14:28:02,003 - SANTEC_IL_STS - INFO - TSL start sweep
+2026-04-05 14:28:02,030 - SANTEC_IL_STS - INFO - TSL start sweep done.
+2026-04-05 14:28:02,031 - SANTEC_IL_STS - INFO - MPM start logging
+2026-04-05 14:28:02,033 - SANTEC_IL_STS - INFO - MPM logging started.
+2026-04-05 14:28:02,034 - SANTEC_IL_STS - INFO - TSL wait for sweep status
+2026-04-05 14:28:03,132 - SANTEC_IL_STS - INFO - TSL wait for sweep status done.
+2026-04-05 14:28:03,133 - SANTEC_IL_STS - INFO - SPU sampling start
+2026-04-05 14:28:03,194 - SANTEC_IL_STS - INFO - SPU sampling started.
+2026-04-05 14:28:03,195 - SANTEC_IL_STS - INFO - Issue soft trigger
+2026-04-05 14:28:03,199 - SANTEC_IL_STS - INFO - Issue soft trigger done.
+2026-04-05 14:28:03,200 - SANTEC_IL_STS - INFO - SPU sampling wait
+2026-04-05 14:28:14,212 - SANTEC_IL_STS - INFO - SPU sampling wait done.
+2026-04-05 14:28:14,212 - SANTEC_IL_STS - INFO - MPM wait for log completion
+2026-04-05 14:28:14,218 - SANTEC_IL_STS - INFO - MPM logging completed. logging_point=100501
+2026-04-05 14:28:14,218 - SANTEC_IL_STS - INFO - MPM stop logging
+2026-04-05 14:28:14,222 - SANTEC_IL_STS - INFO - MPM logging stopped.
+2026-04-05 14:28:14,223 - SANTEC_IL_STS - INFO - TSL wait for sweep status
+2026-04-05 14:28:14,237 - SANTEC_IL_STS - INFO - TSL wait for sweep status done.
+2026-04-05 14:28:14,237 - SANTEC_IL_STS - INFO - STS base sweep process done.
+2026-04-05 14:28:14,238 - SANTEC_IL_STS - INFO - STS get reference data
+2026-04-05 14:28:14,241 - SANTEC_IL_STS - INFO - MPM get each channel log data, slot_number=0, channel_number=1
+2026-04-05 14:28:15,321 - SANTEC_IL_STS - INFO - MPM slot 0 channel 1, log data length: 100501
+2026-04-05 14:28:15,373 - SANTEC_IL_STS - INFO - Reference log details: MPMNumber=0, SlotNumber=0ChannelNumber=1, RangeNumber=1,Log data length=100501
+2026-04-05 14:28:15,373 - SANTEC_IL_STS - INFO - Adding ref mpm channel data.
+2026-04-05 14:28:15,421 - SANTEC_IL_STS - INFO - SPU get sampling raw data
+2026-04-05 14:28:15,453 - SANTEC_IL_STS - INFO - SPU sampling raw data acquired, data length: trigger=10001, monitor=1100001
+2026-04-05 14:28:15,454 - SANTEC_IL_STS - INFO - Adding ref monitor data.
+2026-04-05 14:28:15,458 - SANTEC_IL_STS - INFO - Calling ref data for rescaling.
+2026-04-05 14:28:15,500 - SANTEC_IL_STS - INFO - Getting ref raw data.
+2026-04-05 14:28:15,502 - SANTEC_IL_STS - INFO - Rescaled ref raw power: 100001, Rescaled red monitor: 100001
+2026-04-05 14:28:15,502 - SANTEC_IL_STS - INFO - Getting target wavelength table.
+2026-04-05 14:28:15,505 - SANTEC_IL_STS - INFO - Wavelength table length: 100001
+2026-04-05 14:28:16,359 - SANTEC_IL_STS - INFO - TSL stop sweep
+2026-04-05 14:28:16,373 - SANTEC_IL_STS - INFO - TSL stop sweep done.
+2026-04-05 14:28:16,375 - SANTEC_IL_STS - INFO - STS reference completed.
+2026-04-05 14:28:21,199 - __main__ - INFO - 测量完成，session_id: 20260405_142800_906
+2026-04-05 14:28:21,228 - __main__ - INFO - 光学测量状态: completed
+2026-04-05 14:28:21,228 - __main__ - INFO - VNA 测量状态: completed
+2026-04-05 14:28:21,229 - __main__ - INFO - 光学数据: 波长点数=0, 通道数=0
+2026-04-05 14:28:21,230 - __main__ - INFO - VNA 数据: 频率点数=6001
+2026-04-05 14:28:21,230 - __main__ - INFO - 
+=== 执行电压扫描 ===
+2026-04-05 14:28:22,536 - SANTEC_IL_STS - INFO - STS reference operation
+2026-04-05 14:28:22,538 - SANTEC_IL_STS - INFO - STS reference of Slot0 Ch1
+2026-04-05 14:28:22,538 - SANTEC_IL_STS - INFO - MPM set range
+2026-04-05 14:28:22,540 - SANTEC_IL_STS - INFO - MPM range set.
+2026-04-05 14:28:22,541 - SANTEC_IL_STS - INFO - STS sweep proces
+2026-04-05 14:28:22,542 - SANTEC_IL_STS - INFO - TSL start sweep
+2026-04-05 14:28:22,567 - SANTEC_IL_STS - INFO - TSL start sweep done.
+2026-04-05 14:28:22,567 - SANTEC_IL_STS - INFO - MPM start logging
+2026-04-05 14:28:22,569 - SANTEC_IL_STS - INFO - MPM logging started.
+2026-04-05 14:28:22,570 - SANTEC_IL_STS - INFO - TSL wait for sweep status
+2026-04-05 14:28:23,600 - SANTEC_IL_STS - INFO - TSL wait for sweep status done.
+2026-04-05 14:28:23,601 - SANTEC_IL_STS - INFO - SPU sampling start
+2026-04-05 14:28:23,627 - SANTEC_IL_STS - INFO - SPU sampling started.
+2026-04-05 14:28:23,628 - SANTEC_IL_STS - INFO - Issue soft trigger
+2026-04-05 14:28:23,632 - SANTEC_IL_STS - INFO - Issue soft trigger done.
+2026-04-05 14:28:23,632 - SANTEC_IL_STS - INFO - SPU sampling wait
+2026-04-05 14:28:34,025 - SANTEC_IL_STS - INFO - SPU sampling wait done.
+2026-04-05 14:28:34,025 - SANTEC_IL_STS - INFO - MPM wait for log completion
+2026-04-05 14:28:34,030 - SANTEC_IL_STS - INFO - MPM logging completed. logging_point=100501
+2026-04-05 14:28:34,030 - SANTEC_IL_STS - INFO - MPM stop logging
+2026-04-05 14:28:34,033 - SANTEC_IL_STS - INFO - MPM logging stopped.
+2026-04-05 14:28:34,033 - SANTEC_IL_STS - INFO - TSL wait for sweep status
+2026-04-05 14:28:34,047 - SANTEC_IL_STS - INFO - TSL wait for sweep status done.
+2026-04-05 14:28:34,048 - SANTEC_IL_STS - INFO - STS base sweep process done.
+2026-04-05 14:28:34,049 - SANTEC_IL_STS - INFO - STS get reference data
+2026-04-05 14:28:34,050 - SANTEC_IL_STS - INFO - MPM get each channel log data, slot_number=0, channel_number=1
+2026-04-05 14:28:35,051 - SANTEC_IL_STS - INFO - MPM slot 0 channel 1, log data length: 100501
+2026-04-05 14:28:35,102 - SANTEC_IL_STS - INFO - Reference log details: MPMNumber=0, SlotNumber=0ChannelNumber=1, RangeNumber=1,Log data length=100501
+2026-04-05 14:28:35,103 - SANTEC_IL_STS - INFO - Adding ref mpm channel data.
+2026-04-05 14:28:35,143 - SANTEC_IL_STS - INFO - SPU get sampling raw data
+2026-04-05 14:28:35,174 - SANTEC_IL_STS - INFO - SPU sampling raw data acquired, data length: trigger=10001, monitor=1038940
+2026-04-05 14:28:35,175 - SANTEC_IL_STS - INFO - Adding ref monitor data.
+2026-04-05 14:28:35,176 - SANTEC_IL_STS - INFO - Calling ref data for rescaling.
+2026-04-05 14:28:35,197 - SANTEC_IL_STS - INFO - Getting ref raw data.
+2026-04-05 14:28:35,198 - SANTEC_IL_STS - INFO - Rescaled ref raw power: 100001, Rescaled red monitor: 100001
+2026-04-05 14:28:35,199 - SANTEC_IL_STS - INFO - Getting target wavelength table.
+2026-04-05 14:28:35,199 - SANTEC_IL_STS - INFO - Wavelength table length: 100001
+2026-04-05 14:28:36,010 - SANTEC_IL_STS - INFO - TSL stop sweep
+2026-04-05 14:28:36,023 - SANTEC_IL_STS - INFO - TSL stop sweep done.
+2026-04-05 14:28:36,024 - SANTEC_IL_STS - INFO - STS reference completed.
+2026-04-05 14:28:37,330 - SANTEC_IL_STS - INFO - STS reference operation
+2026-04-05 14:28:37,331 - SANTEC_IL_STS - INFO - STS reference of Slot0 Ch1
+2026-04-05 14:28:37,331 - SANTEC_IL_STS - INFO - MPM set range
+2026-04-05 14:28:37,333 - SANTEC_IL_STS - INFO - MPM range set.
+2026-04-05 14:28:37,334 - SANTEC_IL_STS - INFO - STS sweep proces
+2026-04-05 14:28:37,335 - SANTEC_IL_STS - INFO - TSL start sweep
+2026-04-05 14:28:37,360 - SANTEC_IL_STS - INFO - TSL start sweep done.
+2026-04-05 14:28:37,360 - SANTEC_IL_STS - INFO - MPM start logging
+2026-04-05 14:28:37,363 - SANTEC_IL_STS - INFO - MPM logging started.
+2026-04-05 14:28:37,363 - SANTEC_IL_STS - INFO - TSL wait for sweep status
+2026-04-05 14:28:38,438 - SANTEC_IL_STS - INFO - TSL wait for sweep status done.
+2026-04-05 14:28:38,439 - SANTEC_IL_STS - INFO - SPU sampling start
+2026-04-05 14:28:38,459 - SANTEC_IL_STS - INFO - SPU sampling started.
+2026-04-05 14:28:38,460 - SANTEC_IL_STS - INFO - Issue soft trigger
+2026-04-05 14:28:38,464 - SANTEC_IL_STS - INFO - Issue soft trigger done.
+2026-04-05 14:28:38,465 - SANTEC_IL_STS - INFO - SPU sampling wait
+2026-04-05 14:28:48,843 - SANTEC_IL_STS - INFO - SPU sampling wait done.
+2026-04-05 14:28:48,843 - SANTEC_IL_STS - INFO - MPM wait for log completion
+2026-04-05 14:28:48,848 - SANTEC_IL_STS - INFO - MPM logging completed. logging_point=100501
+2026-04-05 14:28:48,849 - SANTEC_IL_STS - INFO - MPM stop logging
+2026-04-05 14:28:48,852 - SANTEC_IL_STS - INFO - MPM logging stopped.
+2026-04-05 14:28:48,853 - SANTEC_IL_STS - INFO - TSL wait for sweep status
+2026-04-05 14:28:48,865 - SANTEC_IL_STS - INFO - TSL wait for sweep status done.
+2026-04-05 14:28:48,866 - SANTEC_IL_STS - INFO - STS base sweep process done.
+2026-04-05 14:28:48,867 - SANTEC_IL_STS - INFO - STS get reference data
+2026-04-05 14:28:48,867 - SANTEC_IL_STS - INFO - MPM get each channel log data, slot_number=0, channel_number=1
+2026-04-05 14:28:49,872 - SANTEC_IL_STS - INFO - MPM slot 0 channel 1, log data length: 100501
+2026-04-05 14:28:49,926 - SANTEC_IL_STS - INFO - Reference log details: MPMNumber=0, SlotNumber=0ChannelNumber=1, RangeNumber=1,Log data length=100501
+2026-04-05 14:28:49,927 - SANTEC_IL_STS - INFO - Adding ref mpm channel data.
+2026-04-05 14:28:49,968 - SANTEC_IL_STS - INFO - SPU get sampling raw data
+2026-04-05 14:28:49,994 - SANTEC_IL_STS - INFO - SPU sampling raw data acquired, data length: trigger=10001, monitor=1037481
+2026-04-05 14:28:49,994 - SANTEC_IL_STS - INFO - Adding ref monitor data.
+2026-04-05 14:28:49,997 - SANTEC_IL_STS - INFO - Calling ref data for rescaling.
+2026-04-05 14:28:50,022 - SANTEC_IL_STS - INFO - Getting ref raw data.
+2026-04-05 14:28:50,024 - SANTEC_IL_STS - INFO - Rescaled ref raw power: 100001, Rescaled red monitor: 100001
+2026-04-05 14:28:50,025 - SANTEC_IL_STS - INFO - Getting target wavelength table.
+2026-04-05 14:28:50,026 - SANTEC_IL_STS - INFO - Wavelength table length: 100001
+2026-04-05 14:28:50,853 - SANTEC_IL_STS - INFO - TSL stop sweep
+2026-04-05 14:28:50,866 - SANTEC_IL_STS - INFO - TSL stop sweep done.
+2026-04-05 14:28:50,867 - SANTEC_IL_STS - INFO - STS reference completed.
+2026-04-05 14:28:52,173 - SANTEC_IL_STS - INFO - STS reference operation
+2026-04-05 14:28:52,174 - SANTEC_IL_STS - INFO - STS reference of Slot0 Ch1
+2026-04-05 14:28:52,174 - SANTEC_IL_STS - INFO - MPM set range
+2026-04-05 14:28:52,176 - SANTEC_IL_STS - INFO - MPM range set.
+2026-04-05 14:28:52,177 - SANTEC_IL_STS - INFO - STS sweep proces
+2026-04-05 14:28:52,178 - SANTEC_IL_STS - INFO - TSL start sweep
+2026-04-05 14:28:52,244 - SANTEC_IL_STS - INFO - TSL start sweep done.
+2026-04-05 14:28:52,245 - SANTEC_IL_STS - INFO - MPM start logging
+2026-04-05 14:28:52,247 - SANTEC_IL_STS - INFO - MPM logging started.
+2026-04-05 14:28:52,248 - SANTEC_IL_STS - INFO - TSL wait for sweep status
+2026-04-05 14:28:53,348 - SANTEC_IL_STS - INFO - TSL wait for sweep status done.
+2026-04-05 14:28:53,349 - SANTEC_IL_STS - INFO - SPU sampling start
+2026-04-05 14:28:53,370 - SANTEC_IL_STS - INFO - SPU sampling started.
+2026-04-05 14:28:53,371 - SANTEC_IL_STS - INFO - Issue soft trigger
+2026-04-05 14:28:53,375 - SANTEC_IL_STS - INFO - Issue soft trigger done.
+2026-04-05 14:28:53,376 - SANTEC_IL_STS - INFO - SPU sampling wait
+2026-04-05 14:29:03,831 - SANTEC_IL_STS - INFO - SPU sampling wait done.
+2026-04-05 14:29:03,832 - SANTEC_IL_STS - INFO - MPM wait for log completion
+2026-04-05 14:29:03,836 - SANTEC_IL_STS - INFO - MPM logging completed. logging_point=100501
+2026-04-05 14:29:03,837 - SANTEC_IL_STS - INFO - MPM stop logging
+2026-04-05 14:29:03,839 - SANTEC_IL_STS - INFO - MPM logging stopped.
+2026-04-05 14:29:03,839 - SANTEC_IL_STS - INFO - TSL wait for sweep status
+2026-04-05 14:29:03,853 - SANTEC_IL_STS - INFO - TSL wait for sweep status done.
+2026-04-05 14:29:03,854 - SANTEC_IL_STS - INFO - STS base sweep process done.
+2026-04-05 14:29:03,855 - SANTEC_IL_STS - INFO - STS get reference data
+2026-04-05 14:29:03,856 - SANTEC_IL_STS - INFO - MPM get each channel log data, slot_number=0, channel_number=1
+2026-04-05 14:29:04,883 - SANTEC_IL_STS - INFO - MPM slot 0 channel 1, log data length: 100501
+2026-04-05 14:29:04,956 - SANTEC_IL_STS - INFO - Reference log details: MPMNumber=0, SlotNumber=0ChannelNumber=1, RangeNumber=1,Log data length=100501
+2026-04-05 14:29:04,958 - SANTEC_IL_STS - INFO - Adding ref mpm channel data.
+2026-04-05 14:29:05,010 - SANTEC_IL_STS - INFO - SPU get sampling raw data
+2026-04-05 14:29:05,049 - SANTEC_IL_STS - INFO - SPU sampling raw data acquired, data length: trigger=10001, monitor=1037080
+2026-04-05 14:29:05,051 - SANTEC_IL_STS - INFO - Adding ref monitor data.
+2026-04-05 14:29:05,054 - SANTEC_IL_STS - INFO - Calling ref data for rescaling.
+2026-04-05 14:29:05,081 - SANTEC_IL_STS - INFO - Getting ref raw data.
+2026-04-05 14:29:05,082 - SANTEC_IL_STS - INFO - Rescaled ref raw power: 100001, Rescaled red monitor: 100001
+2026-04-05 14:29:05,083 - SANTEC_IL_STS - INFO - Getting target wavelength table.
+2026-04-05 14:29:05,085 - SANTEC_IL_STS - INFO - Wavelength table length: 100001
+2026-04-05 14:29:06,024 - SANTEC_IL_STS - INFO - TSL stop sweep
+2026-04-05 14:29:06,037 - SANTEC_IL_STS - INFO - TSL stop sweep done.
+2026-04-05 14:29:06,037 - SANTEC_IL_STS - INFO - STS reference completed.
+2026-04-05 14:29:07,343 - SANTEC_IL_STS - INFO - STS reference operation
+2026-04-05 14:29:07,344 - SANTEC_IL_STS - INFO - STS reference of Slot0 Ch1
+2026-04-05 14:29:07,345 - SANTEC_IL_STS - INFO - MPM set range
+2026-04-05 14:29:07,348 - SANTEC_IL_STS - INFO - MPM range set.
+2026-04-05 14:29:07,350 - SANTEC_IL_STS - INFO - STS sweep proces
+2026-04-05 14:29:07,351 - SANTEC_IL_STS - INFO - TSL start sweep
+2026-04-05 14:29:07,375 - SANTEC_IL_STS - INFO - TSL start sweep done.
+2026-04-05 14:29:07,375 - SANTEC_IL_STS - INFO - MPM start logging
+2026-04-05 14:29:07,378 - SANTEC_IL_STS - INFO - MPM logging started.
+2026-04-05 14:29:07,379 - SANTEC_IL_STS - INFO - TSL wait for sweep status
+2026-04-05 14:29:08,462 - SANTEC_IL_STS - INFO - TSL wait for sweep status done.
+2026-04-05 14:29:08,462 - SANTEC_IL_STS - INFO - SPU sampling start
+2026-04-05 14:29:08,484 - SANTEC_IL_STS - INFO - SPU sampling started.
+2026-04-05 14:29:08,485 - SANTEC_IL_STS - INFO - Issue soft trigger
+2026-04-05 14:29:08,489 - SANTEC_IL_STS - INFO - Issue soft trigger done.
+2026-04-05 14:29:08,489 - SANTEC_IL_STS - INFO - SPU sampling wait
+2026-04-05 14:29:18,866 - SANTEC_IL_STS - INFO - SPU sampling wait done.
+2026-04-05 14:29:18,867 - SANTEC_IL_STS - INFO - MPM wait for log completion
+2026-04-05 14:29:18,871 - SANTEC_IL_STS - INFO - MPM logging completed. logging_point=100501
+2026-04-05 14:29:18,872 - SANTEC_IL_STS - INFO - MPM stop logging
+2026-04-05 14:29:18,874 - SANTEC_IL_STS - INFO - MPM logging stopped.
+2026-04-05 14:29:18,874 - SANTEC_IL_STS - INFO - TSL wait for sweep status
+2026-04-05 14:29:18,886 - SANTEC_IL_STS - INFO - TSL wait for sweep status done.
+2026-04-05 14:29:18,887 - SANTEC_IL_STS - INFO - STS base sweep process done.
+2026-04-05 14:29:18,887 - SANTEC_IL_STS - INFO - STS get reference data
+2026-04-05 14:29:18,888 - SANTEC_IL_STS - INFO - MPM get each channel log data, slot_number=0, channel_number=1
+2026-04-05 14:29:19,894 - SANTEC_IL_STS - INFO - MPM slot 0 channel 1, log data length: 100501
+2026-04-05 14:29:19,950 - SANTEC_IL_STS - INFO - Reference log details: MPMNumber=0, SlotNumber=0ChannelNumber=1, RangeNumber=1,Log data length=100501
+2026-04-05 14:29:19,951 - SANTEC_IL_STS - INFO - Adding ref mpm channel data.
+2026-04-05 14:29:19,992 - SANTEC_IL_STS - INFO - SPU get sampling raw data
+2026-04-05 14:29:20,019 - SANTEC_IL_STS - INFO - SPU sampling raw data acquired, data length: trigger=10001, monitor=1037401
+2026-04-05 14:29:20,019 - SANTEC_IL_STS - INFO - Adding ref monitor data.
+2026-04-05 14:29:20,022 - SANTEC_IL_STS - INFO - Calling ref data for rescaling.
+2026-04-05 14:29:20,042 - SANTEC_IL_STS - INFO - Getting ref raw data.
+2026-04-05 14:29:20,043 - SANTEC_IL_STS - INFO - Rescaled ref raw power: 100001, Rescaled red monitor: 100001
+2026-04-05 14:29:20,044 - SANTEC_IL_STS - INFO - Getting target wavelength table.
+2026-04-05 14:29:20,046 - SANTEC_IL_STS - INFO - Wavelength table length: 100001
+2026-04-05 14:29:20,863 - SANTEC_IL_STS - INFO - TSL stop sweep
+2026-04-05 14:29:20,876 - SANTEC_IL_STS - INFO - TSL stop sweep done.
+2026-04-05 14:29:20,877 - SANTEC_IL_STS - INFO - STS reference completed.
+2026-04-05 14:29:22,182 - SANTEC_IL_STS - INFO - STS reference operation
+2026-04-05 14:29:22,183 - SANTEC_IL_STS - INFO - STS reference of Slot0 Ch1
+2026-04-05 14:29:22,184 - SANTEC_IL_STS - INFO - MPM set range
+2026-04-05 14:29:22,186 - SANTEC_IL_STS - INFO - MPM range set.
+2026-04-05 14:29:22,187 - SANTEC_IL_STS - INFO - STS sweep proces
+2026-04-05 14:29:22,187 - SANTEC_IL_STS - INFO - TSL start sweep
+2026-04-05 14:29:22,212 - SANTEC_IL_STS - INFO - TSL start sweep done.
+2026-04-05 14:29:22,212 - SANTEC_IL_STS - INFO - MPM start logging
+2026-04-05 14:29:22,215 - SANTEC_IL_STS - INFO - MPM logging started.
+2026-04-05 14:29:22,215 - SANTEC_IL_STS - INFO - TSL wait for sweep status
+2026-04-05 14:29:23,309 - SANTEC_IL_STS - INFO - TSL wait for sweep status done.
+2026-04-05 14:29:23,310 - SANTEC_IL_STS - INFO - SPU sampling start
+2026-04-05 14:29:23,331 - SANTEC_IL_STS - INFO - SPU sampling started.
+2026-04-05 14:29:23,332 - SANTEC_IL_STS - INFO - Issue soft trigger
+2026-04-05 14:29:23,336 - SANTEC_IL_STS - INFO - Issue soft trigger done.
+2026-04-05 14:29:23,336 - SANTEC_IL_STS - INFO - SPU sampling wait
+2026-04-05 14:29:33,711 - SANTEC_IL_STS - INFO - SPU sampling wait done.
+2026-04-05 14:29:33,712 - SANTEC_IL_STS - INFO - MPM wait for log completion
+2026-04-05 14:29:33,716 - SANTEC_IL_STS - INFO - MPM logging completed. logging_point=100501
+2026-04-05 14:29:33,717 - SANTEC_IL_STS - INFO - MPM stop logging
+2026-04-05 14:29:33,719 - SANTEC_IL_STS - INFO - MPM logging stopped.
+2026-04-05 14:29:33,719 - SANTEC_IL_STS - INFO - TSL wait for sweep status
+2026-04-05 14:29:33,731 - SANTEC_IL_STS - INFO - TSL wait for sweep status done.
+2026-04-05 14:29:33,731 - SANTEC_IL_STS - INFO - STS base sweep process done.
+2026-04-05 14:29:33,732 - SANTEC_IL_STS - INFO - STS get reference data
+2026-04-05 14:29:33,733 - SANTEC_IL_STS - INFO - MPM get each channel log data, slot_number=0, channel_number=1
+2026-04-05 14:29:34,736 - SANTEC_IL_STS - INFO - MPM slot 0 channel 1, log data length: 100501
+2026-04-05 14:29:34,787 - SANTEC_IL_STS - INFO - Reference log details: MPMNumber=0, SlotNumber=0ChannelNumber=1, RangeNumber=1,Log data length=100501
+2026-04-05 14:29:34,788 - SANTEC_IL_STS - INFO - Adding ref mpm channel data.
+2026-04-05 14:29:34,837 - SANTEC_IL_STS - INFO - SPU get sampling raw data
+2026-04-05 14:29:34,865 - SANTEC_IL_STS - INFO - SPU sampling raw data acquired, data length: trigger=10001, monitor=1037110
+2026-04-05 14:29:34,866 - SANTEC_IL_STS - INFO - Adding ref monitor data.
+2026-04-05 14:29:34,869 - SANTEC_IL_STS - INFO - Calling ref data for rescaling.
+2026-04-05 14:29:34,889 - SANTEC_IL_STS - INFO - Getting ref raw data.
+2026-04-05 14:29:34,891 - SANTEC_IL_STS - INFO - Rescaled ref raw power: 100001, Rescaled red monitor: 100001
+2026-04-05 14:29:34,892 - SANTEC_IL_STS - INFO - Getting target wavelength table.
+2026-04-05 14:29:34,894 - SANTEC_IL_STS - INFO - Wavelength table length: 100001
+2026-04-05 14:29:35,751 - SANTEC_IL_STS - INFO - TSL stop sweep
+2026-04-05 14:29:35,763 - SANTEC_IL_STS - INFO - TSL stop sweep done.
+2026-04-05 14:29:35,764 - SANTEC_IL_STS - INFO - STS reference completed.
+2026-04-05 14:29:35,765 - __main__ - INFO - 
+关闭 ParallelController...
+2026-04-05 14:29:36,602 - SANTEC_IL_STS - INFO - Querying TSL, command: *RST

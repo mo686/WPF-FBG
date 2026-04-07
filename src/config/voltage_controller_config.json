@@ -1,0 +1,10 @@
+{
+    "voltage_controller": {
+        "voltage_source": 2,
+        "port_index": 0,
+        "baudrate_index": 4,
+        "num_channels": 6
+    },
+    "description": "电压控制器配置 - 自动保存的用户选择",
+    "last_updated": "2026-03-10 11:19:24"
+}

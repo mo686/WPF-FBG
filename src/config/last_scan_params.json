@@ -1,0 +1,22 @@
+{
+    "selected_chans": [
+        [
+            "0",
+            "1"
+        ],
+        [
+            "0",
+            "2"
+        ]
+    ],
+    "selected_ranges": [
+        2,
+        5
+    ],
+    "start_wavelength": 1540.0,
+    "stop_wavelength": 1560.0,
+    "sweep_step": 0.001,
+    "sweep_speed": 5.0,
+    "power": 0.0,
+    "actual_step": 0.005
+}

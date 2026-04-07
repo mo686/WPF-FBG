@@ -1,0 +1,106 @@
+{
+    "vref": 1.1,
+    "lambda_ref": 1551.782,
+    "zynq_channel": 1,
+    "delta_lambda_list": [
+        -160.0,
+        -140.0,
+        -120.0,
+        -100.0,
+        -80.0,
+        -60.0,
+        -40.0,
+        -20.0,
+        0.0,
+        20.0,
+        40.0,
+        60.0,
+        80.0,
+        100.0,
+        120.0,
+        140.0,
+        160.0
+    ],
+    "vna_params": {
+        "start_freq": 10000000.0,
+        "stop_freq": 30000000000.0,
+        "points": 6001,
+        "power": -10.0,
+        "if_bw": 1000.0,
+        "param": "S21"
+    },
+    "files": [
+        {
+            "delta_lambda": -160.0,
+            "path": "delta_lambda_-160.0.csv"
+        },
+        {
+            "delta_lambda": -140.0,
+            "path": "delta_lambda_-140.0.csv"
+        },
+        {
+            "delta_lambda": -120.0,
+            "path": "delta_lambda_-120.0.csv"
+        },
+        {
+            "delta_lambda": -100.0,
+            "path": "delta_lambda_-100.0.csv"
+        },
+        {
+            "delta_lambda": -80.0,
+            "path": "delta_lambda_-80.0.csv"
+        },
+        {
+            "delta_lambda": -60.0,
+            "path": "delta_lambda_-60.0.csv"
+        },
+        {
+            "delta_lambda": -40.0,
+            "path": "delta_lambda_-40.0.csv"
+        },
+        {
+            "delta_lambda": -20.0,
+            "path": "delta_lambda_-20.0.csv"
+        },
+        {
+            "delta_lambda": 0.0,
+            "path": "delta_lambda_0.0.csv"
+        },
+        {
+            "delta_lambda": 20.0,
+            "path": "delta_lambda_20.0.csv"
+        },
+        {
+            "delta_lambda": 40.0,
+            "path": "delta_lambda_40.0.csv"
+        },
+        {
+            "delta_lambda": 60.0,
+            "path": "delta_lambda_60.0.csv"
+        },
+        {
+            "delta_lambda": 80.0,
+            "path": "delta_lambda_80.0.csv"
+        },
+        {
+            "delta_lambda": 100.0,
+            "path": "delta_lambda_100.0.csv"
+        },
+        {
+            "delta_lambda": 120.0,
+            "path": "delta_lambda_120.0.csv"
+        },
+        {
+            "delta_lambda": 140.0,
+            "path": "delta_lambda_140.0.csv"
+        },
+        {
+            "delta_lambda": 160.0,
+            "path": "delta_lambda_160.0.csv"
+        }
+    ],
+    "timestamp": "2026-04-06T15:43:17",
+    "total_collected": 17,
+    "total_skipped": 0,
+    "elapsed_seconds": 250.76420521736145
+}

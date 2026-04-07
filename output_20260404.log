@@ -1,0 +1,40 @@
+2026-04-04 22:12:13,622 - SANTEC_IL_STS - INFO - Project Version: 2.8.9, Date: 2024-11-19
+2026-04-04 22:12:13,723 - SANTEC_IL_STS - INFO - Python Version: 3.13.7 (tags/v3.13.7:bcee1c3, Aug 14 2025, 14:15:11) [MSC v.1944 64 bit (AMD64)]
+2026-04-04 22:12:13,724 - SANTEC_IL_STS - INFO - Python Implementation: CPythonArchitecture: 64bit
+2026-04-04 22:12:13,724 - SANTEC_IL_STS - INFO - Operating System: Windows 10
+2026-04-04 22:12:13,724 - SANTEC_IL_STS - INFO - Platform ID: Windows-10-10.0.19045-SP0
+2026-04-04 22:12:13,724 - SANTEC_IL_STS - INFO - Machine: AMD64
+2026-04-04 22:12:13,725 - SANTEC_IL_STS - INFO - Processor: Intel64 Family 6 Model 69 Stepping 1, GenuineIntel
+2026-04-04 22:12:13,725 - SANTEC_IL_STS - INFO - Getting DLL path, root: c:\Users\Photonics\Desktop\zzx\src\santec\DLL\
+2026-04-04 22:12:13,921 - SANTEC_IL_STS - INFO - Adding Instrument DLL to the root, result: InstrumentDLL, Version=2.9.0.0, Culture=neutral, PublicKeyToken=null
+2026-04-04 22:12:13,923 - SANTEC_IL_STS - INFO - Adding STSProcess DLL to the root, result: STSProcess, Version=2.2.6.0, Culture=neutral, PublicKeyToken=null
+2026-04-04 22:12:16,002 - SANTEC_IL_STS - INFO - Initializing Instrument Addresses
+2026-04-04 22:12:16,002 - SANTEC_IL_STS - INFO - Getting GPIB resources
+2026-04-04 22:12:16,003 - SANTEC_IL_STS - INFO - Available GPIB resources: ['GPIB0::1::INSTR', 'GPIB0::16::INSTR', 'GPIB1::16::INSTR']
+2026-04-04 22:12:16,003 - SANTEC_IL_STS - INFO - Opening resource: GPIB0::1::INSTR
+2026-04-04 22:12:16,055 - SANTEC_IL_STS - INFO - Opened instrument: SANTEC,TSL-710,20090003,0003.0051
+
+2026-04-04 22:12:16,058 - SANTEC_IL_STS - INFO - Opening resource: GPIB0::16::INSTR
+2026-04-04 22:12:16,095 - SANTEC_IL_STS - INFO - Opened instrument: SANTEC,MPM-210,20090002,Ver.1.12
+
+2026-04-04 22:12:16,096 - SANTEC_IL_STS - INFO - Opening resource: GPIB1::16::INSTR
+2026-04-04 22:12:16,133 - SANTEC_IL_STS - INFO - Opened instrument: Ceyear Technologies,3671G,QZNC000284,2.2.0
+
+2026-04-04 22:12:16,135 - SANTEC_IL_STS - INFO - Current instruments: [<santec.get_address.Instrument object at 0x0000028AB6F9BB60>, <santec.get_address.Instrument object at 0x0000028AB6F734D0>]
+2026-04-04 22:12:16,138 - SANTEC_IL_STS - INFO - 自动选择TSL: GPIB0::1::INSTR
+2026-04-04 22:12:16,140 - SANTEC_IL_STS - INFO - 自动选择MPM: GPIB0::16::INSTR
+2026-04-04 22:12:16,211 - SANTEC_IL_STS - INFO - 自动选择DAQ设备: Dev1
+2026-04-04 22:12:16,212 - SANTEC_IL_STS - INFO - Initializing Tsl Instrument class.
+2026-04-04 22:12:16,223 - SANTEC_IL_STS - INFO - Tsl Instrument details, Interface: GPIB, Address: , Port: 5000, Instrument:<santec.get_address.Instrument object at 0x0000028AB6F9BB60>, Gpib connect type: ni
+2026-04-04 22:12:16,224 - SANTEC_IL_STS - INFO - Connect Tsl instrument
+2026-04-04 22:12:16,224 - SANTEC_IL_STS - INFO - Connect Tsl instrument, type GPIB
+2026-04-04 22:12:16,592 - SANTEC_IL_STS - INFO - Connected to Tsl instrument.
+2026-04-04 22:12:16,592 - SANTEC_IL_STS - INFO - Get TSL spec wavelength
+2026-04-04 22:12:16,614 - SANTEC_IL_STS - INFO - TSL spec wavelength: min_wav=1480.0, max_wav=1640.0
+2026-04-04 22:12:16,614 - SANTEC_IL_STS - INFO - Get TSL name
+2026-04-04 22:12:16,616 - SANTEC_IL_STS - INFO - TSL name: TSL-710
+2026-04-04 22:12:16,617 - SANTEC_IL_STS - INFO - Checking laser diode status
+2026-04-04 22:12:16,629 - SANTEC_IL_STS - INFO - Laser diode ON.
+2026-04-04 22:12:31,274 - SANTEC_IL_STS - INFO - Set TSL wavelength: 1551.72
+2026-04-04 22:12:31,738 - SANTEC_IL_STS - INFO - Set TSL power: 10.0
+2026-04-04 22:12:33,623 - SANTEC_IL_STS - INFO - TSL connection disconnected.
