@@ -28,7 +28,7 @@ class VNA:
             save_dir: 数据保存目录
         """
         self.gpib_address = gpib_address
-        self.resource_name = f'GPIB1::{gpib_address}::INSTR'
+        self.resource_name = f'GPIB0::{gpib_address}::INSTR'
         self.start_freq = start_freq
         self.stop_freq = stop_freq
         self.points = points

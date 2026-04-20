@@ -56,8 +56,8 @@ def plot_spectrums(wl1, power1, center1, wl2, power2, center2):
     plt.show()
 
 def main():
-    file1 = "FBG_20.json"
-    file2 = "FBG_25.json"
+    file1 = "measure/measure_4_20/FBG_55_1h.json"
+    file2 = "measure/measure_4_20/FBG_30_3h.json"
     
     # 加载数据
     wl1, power1 = load_spectrum(file1)

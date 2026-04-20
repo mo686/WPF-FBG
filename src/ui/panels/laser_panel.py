@@ -31,7 +31,7 @@ logger = logging.getLogger(__name__)
 # 参数范围常量
 WAVELENGTH_MIN = 1500.0
 WAVELENGTH_MAX = 1650.0
-POWER_MIN = 0.0
+POWER_MIN = -10.0
 POWER_MAX = 10.0
 
 

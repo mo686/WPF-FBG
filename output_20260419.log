@@ -1,0 +1,156 @@
+2026-04-19 23:10:15,557 - SANTEC_IL_STS - INFO - Project Version: 2.8.9, Date: 2024-11-19
+2026-04-19 23:10:15,587 - SANTEC_IL_STS - INFO - Python Version: 3.13.7 (tags/v3.13.7:bcee1c3, Aug 14 2025, 14:15:11) [MSC v.1944 64 bit (AMD64)]
+2026-04-19 23:10:15,588 - SANTEC_IL_STS - INFO - Python Implementation: CPythonArchitecture: 64bit
+2026-04-19 23:10:15,588 - SANTEC_IL_STS - INFO - Operating System: Windows 10
+2026-04-19 23:10:15,590 - SANTEC_IL_STS - INFO - Platform ID: Windows-10-10.0.19045-SP0
+2026-04-19 23:10:15,590 - SANTEC_IL_STS - INFO - Machine: AMD64
+2026-04-19 23:10:15,591 - SANTEC_IL_STS - INFO - Processor: Intel64 Family 6 Model 69 Stepping 1, GenuineIntel
+2026-04-19 23:10:15,591 - SANTEC_IL_STS - INFO - Getting DLL path, root: c:\Users\Photonics\WPSDrive\zzx\src\santec\DLL\
+2026-04-19 23:10:15,719 - SANTEC_IL_STS - INFO - Adding Instrument DLL to the root, result: InstrumentDLL, Version=2.9.0.0, Culture=neutral, PublicKeyToken=null
+2026-04-19 23:10:15,720 - SANTEC_IL_STS - INFO - Adding STSProcess DLL to the root, result: STSProcess, Version=2.2.6.0, Culture=neutral, PublicKeyToken=null
+2026-04-19 23:10:16,713 - SANTEC_IL_STS - INFO - Initializing Instrument Addresses
+2026-04-19 23:10:16,714 - SANTEC_IL_STS - INFO - Getting GPIB resources
+2026-04-19 23:10:16,714 - SANTEC_IL_STS - INFO - Available GPIB resources: ['GPIB0::16::INSTR', 'GPIB1::1::INSTR', 'GPIB1::16::INSTR']
+2026-04-19 23:10:16,715 - SANTEC_IL_STS - INFO - Opening resource: GPIB0::16::INSTR
+2026-04-19 23:10:16,731 - SANTEC_IL_STS - INFO - Opened instrument: Ceyear Technologies,3671G,QZNC000284,2.2.0
+
+2026-04-19 23:10:16,733 - SANTEC_IL_STS - INFO - Opening resource: GPIB1::1::INSTR
+2026-04-19 23:10:16,761 - SANTEC_IL_STS - INFO - Opened instrument: SANTEC,TSL-710,20090003,0003.0051
+
+2026-04-19 23:10:16,763 - SANTEC_IL_STS - INFO - Opening resource: GPIB1::16::INSTR
+2026-04-19 23:10:16,782 - SANTEC_IL_STS - INFO - Opened instrument: SANTEC,MPM-210,20090002,Ver.1.12
+
+2026-04-19 23:10:16,784 - SANTEC_IL_STS - INFO - Current instruments: [<santec.get_address.Instrument object at 0x000001999C0EE270>, <santec.get_address.Instrument object at 0x00000199CA131E50>]
+2026-04-19 23:10:16,786 - SANTEC_IL_STS - INFO - 自动选择TSL: GPIB1::1::INSTR
+2026-04-19 23:10:16,787 - SANTEC_IL_STS - INFO - 自动选择MPM: GPIB1::16::INSTR
+2026-04-19 23:10:16,848 - SANTEC_IL_STS - INFO - 自动选择DAQ设备: Dev1
+2026-04-19 23:10:16,849 - SANTEC_IL_STS - INFO - Initializing Tsl Instrument class.
+2026-04-19 23:10:16,861 - SANTEC_IL_STS - INFO - Tsl Instrument details, Interface: GPIB, Address: , Port: 5000, Instrument:<santec.get_address.Instrument object at 0x000001999C0EE270>, Gpib connect type: ni
+2026-04-19 23:10:16,862 - SANTEC_IL_STS - INFO - Connect Tsl instrument
+2026-04-19 23:10:16,863 - SANTEC_IL_STS - INFO - Connect Tsl instrument, type GPIB
+2026-04-19 23:10:17,205 - SANTEC_IL_STS - INFO - Connected to Tsl instrument.
+2026-04-19 23:10:17,206 - SANTEC_IL_STS - INFO - Get TSL spec wavelength
+2026-04-19 23:10:17,227 - SANTEC_IL_STS - INFO - TSL spec wavelength: min_wav=1480.0, max_wav=1640.0
+2026-04-19 23:10:17,228 - SANTEC_IL_STS - INFO - Get TSL name
+2026-04-19 23:10:17,231 - SANTEC_IL_STS - INFO - TSL name: TSL-710
+2026-04-19 23:10:17,232 - SANTEC_IL_STS - INFO - Checking laser diode status
+2026-04-19 23:10:17,244 - SANTEC_IL_STS - INFO - Laser diode ON.
+2026-04-19 23:10:17,729 - SANTEC_IL_STS - INFO - Set TSL wavelength: 1552.0
+2026-04-19 23:10:17,807 - SANTEC_IL_STS - INFO - Set TSL power: 10.0
+2026-04-19 23:32:25,087 - SANTEC_IL_STS - INFO - Initializing Instrument Addresses
+2026-04-19 23:32:25,088 - SANTEC_IL_STS - INFO - Getting GPIB resources
+2026-04-19 23:32:25,089 - SANTEC_IL_STS - INFO - Available GPIB resources: ['GPIB0::16::INSTR', 'GPIB1::1::INSTR', 'GPIB1::16::INSTR']
+2026-04-19 23:32:25,090 - SANTEC_IL_STS - INFO - Opening resource: GPIB0::16::INSTR
+2026-04-19 23:32:25,102 - SANTEC_IL_STS - INFO - Opened instrument: Ceyear Technologies,3671G,QZNC000284,2.2.0
+
+2026-04-19 23:32:25,104 - SANTEC_IL_STS - INFO - Opening resource: GPIB1::1::INSTR
+2026-04-19 23:32:25,133 - SANTEC_IL_STS - INFO - Opened instrument: SANTEC,TSL-710,20090003,0003.0051
+
+2026-04-19 23:32:25,135 - SANTEC_IL_STS - INFO - Opening resource: GPIB1::16::INSTR
+2026-04-19 23:32:25,151 - SANTEC_IL_STS - INFO - Opened instrument: SANTEC,MPM-210,20090002,Ver.1.12
+
+2026-04-19 23:32:25,153 - SANTEC_IL_STS - INFO - Current instruments: [<santec.get_address.Instrument object at 0x00000199F8154E10>, <santec.get_address.Instrument object at 0x00000199A832BE10>]
+2026-04-19 23:32:25,156 - SANTEC_IL_STS - INFO - 自动选择TSL: GPIB1::1::INSTR
+2026-04-19 23:32:25,157 - SANTEC_IL_STS - INFO - 自动选择MPM: GPIB1::16::INSTR
+2026-04-19 23:32:25,157 - SANTEC_IL_STS - INFO - 自动选择DAQ设备: Dev1
+2026-04-19 23:32:25,158 - SANTEC_IL_STS - INFO - Initializing Tsl Instrument class.
+2026-04-19 23:32:25,159 - SANTEC_IL_STS - INFO - Tsl Instrument details, Interface: GPIB, Address: , Port: 5000, Instrument:<santec.get_address.Instrument object at 0x00000199F8154E10>, Gpib connect type: ni
+2026-04-19 23:32:25,160 - SANTEC_IL_STS - INFO - Connect Tsl instrument
+2026-04-19 23:32:25,160 - SANTEC_IL_STS - INFO - Connect Tsl instrument, type GPIB
+2026-04-19 23:32:25,404 - SANTEC_IL_STS - INFO - Connected to Tsl instrument.
+2026-04-19 23:32:25,405 - SANTEC_IL_STS - INFO - Get TSL spec wavelength
+2026-04-19 23:32:25,426 - SANTEC_IL_STS - INFO - TSL spec wavelength: min_wav=1480.0, max_wav=1640.0
+2026-04-19 23:32:25,427 - SANTEC_IL_STS - INFO - Get TSL name
+2026-04-19 23:32:25,428 - SANTEC_IL_STS - INFO - TSL name: TSL-710
+2026-04-19 23:32:25,428 - SANTEC_IL_STS - INFO - Checking laser diode status
+2026-04-19 23:32:25,437 - SANTEC_IL_STS - INFO - Laser diode ON.
+2026-04-19 23:32:25,438 - SANTEC_IL_STS - INFO - Initializing Mpm Instrument class.
+2026-04-19 23:32:25,440 - SANTEC_IL_STS - INFO - Mpm Instrument details, Interface: GPIB, Address: , Port: 5000, Instrument:<santec.get_address.Instrument object at 0x00000199A832BE10>, Gpib connect type: ni
+2026-04-19 23:32:25,441 - SANTEC_IL_STS - INFO - Connect Mpm instrument
+2026-04-19 23:32:25,467 - SANTEC_IL_STS - INFO - Connected to Mpm instrument.
+2026-04-19 23:32:25,469 - SANTEC_IL_STS - INFO - Initializing Spu Instrument class.
+2026-04-19 23:32:25,470 - SANTEC_IL_STS - INFO - Spu Device details, Device Name: Dev1
+2026-04-19 23:32:25,471 - SANTEC_IL_STS - INFO - Connect Spu device
+2026-04-19 23:32:25,584 - SANTEC_IL_STS - INFO - Connected to Spu device. device_answer: USB-6210,32509105,Dev1
+2026-04-19 23:32:25,585 - SANTEC_IL_STS - INFO - Writing to TSL, command: *CLS
+2026-04-19 23:32:25,588 - SANTEC_IL_STS - INFO - Writing to TSL, command: *RST
+2026-04-19 23:32:27,593 - SANTEC_IL_STS - INFO - Initializing STS Process class.
+2026-04-19 23:32:27,595 - SANTEC_IL_STS - INFO - STS Process details, TslInstrument: TslInstrument, MpmInstrument: MpmInstrument, SpuDevice: <santec.daq_device_class.SpuDevice object at 0x00000199E74797F0>
+2026-04-19 23:32:28,609 - SANTEC_IL_STS - INFO - Set TSL power: -10.0
+2026-04-19 23:32:29,109 - SANTEC_IL_STS - INFO - Set TSL sweep params: start_wavelength=1545.0, stop_wavelength=1555.0, sweep_step=0.0001, sweep_speed=1.0
+2026-04-19 23:32:29,111 - SANTEC_IL_STS - INFO - TSL busy check
+2026-04-19 23:32:29,115 - SANTEC_IL_STS - INFO - TSL busy check done.
+2026-04-19 23:32:29,689 - SANTEC_IL_STS - INFO - TSL sweep params set, actual_step=0.001
+2026-04-19 23:32:29,690 - SANTEC_IL_STS - INFO - TSL busy check
+2026-04-19 23:32:29,696 - SANTEC_IL_STS - INFO - TSL busy check done.
+2026-04-19 23:32:29,697 - SANTEC_IL_STS - INFO - STS set selected channels for measurement
+2026-04-19 23:32:29,698 - SANTEC_IL_STS - INFO - Loading selected channels from previous scan params
+2026-04-19 23:32:29,698 - SANTEC_IL_STS - INFO - Loaded the selected channels: 0,1;
+2026-04-19 23:32:29,699 - SANTEC_IL_STS - INFO - STS set selected ranges
+2026-04-19 23:32:29,700 - SANTEC_IL_STS - INFO - Loading selected ranges from previous scan params
+2026-04-19 23:32:29,700 - SANTEC_IL_STS - INFO - Using the loaded dynamic ranges: 3
+2026-04-19 23:32:29,701 - SANTEC_IL_STS - INFO - Selected ranges: [3]
+2026-04-19 23:32:29,701 - SANTEC_IL_STS - INFO - Set STS data struct
+2026-04-19 23:32:29,702 - SANTEC_IL_STS - INFO - Clear all the sts data struct lists.
+2026-04-19 23:32:29,703 - SANTEC_IL_STS - INFO - Configure STSDatastruct for each measurement
+2026-04-19 23:32:29,704 - SANTEC_IL_STS - INFO - Configure STSDataStruct for merge
+2026-04-19 23:32:29,704 - SANTEC_IL_STS - INFO - STS data struct set.
+2026-04-19 23:32:29,705 - SANTEC_IL_STS - INFO - Setting STS params
+2026-04-19 23:32:29,705 - SANTEC_IL_STS - INFO - Set MPM logging params: start_wavelength=1545.0, stop_wavelength=1555.0, sweep_step=0.0001, sweep_speed=1.0, trigger_step=0.0
+2026-04-19 23:32:30,016 - SANTEC_IL_STS - INFO - MPM logging params set.
+2026-04-19 23:32:30,017 - SANTEC_IL_STS - INFO - Set SPU logging params: start_wavelength=1545.0, stop_wavelength=1555.0, sweep_speed=1.0, tsl_actual_step=0.001
+2026-04-19 23:32:30,026 - SANTEC_IL_STS - INFO - SPU logging params set.
+2026-04-19 23:32:30,027 - SANTEC_IL_STS - INFO - MPM get averaging time
+2026-04-19 23:32:30,032 - SANTEC_IL_STS - INFO - MPM averaging time: 0.1
+2026-04-19 23:32:30,033 - SANTEC_IL_STS - INFO - Clearing STS meas data
+2026-04-19 23:32:30,044 - SANTEC_IL_STS - INFO - Clearing STS ref data
+2026-04-19 23:32:30,045 - SANTEC_IL_STS - INFO - Making sweep wavelength table
+2026-04-19 23:32:30,047 - SANTEC_IL_STS - INFO - Making target wavelength table
+2026-04-19 23:32:30,054 - SANTEC_IL_STS - INFO - STS rescaling settings
+2026-04-19 23:32:30,056 - SANTEC_IL_STS - INFO - MPM get averaging time
+2026-04-19 23:32:30,060 - SANTEC_IL_STS - INFO - MPM averaging time: 0.1
+2026-04-19 23:32:30,061 - SANTEC_IL_STS - INFO - STS params set.
+2026-04-19 23:32:41,618 - SANTEC_IL_STS - INFO - Loading STS reference from data file.
+2026-04-19 23:32:41,619 - SANTEC_IL_STS - INFO - Found 1 matching reference data entries out of 1 saved entries.
+2026-04-19 23:32:41,620 - SANTEC_IL_STS - INFO - Adding ref mpm channel data
+2026-04-19 23:32:41,683 - SANTEC_IL_STS - INFO - Adding ref monitor data
+2026-04-19 23:32:42,145 - SANTEC_IL_STS - INFO - Calling ref data for rescaling
+2026-04-19 23:32:44,297 - SANTEC_IL_STS - INFO - STS measurement operation
+2026-04-19 23:32:44,298 - SANTEC_IL_STS - INFO - MPM set range
+2026-04-19 23:32:44,301 - SANTEC_IL_STS - INFO - MPM range set.
+2026-04-19 23:32:44,302 - SANTEC_IL_STS - INFO - STS sweep proces
+2026-04-19 23:32:44,303 - SANTEC_IL_STS - INFO - TSL start sweep
+2026-04-19 23:32:44,330 - SANTEC_IL_STS - INFO - TSL start sweep done.
+2026-04-19 23:32:44,331 - SANTEC_IL_STS - INFO - MPM start logging
+2026-04-19 23:32:44,333 - SANTEC_IL_STS - INFO - MPM logging started.
+2026-04-19 23:32:44,335 - SANTEC_IL_STS - INFO - TSL wait for sweep status
+2026-04-19 23:32:45,590 - SANTEC_IL_STS - INFO - TSL wait for sweep status done.
+2026-04-19 23:32:45,591 - SANTEC_IL_STS - INFO - SPU sampling start
+2026-04-19 23:32:45,640 - SANTEC_IL_STS - INFO - SPU sampling started.
+2026-04-19 23:32:45,641 - SANTEC_IL_STS - INFO - Issue soft trigger
+2026-04-19 23:32:45,645 - SANTEC_IL_STS - INFO - Issue soft trigger done.
+2026-04-19 23:32:45,646 - SANTEC_IL_STS - INFO - SPU sampling wait
+2026-04-19 23:32:56,657 - SANTEC_IL_STS - INFO - SPU sampling wait done.
+2026-04-19 23:32:56,658 - SANTEC_IL_STS - INFO - MPM wait for log completion
+2026-04-19 23:32:56,663 - SANTEC_IL_STS - INFO - MPM logging completed. logging_point=100501
+2026-04-19 23:32:56,664 - SANTEC_IL_STS - INFO - MPM stop logging
+2026-04-19 23:32:56,667 - SANTEC_IL_STS - INFO - MPM logging stopped.
+2026-04-19 23:32:56,668 - SANTEC_IL_STS - INFO - TSL wait for sweep status
+2026-04-19 23:32:56,680 - SANTEC_IL_STS - INFO - TSL wait for sweep status done.
+2026-04-19 23:32:56,681 - SANTEC_IL_STS - INFO - STS base sweep process done.
+2026-04-19 23:32:56,682 - SANTEC_IL_STS - INFO - STS get measurement data
+2026-04-19 23:32:56,682 - SANTEC_IL_STS - INFO - MPM get each channel log data, slot_number=0, channel_number=1
+2026-04-19 23:32:57,713 - SANTEC_IL_STS - INFO - MPM slot 0 channel 1, log data length: 100501
+2026-04-19 23:32:57,781 - SANTEC_IL_STS - INFO - Measurement log details: MPMNumber=0, SlotNumber=0ChannelNumber=1, RangeNumber=3,Log data length=100501
+2026-04-19 23:32:57,782 - SANTEC_IL_STS - INFO - Adding meas mpm channel data
+2026-04-19 23:32:57,826 - SANTEC_IL_STS - INFO - SPU get sampling raw data
+2026-04-19 23:32:57,857 - SANTEC_IL_STS - INFO - SPU sampling raw data acquired, data length: trigger=10001, monitor=1100001
+2026-04-19 23:32:58,592 - SANTEC_IL_STS - INFO - Adding meas monitor data of: MPM0 Slot0 Ch1 Range3 SweepNo1
+2026-04-19 23:32:59,540 - SANTEC_IL_STS - INFO - Calling meas data for rescaling of mpm_range: 
+2026-04-19 23:32:59,568 - SANTEC_IL_STS - INFO - Calling IL merge
+2026-04-19 23:32:59,587 - SANTEC_IL_STS - INFO - TSL stop sweep
+2026-04-19 23:32:59,601 - SANTEC_IL_STS - INFO - TSL stop sweep done.
+2026-04-19 23:32:59,660 - SANTEC_IL_STS - INFO - Getting IL merge data of: MPM0 Slot0 Ch1 SOP0
+2026-04-19 23:32:59,731 - SANTEC_IL_STS - INFO - STS measurement operation done.
+2026-04-19 23:33:25,186 - SANTEC_IL_STS - INFO - Querying TSL, command: *RST
+2026-04-19 23:33:36,864 - SANTEC_IL_STS - INFO - TSL connection disconnected.

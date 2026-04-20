@@ -1,0 +1,826 @@
+{
+    "vref": 1.1,
+    "lambda_ref": 1551.83,
+    "zynq_channel": 1,
+    "delta_lambda_list": [
+        0.0,
+        1.0,
+        2.0,
+        3.0,
+        4.0,
+        5.0,
+        6.0,
+        7.0,
+        8.0,
+        9.0,
+        10.0,
+        11.0,
+        12.0,
+        13.0,
+        14.0,
+        15.0,
+        16.0,
+        17.0,
+        18.0,
+        19.0,
+        20.0,
+        21.0,
+        22.0,
+        23.0,
+        24.0,
+        25.0,
+        26.0,
+        27.0,
+        28.0,
+        29.0,
+        30.0,
+        31.0,
+        32.0,
+        33.0,
+        34.0,
+        35.0,
+        36.0,
+        37.0,
+        38.0,
+        39.0,
+        40.0,
+        41.0,
+        42.0,
+        43.0,
+        44.0,
+        45.0,
+        46.0,
+        47.0,
+        48.0,
+        49.0,
+        50.0,
+        51.0,
+        52.0,
+        53.0,
+        54.0,
+        55.0,
+        56.0,
+        57.0,
+        58.0,
+        59.0,
+        60.0,
+        61.0,
+        62.0,
+        63.0,
+        64.0,
+        65.0,
+        66.0,
+        67.0,
+        68.0,
+        69.0,
+        70.0,
+        71.0,
+        72.0,
+        73.0,
+        74.0,
+        75.0,
+        76.0,
+        77.0,
+        78.0,
+        79.0,
+        80.0,
+        81.0,
+        82.0,
+        83.0,
+        84.0,
+        85.0,
+        86.0,
+        87.0,
+        88.0,
+        89.0,
+        90.0,
+        91.0,
+        92.0,
+        93.0,
+        94.0,
+        95.0,
+        96.0,
+        97.0,
+        98.0,
+        99.0,
+        100.0,
+        101.0,
+        102.0,
+        103.0,
+        104.0,
+        105.0,
+        106.0,
+        107.0,
+        108.0,
+        109.0,
+        110.0,
+        111.0,
+        112.0,
+        113.0,
+        114.0,
+        115.0,
+        116.0,
+        117.0,
+        118.0,
+        119.0,
+        120.0,
+        121.0,
+        122.0,
+        123.0,
+        124.0,
+        125.0,
+        126.0,
+        127.0,
+        128.0,
+        129.0,
+        130.0,
+        131.0,
+        132.0,
+        133.0,
+        134.0,
+        135.0,
+        136.0,
+        137.0,
+        138.0,
+        139.0,
+        140.0,
+        141.0,
+        142.0,
+        143.0,
+        144.0,
+        145.0,
+        146.0,
+        147.0,
+        148.0,
+        149.0,
+        150.0,
+        151.0,
+        152.0,
+        153.0,
+        154.0,
+        155.0,
+        156.0,
+        157.0,
+        158.0,
+        159.0,
+        160.0
+    ],
+    "vna_params": {
+        "start_freq": 10000000.0,
+        "stop_freq": 30000000000.0,
+        "points": 6001,
+        "power": -10.0,
+        "if_bw": 1000.0,
+        "param": "S21"
+    },
+    "files": [
+        {
+            "delta_lambda": 0.0,
+            "path": "delta_lambda_0.0.csv"
+        },
+        {
+            "delta_lambda": 1.0,
+            "path": "delta_lambda_1.0.csv"
+        },
+        {
+            "delta_lambda": 2.0,
+            "path": "delta_lambda_2.0.csv"
+        },
+        {
+            "delta_lambda": 3.0,
+            "path": "delta_lambda_3.0.csv"
+        },
+        {
+            "delta_lambda": 4.0,
+            "path": "delta_lambda_4.0.csv"
+        },
+        {
+            "delta_lambda": 5.0,
+            "path": "delta_lambda_5.0.csv"
+        },
+        {
+            "delta_lambda": 6.0,
+            "path": "delta_lambda_6.0.csv"
+        },
+        {
+            "delta_lambda": 7.0,
+            "path": "delta_lambda_7.0.csv"
+        },
+        {
+            "delta_lambda": 8.0,
+            "path": "delta_lambda_8.0.csv"
+        },
+        {
+            "delta_lambda": 9.0,
+            "path": "delta_lambda_9.0.csv"
+        },
+        {
+            "delta_lambda": 10.0,
+            "path": "delta_lambda_10.0.csv"
+        },
+        {
+            "delta_lambda": 11.0,
+            "path": "delta_lambda_11.0.csv"
+        },
+        {
+            "delta_lambda": 12.0,
+            "path": "delta_lambda_12.0.csv"
+        },
+        {
+            "delta_lambda": 13.0,
+            "path": "delta_lambda_13.0.csv"
+        },
+        {
+            "delta_lambda": 14.0,
+            "path": "delta_lambda_14.0.csv"
+        },
+        {
+            "delta_lambda": 15.0,
+            "path": "delta_lambda_15.0.csv"
+        },
+        {
+            "delta_lambda": 16.0,
+            "path": "delta_lambda_16.0.csv"
+        },
+        {
+            "delta_lambda": 17.0,
+            "path": "delta_lambda_17.0.csv"
+        },
+        {
+            "delta_lambda": 18.0,
+            "path": "delta_lambda_18.0.csv"
+        },
+        {
+            "delta_lambda": 19.0,
+            "path": "delta_lambda_19.0.csv"
+        },
+        {
+            "delta_lambda": 20.0,
+            "path": "delta_lambda_20.0.csv"
+        },
+        {
+            "delta_lambda": 21.0,
+            "path": "delta_lambda_21.0.csv"
+        },
+        {
+            "delta_lambda": 22.0,
+            "path": "delta_lambda_22.0.csv"
+        },
+        {
+            "delta_lambda": 23.0,
+            "path": "delta_lambda_23.0.csv"
+        },
+        {
+            "delta_lambda": 24.0,
+            "path": "delta_lambda_24.0.csv"
+        },
+        {
+            "delta_lambda": 25.0,
+            "path": "delta_lambda_25.0.csv"
+        },
+        {
+            "delta_lambda": 26.0,
+            "path": "delta_lambda_26.0.csv"
+        },
+        {
+            "delta_lambda": 27.0,
+            "path": "delta_lambda_27.0.csv"
+        },
+        {
+            "delta_lambda": 28.0,
+            "path": "delta_lambda_28.0.csv"
+        },
+        {
+            "delta_lambda": 29.0,
+            "path": "delta_lambda_29.0.csv"
+        },
+        {
+            "delta_lambda": 30.0,
+            "path": "delta_lambda_30.0.csv"
+        },
+        {
+            "delta_lambda": 31.0,
+            "path": "delta_lambda_31.0.csv"
+        },
+        {
+            "delta_lambda": 32.0,
+            "path": "delta_lambda_32.0.csv"
+        },
+        {
+            "delta_lambda": 33.0,
+            "path": "delta_lambda_33.0.csv"
+        },
+        {
+            "delta_lambda": 34.0,
+            "path": "delta_lambda_34.0.csv"
+        },
+        {
+            "delta_lambda": 35.0,
+            "path": "delta_lambda_35.0.csv"
+        },
+        {
+            "delta_lambda": 36.0,
+            "path": "delta_lambda_36.0.csv"
+        },
+        {
+            "delta_lambda": 37.0,
+            "path": "delta_lambda_37.0.csv"
+        },
+        {
+            "delta_lambda": 38.0,
+            "path": "delta_lambda_38.0.csv"
+        },
+        {
+            "delta_lambda": 39.0,
+            "path": "delta_lambda_39.0.csv"
+        },
+        {
+            "delta_lambda": 40.0,
+            "path": "delta_lambda_40.0.csv"
+        },
+        {
+            "delta_lambda": 41.0,
+            "path": "delta_lambda_41.0.csv"
+        },
+        {
+            "delta_lambda": 42.0,
+            "path": "delta_lambda_42.0.csv"
+        },
+        {
+            "delta_lambda": 43.0,
+            "path": "delta_lambda_43.0.csv"
+        },
+        {
+            "delta_lambda": 44.0,
+            "path": "delta_lambda_44.0.csv"
+        },
+        {
+            "delta_lambda": 45.0,
+            "path": "delta_lambda_45.0.csv"
+        },
+        {
+            "delta_lambda": 46.0,
+            "path": "delta_lambda_46.0.csv"
+        },
+        {
+            "delta_lambda": 47.0,
+            "path": "delta_lambda_47.0.csv"
+        },
+        {
+            "delta_lambda": 48.0,
+            "path": "delta_lambda_48.0.csv"
+        },
+        {
+            "delta_lambda": 49.0,
+            "path": "delta_lambda_49.0.csv"
+        },
+        {
+            "delta_lambda": 50.0,
+            "path": "delta_lambda_50.0.csv"
+        },
+        {
+            "delta_lambda": 51.0,
+            "path": "delta_lambda_51.0.csv"
+        },
+        {
+            "delta_lambda": 52.0,
+            "path": "delta_lambda_52.0.csv"
+        },
+        {
+            "delta_lambda": 53.0,
+            "path": "delta_lambda_53.0.csv"
+        },
+        {
+            "delta_lambda": 54.0,
+            "path": "delta_lambda_54.0.csv"
+        },
+        {
+            "delta_lambda": 55.0,
+            "path": "delta_lambda_55.0.csv"
+        },
+        {
+            "delta_lambda": 56.0,
+            "path": "delta_lambda_56.0.csv"
+        },
+        {
+            "delta_lambda": 57.0,
+            "path": "delta_lambda_57.0.csv"
+        },
+        {
+            "delta_lambda": 58.0,
+            "path": "delta_lambda_58.0.csv"
+        },
+        {
+            "delta_lambda": 59.0,
+            "path": "delta_lambda_59.0.csv"
+        },
+        {
+            "delta_lambda": 60.0,
+            "path": "delta_lambda_60.0.csv"
+        },
+        {
+            "delta_lambda": 61.0,
+            "path": "delta_lambda_61.0.csv"
+        },
+        {
+            "delta_lambda": 62.0,
+            "path": "delta_lambda_62.0.csv"
+        },
+        {
+            "delta_lambda": 63.0,
+            "path": "delta_lambda_63.0.csv"
+        },
+        {
+            "delta_lambda": 64.0,
+            "path": "delta_lambda_64.0.csv"
+        },
+        {
+            "delta_lambda": 65.0,
+            "path": "delta_lambda_65.0.csv"
+        },
+        {
+            "delta_lambda": 66.0,
+            "path": "delta_lambda_66.0.csv"
+        },
+        {
+            "delta_lambda": 67.0,
+            "path": "delta_lambda_67.0.csv"
+        },
+        {
+            "delta_lambda": 68.0,
+            "path": "delta_lambda_68.0.csv"
+        },
+        {
+            "delta_lambda": 69.0,
+            "path": "delta_lambda_69.0.csv"
+        },
+        {
+            "delta_lambda": 70.0,
+            "path": "delta_lambda_70.0.csv"
+        },
+        {
+            "delta_lambda": 71.0,
+            "path": "delta_lambda_71.0.csv"
+        },
+        {
+            "delta_lambda": 72.0,
+            "path": "delta_lambda_72.0.csv"
+        },
+        {
+            "delta_lambda": 73.0,
+            "path": "delta_lambda_73.0.csv"
+        },
+        {
+            "delta_lambda": 74.0,
+            "path": "delta_lambda_74.0.csv"
+        },
+        {
+            "delta_lambda": 75.0,
+            "path": "delta_lambda_75.0.csv"
+        },
+        {
+            "delta_lambda": 76.0,
+            "path": "delta_lambda_76.0.csv"
+        },
+        {
+            "delta_lambda": 77.0,
+            "path": "delta_lambda_77.0.csv"
+        },
+        {
+            "delta_lambda": 78.0,
+            "path": "delta_lambda_78.0.csv"
+        },
+        {
+            "delta_lambda": 79.0,
+            "path": "delta_lambda_79.0.csv"
+        },
+        {
+            "delta_lambda": 80.0,
+            "path": "delta_lambda_80.0.csv"
+        },
+        {
+            "delta_lambda": 81.0,
+            "path": "delta_lambda_81.0.csv"
+        },
+        {
+            "delta_lambda": 82.0,
+            "path": "delta_lambda_82.0.csv"
+        },
+        {
+            "delta_lambda": 83.0,
+            "path": "delta_lambda_83.0.csv"
+        },
+        {
+            "delta_lambda": 84.0,
+            "path": "delta_lambda_84.0.csv"
+        },
+        {
+            "delta_lambda": 85.0,
+            "path": "delta_lambda_85.0.csv"
+        },
+        {
+            "delta_lambda": 86.0,
+            "path": "delta_lambda_86.0.csv"
+        },
+        {
+            "delta_lambda": 87.0,
+            "path": "delta_lambda_87.0.csv"
+        },
+        {
+            "delta_lambda": 88.0,
+            "path": "delta_lambda_88.0.csv"
+        },
+        {
+            "delta_lambda": 89.0,
+            "path": "delta_lambda_89.0.csv"
+        },
+        {
+            "delta_lambda": 90.0,
+            "path": "delta_lambda_90.0.csv"
+        },
+        {
+            "delta_lambda": 91.0,
+            "path": "delta_lambda_91.0.csv"
+        },
+        {
+            "delta_lambda": 92.0,
+            "path": "delta_lambda_92.0.csv"
+        },
+        {
+            "delta_lambda": 93.0,
+            "path": "delta_lambda_93.0.csv"
+        },
+        {
+            "delta_lambda": 94.0,
+            "path": "delta_lambda_94.0.csv"
+        },
+        {
+            "delta_lambda": 95.0,
+            "path": "delta_lambda_95.0.csv"
+        },
+        {
+            "delta_lambda": 96.0,
+            "path": "delta_lambda_96.0.csv"
+        },
+        {
+            "delta_lambda": 97.0,
+            "path": "delta_lambda_97.0.csv"
+        },
+        {
+            "delta_lambda": 98.0,
+            "path": "delta_lambda_98.0.csv"
+        },
+        {
+            "delta_lambda": 99.0,
+            "path": "delta_lambda_99.0.csv"
+        },
+        {
+            "delta_lambda": 100.0,
+            "path": "delta_lambda_100.0.csv"
+        },
+        {
+            "delta_lambda": 101.0,
+            "path": "delta_lambda_101.0.csv"
+        },
+        {
+            "delta_lambda": 102.0,
+            "path": "delta_lambda_102.0.csv"
+        },
+        {
+            "delta_lambda": 103.0,
+            "path": "delta_lambda_103.0.csv"
+        },
+        {
+            "delta_lambda": 104.0,
+            "path": "delta_lambda_104.0.csv"
+        },
+        {
+            "delta_lambda": 105.0,
+            "path": "delta_lambda_105.0.csv"
+        },
+        {
+            "delta_lambda": 106.0,
+            "path": "delta_lambda_106.0.csv"
+        },
+        {
+            "delta_lambda": 107.0,
+            "path": "delta_lambda_107.0.csv"
+        },
+        {
+            "delta_lambda": 108.0,
+            "path": "delta_lambda_108.0.csv"
+        },
+        {
+            "delta_lambda": 109.0,
+            "path": "delta_lambda_109.0.csv"
+        },
+        {
+            "delta_lambda": 110.0,
+            "path": "delta_lambda_110.0.csv"
+        },
+        {
+            "delta_lambda": 111.0,
+            "path": "delta_lambda_111.0.csv"
+        },
+        {
+            "delta_lambda": 112.0,
+            "path": "delta_lambda_112.0.csv"
+        },
+        {
+            "delta_lambda": 113.0,
+            "path": "delta_lambda_113.0.csv"
+        },
+        {
+            "delta_lambda": 114.0,
+            "path": "delta_lambda_114.0.csv"
+        },
+        {
+            "delta_lambda": 115.0,
+            "path": "delta_lambda_115.0.csv"
+        },
+        {
+            "delta_lambda": 116.0,
+            "path": "delta_lambda_116.0.csv"
+        },
+        {
+            "delta_lambda": 117.0,
+            "path": "delta_lambda_117.0.csv"
+        },
+        {
+            "delta_lambda": 118.0,
+            "path": "delta_lambda_118.0.csv"
+        },
+        {
+            "delta_lambda": 119.0,
+            "path": "delta_lambda_119.0.csv"
+        },
+        {
+            "delta_lambda": 120.0,
+            "path": "delta_lambda_120.0.csv"
+        },
+        {
+            "delta_lambda": 121.0,
+            "path": "delta_lambda_121.0.csv"
+        },
+        {
+            "delta_lambda": 122.0,
+            "path": "delta_lambda_122.0.csv"
+        },
+        {
+            "delta_lambda": 123.0,
+            "path": "delta_lambda_123.0.csv"
+        },
+        {
+            "delta_lambda": 124.0,
+            "path": "delta_lambda_124.0.csv"
+        },
+        {
+            "delta_lambda": 125.0,
+            "path": "delta_lambda_125.0.csv"
+        },
+        {
+            "delta_lambda": 126.0,
+            "path": "delta_lambda_126.0.csv"
+        },
+        {
+            "delta_lambda": 127.0,
+            "path": "delta_lambda_127.0.csv"
+        },
+        {
+            "delta_lambda": 128.0,
+            "path": "delta_lambda_128.0.csv"
+        },
+        {
+            "delta_lambda": 129.0,
+            "path": "delta_lambda_129.0.csv"
+        },
+        {
+            "delta_lambda": 130.0,
+            "path": "delta_lambda_130.0.csv"
+        },
+        {
+            "delta_lambda": 131.0,
+            "path": "delta_lambda_131.0.csv"
+        },
+        {
+            "delta_lambda": 132.0,
+            "path": "delta_lambda_132.0.csv"
+        },
+        {
+            "delta_lambda": 133.0,
+            "path": "delta_lambda_133.0.csv"
+        },
+        {
+            "delta_lambda": 134.0,
+            "path": "delta_lambda_134.0.csv"
+        },
+        {
+            "delta_lambda": 135.0,
+            "path": "delta_lambda_135.0.csv"
+        },
+        {
+            "delta_lambda": 136.0,
+            "path": "delta_lambda_136.0.csv"
+        },
+        {
+            "delta_lambda": 137.0,
+            "path": "delta_lambda_137.0.csv"
+        },
+        {
+            "delta_lambda": 138.0,
+            "path": "delta_lambda_138.0.csv"
+        },
+        {
+            "delta_lambda": 139.0,
+            "path": "delta_lambda_139.0.csv"
+        },
+        {
+            "delta_lambda": 140.0,
+            "path": "delta_lambda_140.0.csv"
+        },
+        {
+            "delta_lambda": 141.0,
+            "path": "delta_lambda_141.0.csv"
+        },
+        {
+            "delta_lambda": 142.0,
+            "path": "delta_lambda_142.0.csv"
+        },
+        {
+            "delta_lambda": 143.0,
+            "path": "delta_lambda_143.0.csv"
+        },
+        {
+            "delta_lambda": 144.0,
+            "path": "delta_lambda_144.0.csv"
+        },
+        {
+            "delta_lambda": 145.0,
+            "path": "delta_lambda_145.0.csv"
+        },
+        {
+            "delta_lambda": 146.0,
+            "path": "delta_lambda_146.0.csv"
+        },
+        {
+            "delta_lambda": 147.0,
+            "path": "delta_lambda_147.0.csv"
+        },
+        {
+            "delta_lambda": 148.0,
+            "path": "delta_lambda_148.0.csv"
+        },
+        {
+            "delta_lambda": 149.0,
+            "path": "delta_lambda_149.0.csv"
+        },
+        {
+            "delta_lambda": 150.0,
+            "path": "delta_lambda_150.0.csv"
+        },
+        {
+            "delta_lambda": 151.0,
+            "path": "delta_lambda_151.0.csv"
+        },
+        {
+            "delta_lambda": 152.0,
+            "path": "delta_lambda_152.0.csv"
+        },
+        {
+            "delta_lambda": 153.0,
+            "path": "delta_lambda_153.0.csv"
+        },
+        {
+            "delta_lambda": 154.0,
+            "path": "delta_lambda_154.0.csv"
+        },
+        {
+            "delta_lambda": 155.0,
+            "path": "delta_lambda_155.0.csv"
+        },
+        {
+            "delta_lambda": 156.0,
+            "path": "delta_lambda_156.0.csv"
+        },
+        {
+            "delta_lambda": 157.0,
+            "path": "delta_lambda_157.0.csv"
+        },
+        {
+            "delta_lambda": 158.0,
+            "path": "delta_lambda_158.0.csv"
+        },
+        {
+            "delta_lambda": 159.0,
+            "path": "delta_lambda_159.0.csv"
+        },
+        {
+            "delta_lambda": 160.0,
+            "path": "delta_lambda_160.0.csv"
+        }
+    ],
+    "timestamp": "2026-04-18T21:35:18",
+    "total_collected": 161,
+    "total_skipped": 0,
+    "elapsed_seconds": 2391.110780477524
+}

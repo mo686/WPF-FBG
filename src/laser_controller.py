@@ -31,7 +31,7 @@ class LaserController:
         self.tsl = None
         self.connected = False
         self.wavelength_range = (1500, 1650)  # 波长范围 (nm)
-        self.power_range = (0, 10)  # 功率范围 (dBm)
+        self.power_range = (-10, 10)  # 功率范围 (dBm)
         self.current_wavelength = None  # 存储当前波长
         self.current_power = None  # 存储当前功率
         self.voltage_controller = None  # 电压控制器
@@ -482,11 +482,11 @@ def get_user_input():
     # 获取功率输入
     while True:
         try:
-            power = float(input("请输入输出光功率 (dBm) [0-10]: "))
-            if 0 <= power <= 10:
+            power = float(input("请输入输出光功率 (dBm) [-10-10]: "))
+            if -10 <= power <= 10:
                 break
             else:
-                print("功率必须在 0-10 dBm 范围内")
+                print("功率必须在 -10-10 dBm 范围内")
         except ValueError:
             print("请输入有效的数字")
     
@@ -528,11 +528,11 @@ def get_power_input():
     """获取用户输入的功率"""
     while True:
         try:
-            power = float(input("请输入输出光功率 (dBm) [0-10]: "))
-            if 0 <= power <= 10:
+            power = float(input("请输入输出光功率 (dBm) [-10-10]: "))
+            if -10 <= power <= 10:
                 return power
             else:
-                print("功率必须在 0-10 dBm 范围内")
+                print("功率必须在 -10-10 dBm 范围内")
         except ValueError:
             print("请输入有效的数字")
 

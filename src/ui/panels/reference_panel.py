@@ -117,7 +117,7 @@ class ReferencePanel(QWidget):
         form.addRow("扫描速度:", self.sweep_speed)
 
         self.power = QDoubleSpinBox()
-        self.power.setRange(0.0, 10.0)
+        self.power.setRange(-10.0, 10.0)
         self.power.setDecimals(1)
         self.power.setSuffix(" dBm")
         self.power.setValue(10.0)

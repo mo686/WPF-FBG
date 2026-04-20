@@ -1246,15 +1246,33 @@ class VoltageScanWorker(BaseWorker):
             self.operation_finished.emit()
 
     def _build_voltage_list(self, params: dict) -> list:
-        start_v = params["start_voltage"]
-        end_v = params["end_voltage"]
-        step_v = params["step_voltage"]
-        voltages = []
-        v = start_v
-        while v <= end_v + 1e-9:
-            voltages.append(round(v, 6))
-            v += step_v
-        return voltages
+        # 检查是否使用功耗步进
+        if "step_power" in params:
+            start_power = params.get("start_power", 0)
+            end_power = params.get("end_power", 0)
+            step_power = params.get("step_power", 0.01)
+            
+            # 根据功率计算电压，R=100欧姆
+            import math
+            voltages = []
+            power = start_power
+            while power <= end_power + 1e-9:
+                # P = U²/R → U = sqrt(P*R)
+                voltage = math.sqrt(power * 100)
+                voltages.append(round(voltage, 6))
+                power += step_power
+            return voltages
+        else:
+            # 保持原有电压步进模式
+            start_v = params["start_voltage"]
+            end_v = params["end_voltage"]
+            step_v = params["step_voltage"]
+            voltages = []
+            v = start_v
+            while v <= end_v + 1e-9:
+                voltages.append(round(v, 6))
+                v += step_v
+            return voltages
 
     def _try_restore_voltages(self):
         if self._zynq and self._original_voltages:

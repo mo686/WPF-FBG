@@ -102,12 +102,12 @@ class VoltageScanPanel(QWidget):
         self.end_v.setValue(10.0)
         form.addRow("终止电压:", self.end_v)
 
-        self.step_v = QDoubleSpinBox()
-        self.step_v.setRange(0.001, 10.0)
-        self.step_v.setDecimals(3)
-        self.step_v.setSuffix(" V")
-        self.step_v.setValue(0.1)
-        form.addRow("步进电压:", self.step_v)
+        self.step_power = QDoubleSpinBox()
+        self.step_power.setRange(0.000001, 1.0)
+        self.step_power.setDecimals(6)
+        self.step_power.setSuffix(" W")
+        self.step_power.setValue(0.01)
+        form.addRow("步进功耗:", self.step_power)
 
         self.settle_time = QDoubleSpinBox()
         self.settle_time.setRange(0.0, 30.0)
@@ -264,11 +264,17 @@ class VoltageScanPanel(QWidget):
         self._worker.load_reference(filepath)
 
     def _on_start_clicked(self):
+        # 计算功耗对应的电压范围
+        start_power = (self.start_v.value() ** 2) / 100
+        end_power = (self.end_v.value() ** 2) / 100
+        
         params = {
             "channel": self.channel_input.value(),
             "start_voltage": self.start_v.value(),
             "end_voltage": self.end_v.value(),
-            "step_voltage": self.step_v.value(),
+            "start_power": start_power,
+            "end_power": end_power,
+            "step_power": self.step_power.value(),
             "settle_time": self.settle_time.value(),
             "mode": "vna" if self._is_vna_mode() else "loss",
         }
@@ -349,9 +355,10 @@ class VoltageScanPanel(QWidget):
 
     @Slot(int, int, float)
     def _on_scan_progress(self, current, total, voltage):
+        power = (voltage ** 2) / 100
         self.progress_bar.setMaximum(total)
         self.progress_bar.setValue(current)
-        self.status_label.setText(f"状态: 扫描中 {current}/{total} ({voltage:.3f}V)")
+        self.status_label.setText(f"状态: 扫描中 {current}/{total} ({voltage:.3f}V, {power:.6f}W)")
 
     @Slot(float, object)
     def _on_point_measured(self, voltage, mdata):
@@ -405,7 +412,8 @@ class VoltageScanPanel(QWidget):
                 wl = item.get("rescaled_wavelength", [])
                 pw = item.get("rescaled_reference_power", [])
                 if wl and pw:
-                    ax.plot(wl, pw, color=colors[i], linewidth=1, label=f"{voltage:.3f}V")
+                    power = (voltage ** 2) / 100
+                    ax.plot(wl, pw, color=colors[i], linewidth=1, label=f"{voltage:.3f}V ({power:.4f}W)")
         ax.set_xlabel("Wavelength (nm)")
         ax.set_ylabel("Insertion Loss (dB)")
         ax.set_title("电压扫描插损汇总")
@@ -427,7 +435,8 @@ class VoltageScanPanel(QWidget):
         colors = matplotlib.cm.viridis(np.linspace(0, 1, max(n, 1)))
         for i, (voltage, freq, mag) in enumerate(self._all_vna_data):
             freq_ghz = np.array(freq) / 1e9
-            ax.plot(freq_ghz, mag, color=colors[i], linewidth=0.8, label=f"{voltage:.3f}V")
+            power = (voltage ** 2) / 100
+            ax.plot(freq_ghz, mag, color=colors[i], linewidth=0.8, label=f"{voltage:.3f}V ({power:.4f}W)")
         ax.set_xlabel("Frequency (GHz)")
         ax.set_ylabel("Magnitude (dB)")
         ax.set_title("电压扫描 VNA S21 汇总")

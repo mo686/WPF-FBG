@@ -131,7 +131,7 @@ class MeasurementPanel(QWidget):
         form.addRow("扫描速度:", self.sweep_speed)
 
         self.power_input = QDoubleSpinBox()
-        self.power_input.setRange(0.0, 10.0)
+        self.power_input.setRange(-10.0, 10.0)
         self.power_input.setDecimals(1)
         self.power_input.setSuffix(" dBm")
         self.power_input.setValue(10.0)
