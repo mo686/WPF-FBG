@@ -9,7 +9,9 @@
 嵌入 ChartWidget 显示匹配对比图和所有曲线。
 """
 
+import json
 import logging
+import os
 from typing import Optional
 
 import numpy as np
@@ -35,6 +37,10 @@ from src.ui.workers import CalibrationWorker
 
 logger = logging.getLogger(__name__)
 
+_CAL_CONFIG_PATH = os.path.join(
+    os.path.dirname(__file__), "..", "config", "last_cal_params.json"
+)
+
 
 class CalibrationPanel(QWidget):
     """光纤传感定标流水线面板。"""
@@ -52,6 +58,7 @@ class CalibrationPanel(QWidget):
 
         self._init_ui()
         self._init_worker()
+        self._auto_load_last_cal()
 
     # ==================================================================
     # UI 构建
@@ -196,11 +203,47 @@ class CalibrationPanel(QWidget):
         self._thread.start()
 
     # ==================================================================
+    # 定标目录持久化
+    # ==================================================================
+
+    def _save_last_cal_dir(self, directory: str) -> None:
+        """将定标目录路径保存到配置文件。"""
+        try:
+            os.makedirs(os.path.dirname(_CAL_CONFIG_PATH), exist_ok=True)
+            with open(_CAL_CONFIG_PATH, "w", encoding="utf-8") as f:
+                json.dump({"last_cal_dir": directory}, f, ensure_ascii=False)
+        except Exception as exc:
+            logger.debug("保存定标目录配置失败: %s", exc)
+
+    def _load_last_cal_dir(self) -> Optional[str]:
+        """从配置文件读取上次的定标目录路径。"""
+        try:
+            with open(_CAL_CONFIG_PATH, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            path = data.get("last_cal_dir")
+            if path and os.path.isdir(path):
+                return path
+        except Exception:
+            pass
+        return None
+
+    def _auto_load_last_cal(self) -> None:
+        """启动时自动加载上次使用的定标数据。"""
+        last_dir = self._load_last_cal_dir()
+        if last_dir:
+            self._cal_dir = last_dir
+            self._log.append_log(f"自动加载上次定标目录: {last_dir}", "INFO")
+            self._set_busy(True)
+            self._worker.load_calibration(last_dir, self.smooth_input.value())
+
+    # ==================================================================
     # 按钮槽
     # ==================================================================
 
     def _on_load_cal_clicked(self):
-        directory = QFileDialog.getExistingDirectory(self, "选择定标数据目录")
+        directory = QFileDialog.getExistingDirectory(
+            self, "选择定标数据目录", self._cal_dir or ""
+        )
         if not directory:
             return
         self._cal_dir = directory
@@ -208,31 +251,14 @@ class CalibrationPanel(QWidget):
         self._worker.load_calibration(directory, self.smooth_input.value())
 
     def _on_load_meas_clicked(self):
-        """加载测量数据 — 支持目录（多个 CSV）或单个合并 CSV。"""
-        from PySide6.QtWidgets import QInputDialog
-        choice, ok = QInputDialog.getItem(
-            self, "选择加载方式",
-            "测量数据来源:",
-            ["目录（每个电压一个 CSV）", "单个 CSV 文件（电压扫描导出）"],
-            0, False,
+        """加载测量数据 — 单个合并 CSV 文件（电压扫描导出）。"""
+        filepath, _ = QFileDialog.getOpenFileName(
+            self, "选择测量 CSV 文件", "", "CSV 文件 (*.csv)"
         )
-        if not ok:
+        if not filepath:
             return
-        if "目录" in choice:
-            directory = QFileDialog.getExistingDirectory(self, "选择测量数据目录")
-            if not directory:
-                return
-            self._meas_dir = directory
-            self._set_busy(True)
-            self._worker.load_measurement(directory)
-        else:
-            filepath, _ = QFileDialog.getOpenFileName(
-                self, "选择测量 CSV 文件", "", "CSV 文件 (*.csv)"
-            )
-            if not filepath:
-                return
-            self._set_busy(True)
-            self._worker.load_measurement_file(filepath)
+        self._set_busy(True)
+        self._worker.load_measurement_file(filepath)
 
     def _on_match_clicked(self):
         self._set_busy(True)
@@ -282,21 +308,26 @@ class CalibrationPanel(QWidget):
     @Slot(int)
     def _on_cal_loaded(self, count: int):
         self.cal_status.setText(f"定标: 已加载 {count} 条曲线")
-        self.btn_load_meas.setEnabled(True)
+        self.btn_load_cal.setEnabled(True)
         self._log.append_log(f"定标数据加载完成，共 {count} 条曲线", "INFO")
+        # 保存目录供下次自动加载
+        if self._cal_dir:
+            self._save_last_cal_dir(self._cal_dir)
+        # 重新加载定标后，清除之前的匹配结果（因为定标表变了）
+        if hasattr(self, '_match_results'):
+            self._match_results = {}
+        self._pipeline_result = None
+        self.result_text.clear()
+        self._plot_cal_curves()
         self._plot_cal_curves()
 
     @Slot(int)
     def _on_meas_loaded(self, count: int):
         self.meas_status.setText(f"测量: 已加载 {count} 条曲线")
-        self.btn_match.setEnabled(True)
         self._log.append_log(f"测量数据加载完成，共 {count} 条曲线", "INFO")
 
     @Slot(object)
     def _on_match_done(self, match_info: dict):
-        self.btn_evaluate.setEnabled(True)
-        self.btn_save_result.setEnabled(True)
-        self.btn_save_plot.setEnabled(True)
         self._match_results = match_info.get("all_match_results", {})
         self._display_match_results()
         self._log.append_log("匹配完成（四种方式 × 正/负 Δλ）", "INFO")
@@ -334,15 +365,25 @@ class CalibrationPanel(QWidget):
     # ==================================================================
 
     def _set_busy(self, busy: bool):
-        for btn in (
-            self.btn_load_cal,
-            self.btn_load_meas,
-            self.btn_match,
-            self.btn_evaluate,
-        ):
-            if busy:
+        if busy:
+            for btn in (
+                self.btn_load_cal,
+                self.btn_load_meas,
+                self.btn_match,
+                self.btn_evaluate,
+            ):
                 btn.setEnabled(False)
-            # 恢复时由各回调单独控制
+        else:
+            # 恢复按钮状态：根据已加载的数据决定哪些按钮可用
+            self.btn_load_cal.setEnabled(True)  # 始终可用，允许重新加载覆盖
+            has_cal = self._worker._table is not None
+            has_meas = bool(self._worker._meas_curves)
+            has_match = hasattr(self, '_match_results') and bool(self._match_results)
+            self.btn_load_meas.setEnabled(has_cal)
+            self.btn_match.setEnabled(has_cal and has_meas)
+            self.btn_evaluate.setEnabled(has_match)
+            self.btn_save_result.setEnabled(has_match)
+            self.btn_save_plot.setEnabled(has_match)
 
     def _plot_cal_curves(self):
         """绘制所有定标曲线概览。"""
@@ -420,19 +461,28 @@ class CalibrationPanel(QWidget):
         self._display_match_results()
 
     def _on_close_clicked(self):
-        """结束操作，重置状态。"""
-        self._log.append_log("定标流水线已结束", "INFO")
-        self._cal_dir = None
+        """结束操作，重置测量和匹配状态，保留定标数据。"""
+        self._log.append_log("定标流水线已重置（定标数据保留）", "INFO")
+        # 只清除测量和匹配状态，保留定标数据
         self._meas_dir = None
         self._pipeline_result = None
+        if hasattr(self, '_match_results'):
+            self._match_results = {}
+        # 清除 worker 中的测量数据和匹配结果，保留定标表
+        self._worker._meas_curves = []
+        self._worker._match_info = None
+        self._worker._all_results = []
+
+        has_cal = self._worker._table is not None
         self.btn_load_cal.setEnabled(True)
-        self.btn_load_meas.setEnabled(False)
+        self.btn_load_meas.setEnabled(has_cal)
         self.btn_match.setEnabled(False)
         self.btn_evaluate.setEnabled(False)
         self.btn_save_result.setEnabled(False)
         self.btn_save_plot.setEnabled(False)
-        self.cal_status.setText("定标: 未加载")
         self.meas_status.setText("测量: 未加载")
+        if not has_cal:
+            self.cal_status.setText("定标: 未加载")
         self.result_text.clear()
         self.chart.clear()
         self.chart.canvas.draw_idle()
