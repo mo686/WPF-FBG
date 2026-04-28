@@ -713,6 +713,7 @@ class CalibrationWorker(BaseWorker):
     meas_loaded = Signal(int)       # 测量曲线数量
     match_done = Signal(object)     # 匹配结果 dict
     evaluate_done = Signal(object)  # 求值结果 dict
+    optimize_done = Signal(object)  # 参数优化结果 dict
 
     def __init__(self, parent: Optional[QObject] = None):
         super().__init__(parent)
@@ -828,6 +829,7 @@ class CalibrationWorker(BaseWorker):
             signs = [("Δλ>0", "positive"), ("Δλ<0", "negative")]
 
             all_match_results = {}  # {sign_label: {mode: {info}}}
+            voltages = [v for v, _ in self._meas_curves]
 
             for sign_label, sign_key in signs:
                 sub_table = self._table.filter_by_sign(sign_key)
@@ -850,6 +852,9 @@ class CalibrationWorker(BaseWorker):
                         if mode == "fpeak_fit" and ar:
                             bi = max(range(len(ar)), key=lambda i: ar[i].rho)
                             best_dl = ar[bi].delta_lambda
+                        # 每个电压的 ρ 和 Δλ
+                        per_voltage_rho = [r.rho for r in ar]
+                        per_voltage_dl = [r.delta_lambda for r in ar]
                         all_match_results[sign_label][mode] = {
                             "best_voltage": bv,
                             "best_rho": brho,
@@ -857,6 +862,9 @@ class CalibrationWorker(BaseWorker):
                             "best_meas_curve": best_meas,
                             "best_cal_curve": best_cal,
                             "mode_name": mode_names[mode],
+                            "voltages": voltages,
+                            "per_voltage_rho": per_voltage_rho,
+                            "per_voltage_dl": per_voltage_dl,
                         }
                     except Exception as e:
                         logger.warning("匹配失败 %s/%s: %s", sign_label, mode, e)
@@ -866,6 +874,98 @@ class CalibrationWorker(BaseWorker):
         except Exception as exc:
             logger.error("曲线匹配失败: %s", exc)
             self.error_occurred.emit(f"曲线匹配失败: {exc}")
+        finally:
+            self.operation_finished.emit()
+
+    @Slot(float)
+    def run_optimize(self, target_dl: float, sign: str = "positive"):
+        """网格搜索最佳参数组合，使匹配结果最接近目标 Δλ。
+
+        搜索空间：
+        - corr_bandwidth: [0, 0.5, 1.0, 1.5, 2.0, 3.0, 5.0] GHz
+        - k_cand: [3, 5, 8, 10, 15]
+        - smooth_window: [3, 5, 7, 9, 11]
+        - match_mode: 四种方式
+
+        对每组参数运行匹配，记录最佳 Δλ 与目标的误差。
+        """
+        try:
+            from src.calibration_pipeline import find_best_voltage
+
+            if self._table is None:
+                self.error_occurred.emit("请先加载定标数据")
+                return
+            if not self._meas_curves:
+                self.error_occurred.emit("请先加载测量数据")
+                return
+
+            sub_table = self._table.filter_by_sign(sign)
+            if len(sub_table) == 0:
+                self.error_occurred.emit(f"定标表中无 {sign} Δλ 数据")
+                return
+
+            modes = ["correlation"]
+            mode_names = {
+                "correlation": "归一化互相关",
+            }
+            bw_list = [0.0, 0.5, 1.0, 1.5, 2.0, 3.0, 5.0]
+            k_list = [3, 5, 8, 10, 15]
+            sw_list = [3, 5, 7, 9, 11]
+
+            results = []  # list of dict
+            total = len(modes) * len(bw_list) * len(k_list) * len(sw_list)
+            count = 0
+
+            for mode in modes:
+                for bw in bw_list:
+                    for k in k_list:
+                        for sw in sw_list:
+                            count += 1
+                            try:
+                                bv, bci, brho, ar = find_best_voltage(
+                                    measured_curves=self._meas_curves,
+                                    table=sub_table,
+                                    k_cand=k,
+                                    smooth_window=sw,
+                                    corr_bandwidth=bw if bw > 0 else None,
+                                    match_mode=mode,
+                                )
+                                best_dl = sub_table.entries[bci].delta_lambda
+                                if mode == "fpeak_fit" and ar:
+                                    bi = max(range(len(ar)),
+                                             key=lambda i: ar[i].rho)
+                                    best_dl = ar[bi].delta_lambda
+                                error = abs(best_dl - target_dl)
+                                results.append({
+                                    "mode": mode,
+                                    "mode_name": mode_names[mode],
+                                    "corr_bandwidth": bw,
+                                    "k_cand": k,
+                                    "smooth_window": sw,
+                                    "best_voltage": bv,
+                                    "best_rho": brho,
+                                    "best_dl": best_dl,
+                                    "error": error,
+                                })
+                            except Exception:
+                                pass
+
+            if not results:
+                self.error_occurred.emit("参数优化失败：所有参数组合均无法完成匹配")
+                return
+
+            results.sort(key=lambda r: (r["error"], -r["best_rho"]))
+
+            self.optimize_done.emit({
+                "target_dl": target_dl,
+                "total_tried": total,
+                "total_valid": len(results),
+                "best": results[0],
+                "top10": results[:10],
+            })
+        except Exception as exc:
+            logger.error("参数优化失败: %s", exc)
+            self.error_occurred.emit(f"参数优化失败: {exc}")
         finally:
             self.operation_finished.emit()
 

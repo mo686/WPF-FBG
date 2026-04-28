@@ -2,11 +2,13 @@
 
 提供定标、测量、匹配、求值四步操作流程：
 1. 定标：加载定标 CSV 目录，构建定标映射表
-2. 测量：加载测量 CSV 目录
+2. 测量：加载测量 CSV 文件
 3. 匹配：将测量曲线与定标表匹配，找到最佳电压
 4. 求值：根据匹配结果计算温度
 
-嵌入 ChartWidget 显示匹配对比图和所有曲线。
+内含两个子页面：
+- 操作页：参数、按钮、结果文本、曲线对比图
+- 匹配分析页：四种匹配方式各自的 ρ-电压图 + 汇总图
 """
 
 import json
@@ -17,6 +19,7 @@ from typing import Optional
 import numpy as np
 from PySide6.QtCore import QThread, Signal, Slot
 from PySide6.QtWidgets import (
+    QComboBox,
     QDoubleSpinBox,
     QFileDialog,
     QFormLayout,
@@ -26,6 +29,7 @@ from PySide6.QtWidgets import (
     QMessageBox,
     QPushButton,
     QSpinBox,
+    QTabWidget,
     QTextEdit,
     QVBoxLayout,
     QWidget,
@@ -65,7 +69,26 @@ class CalibrationPanel(QWidget):
     # ==================================================================
 
     def _init_ui(self):
-        main_layout = QHBoxLayout(self)
+        outer = QVBoxLayout(self)
+
+        # 内部子页签
+        self._sub_tabs = QTabWidget()
+        outer.addWidget(self._sub_tabs)
+
+        # --- 子页面 1：操作 ---
+        op_page = QWidget()
+        self._init_operation_page(op_page)
+        self._sub_tabs.addTab(op_page, "操作")
+
+        # --- 子页面 2：匹配分析 ---
+        analysis_page = QWidget()
+        self._init_analysis_page(analysis_page)
+        self._sub_tabs.addTab(analysis_page, "匹配分析")
+
+    # ------------------------------------------------------------------
+
+    def _init_operation_page(self, page: QWidget):
+        main_layout = QHBoxLayout(page)
 
         # --- 左侧：参数 + 按钮 + 结果 ---
         left = QVBoxLayout()
@@ -124,6 +147,7 @@ class CalibrationPanel(QWidget):
         self.btn_load_meas = QPushButton("② 测量 — 加载测量数据")
         self.btn_match = QPushButton("③ 匹配（四种方式 × 正/负）")
         self.btn_evaluate = QPushButton("④ 求值 — 计算温度")
+        self.btn_optimize = QPushButton("⑤ 参数寻优")
         self.btn_save_result = QPushButton("保存结果 CSV")
         self.btn_save_plot = QPushButton("保存对比图")
         self.btn_close = QPushButton("结束")
@@ -131,13 +155,29 @@ class CalibrationPanel(QWidget):
         self.btn_load_meas.setEnabled(False)
         self.btn_match.setEnabled(False)
         self.btn_evaluate.setEnabled(False)
+        self.btn_optimize.setEnabled(False)
         self.btn_save_result.setEnabled(False)
         self.btn_save_plot.setEnabled(False)
 
+        # 目标 Δλ 输入（用于参数寻优）
+        opt_row = QHBoxLayout()
+        opt_row.addWidget(QLabel("目标 Δλ:"))
+        self.target_dl_input = QDoubleSpinBox()
+        self.target_dl_input.setRange(-200.0, 200.0)
+        self.target_dl_input.setDecimals(1)
+        self.target_dl_input.setValue(38.0)
+        self.target_dl_input.setSuffix(" pm")
+        opt_row.addWidget(self.target_dl_input)
+
         for btn in (
             self.btn_load_cal, self.btn_load_meas, self.btn_match,
-            self.btn_evaluate, self.btn_save_result, self.btn_save_plot,
-            self.btn_close,
+            self.btn_evaluate,
+        ):
+            btn_layout.addWidget(btn)
+        btn_layout.addLayout(opt_row)
+        btn_layout.addWidget(self.btn_optimize)
+        for btn in (
+            self.btn_save_result, self.btn_save_plot, self.btn_close,
         ):
             btn_layout.addWidget(btn)
 
@@ -145,12 +185,30 @@ class CalibrationPanel(QWidget):
         left.addWidget(btn_group)
 
         # 正/负显示切换
-        from PySide6.QtWidgets import QComboBox
         self.sign_combo = QComboBox()
         self.sign_combo.addItems(["Δλ > 0（升温）", "Δλ < 0（降温）"])
         self.sign_combo.currentIndexChanged.connect(self._on_sign_changed)
         left.addWidget(QLabel("显示组:"))
         left.addWidget(self.sign_combo)
+
+        # 匹配方式显示选择
+        from PySide6.QtWidgets import QCheckBox
+        mode_group = QGroupBox("显示方式")
+        mode_layout = QVBoxLayout()
+        self._mode_checks = {}
+        for key, label in [
+            ("correlation", "归一化互相关"),
+            ("fpeak_nearest", "fpeak最近邻"),
+            ("normalized_shape", "归一化形状"),
+            ("fpeak_fit", "洛伦兹拟合"),
+        ]:
+            cb = QCheckBox(label)
+            cb.setChecked(True)
+            cb.stateChanged.connect(self._on_mode_filter_changed)
+            mode_layout.addWidget(cb)
+            self._mode_checks[key] = cb
+        mode_group.setLayout(mode_layout)
+        left.addWidget(mode_group)
 
         # 状态标签
         self.cal_status = QLabel("定标: 未加载")
@@ -171,7 +229,7 @@ class CalibrationPanel(QWidget):
         left.addStretch()
         main_layout.addLayout(left)
 
-        # --- 右侧：图表 ---
+        # --- 右侧：主图表（定标曲线 / 最佳匹配对比）---
         self.chart = ChartWidget()
         main_layout.addWidget(self.chart, stretch=1)
 
@@ -180,9 +238,32 @@ class CalibrationPanel(QWidget):
         self.btn_load_meas.clicked.connect(self._on_load_meas_clicked)
         self.btn_match.clicked.connect(self._on_match_clicked)
         self.btn_evaluate.clicked.connect(self._on_evaluate_clicked)
+        self.btn_optimize.clicked.connect(self._on_optimize_clicked)
         self.btn_save_result.clicked.connect(self._on_save_result_clicked)
         self.btn_save_plot.clicked.connect(self._on_save_plot_clicked)
         self.btn_close.clicked.connect(self._on_close_clicked)
+
+    # ------------------------------------------------------------------
+
+    def _init_analysis_page(self, page: QWidget):
+        layout = QVBoxLayout(page)
+
+        # 正/负切换（与操作页联动）
+        top_bar = QHBoxLayout()
+        top_bar.addWidget(QLabel("显示组:"))
+        self.analysis_sign_combo = QComboBox()
+        self.analysis_sign_combo.addItems(["Δλ > 0（升温）", "Δλ < 0（降温）"])
+        self.analysis_sign_combo.currentIndexChanged.connect(
+            self._on_analysis_sign_changed
+        )
+        top_bar.addWidget(self.analysis_sign_combo)
+        top_bar.addStretch()
+        layout.addLayout(top_bar)
+
+        # 五张图：四种方式各一张 ρ-电压图 + 一张汇总图
+        # 用一个 ChartWidget 承载 3×2 子图
+        self.analysis_chart = ChartWidget()
+        layout.addWidget(self.analysis_chart, stretch=1)
 
     # ==================================================================
     # Worker / Thread 初始化
@@ -197,6 +278,7 @@ class CalibrationPanel(QWidget):
         self._worker.meas_loaded.connect(self._on_meas_loaded)
         self._worker.match_done.connect(self._on_match_done)
         self._worker.evaluate_done.connect(self._on_evaluate_done)
+        self._worker.optimize_done.connect(self._on_optimize_done)
         self._worker.error_occurred.connect(self._on_error)
         self._worker.operation_finished.connect(self._on_operation_finished)
 
@@ -207,7 +289,6 @@ class CalibrationPanel(QWidget):
     # ==================================================================
 
     def _save_last_cal_dir(self, directory: str) -> None:
-        """将定标目录路径保存到配置文件。"""
         try:
             os.makedirs(os.path.dirname(_CAL_CONFIG_PATH), exist_ok=True)
             with open(_CAL_CONFIG_PATH, "w", encoding="utf-8") as f:
@@ -216,7 +297,6 @@ class CalibrationPanel(QWidget):
             logger.debug("保存定标目录配置失败: %s", exc)
 
     def _load_last_cal_dir(self) -> Optional[str]:
-        """从配置文件读取上次的定标目录路径。"""
         try:
             with open(_CAL_CONFIG_PATH, "r", encoding="utf-8") as f:
                 data = json.load(f)
@@ -228,7 +308,6 @@ class CalibrationPanel(QWidget):
         return None
 
     def _auto_load_last_cal(self) -> None:
-        """启动时自动加载上次使用的定标数据。"""
         last_dir = self._load_last_cal_dir()
         if last_dir:
             self._cal_dir = last_dir
@@ -251,7 +330,6 @@ class CalibrationPanel(QWidget):
         self._worker.load_calibration(directory, self.smooth_input.value())
 
     def _on_load_meas_clicked(self):
-        """加载测量数据 — 单个合并 CSV 文件（电压扫描导出）。"""
         filepath, _ = QFileDialog.getOpenFileName(
             self, "选择测量 CSV 文件", "", "CSV 文件 (*.csv)"
         )
@@ -267,6 +345,18 @@ class CalibrationPanel(QWidget):
             k_cand=self.k_cand_input.value(),
             smooth_window=self.smooth_input.value(),
             corr_bandwidth=corr_bw if corr_bw > 0 else None,
+        )
+
+    def _on_optimize_clicked(self):
+        self._set_busy(True)
+        sign = "positive" if self.sign_combo.currentIndex() == 0 else "negative"
+        self._log.append_log(
+            f"开始参数寻优，目标 Δλ={self.target_dl_input.value():.1f}pm ...",
+            "INFO",
+        )
+        self._worker.run_optimize(
+            target_dl=self.target_dl_input.value(),
+            sign=sign,
         )
 
     def _on_evaluate_clicked(self):
@@ -310,15 +400,12 @@ class CalibrationPanel(QWidget):
         self.cal_status.setText(f"定标: 已加载 {count} 条曲线")
         self.btn_load_cal.setEnabled(True)
         self._log.append_log(f"定标数据加载完成，共 {count} 条曲线", "INFO")
-        # 保存目录供下次自动加载
         if self._cal_dir:
             self._save_last_cal_dir(self._cal_dir)
-        # 重新加载定标后，清除之前的匹配结果（因为定标表变了）
         if hasattr(self, '_match_results'):
             self._match_results = {}
         self._pipeline_result = None
         self.result_text.clear()
-        self._plot_cal_curves()
         self._plot_cal_curves()
 
     @Slot(int)
@@ -334,7 +421,6 @@ class CalibrationPanel(QWidget):
 
     @Slot(object)
     def _on_evaluate_done(self, eval_result: dict):
-        self.btn_save_plot.setEnabled(True)
         self._pipeline_result = eval_result
         self.result_text.setPlainText(
             f"求值结果\n"
@@ -348,6 +434,48 @@ class CalibrationPanel(QWidget):
         self._log.append_log(
             f"求值完成: T={eval_result['temperature']:.2f}°C, "
             f"λ_FBG={eval_result['lambda_fbg']:.3f}nm",
+            "INFO",
+        )
+
+    @Slot(object)
+    def _on_optimize_done(self, result: dict):
+        best = result["best"]
+        top10 = result["top10"]
+        target = result["target_dl"]
+
+        # 将最佳参数自动填入 UI
+        self.k_cand_input.setValue(best["k_cand"])
+        self.smooth_input.setValue(best["smooth_window"])
+        self.corr_bw_input.setValue(best["corr_bandwidth"])
+
+        # 显示结果
+        lines = [
+            f"=== 参数寻优完成 ===",
+            f"目标 Δλ: {target:.1f} pm",
+            f"搜索组合: {result['total_tried']}，有效: {result['total_valid']}",
+            f"",
+            f"最佳参数（已自动填入）:",
+            f"  方式: {best['mode_name']}",
+            f"  带宽: {best['corr_bandwidth']:.1f} GHz",
+            f"  候选数 K: {best['k_cand']}",
+            f"  平滑窗口: {best['smooth_window']}",
+            f"  → Δλ={best['best_dl']:.2f}pm  "
+            f"误差={best['error']:.2f}pm  ρ={best['best_rho']:.4f}",
+            f"",
+            f"--- Top 10 ---",
+        ]
+        for i, r in enumerate(top10):
+            lines.append(
+                f"{i+1}. {r['mode_name']}  "
+                f"bw={r['corr_bandwidth']:.1f}  K={r['k_cand']}  "
+                f"sw={r['smooth_window']}  "
+                f"→ Δλ={r['best_dl']:.1f}pm  "
+                f"err={r['error']:.1f}  ρ={r['best_rho']:.4f}"
+            )
+        self.result_text.setPlainText("\n".join(lines))
+        self._log.append_log(
+            f"参数寻优完成: 最佳 {best['mode_name']} "
+            f"Δλ={best['best_dl']:.1f}pm (误差 {best['error']:.1f}pm)",
             "INFO",
         )
 
@@ -367,23 +495,25 @@ class CalibrationPanel(QWidget):
     def _set_busy(self, busy: bool):
         if busy:
             for btn in (
-                self.btn_load_cal,
-                self.btn_load_meas,
-                self.btn_match,
-                self.btn_evaluate,
+                self.btn_load_cal, self.btn_load_meas,
+                self.btn_match, self.btn_evaluate, self.btn_optimize,
             ):
                 btn.setEnabled(False)
         else:
-            # 恢复按钮状态：根据已加载的数据决定哪些按钮可用
-            self.btn_load_cal.setEnabled(True)  # 始终可用，允许重新加载覆盖
+            self.btn_load_cal.setEnabled(True)
             has_cal = self._worker._table is not None
             has_meas = bool(self._worker._meas_curves)
             has_match = hasattr(self, '_match_results') and bool(self._match_results)
             self.btn_load_meas.setEnabled(has_cal)
             self.btn_match.setEnabled(has_cal and has_meas)
+            self.btn_optimize.setEnabled(has_cal and has_meas)
             self.btn_evaluate.setEnabled(has_match)
             self.btn_save_result.setEnabled(has_match)
             self.btn_save_plot.setEnabled(has_match)
+
+    # ------------------------------------------------------------------
+    # 操作页绘图
+    # ------------------------------------------------------------------
 
     def _plot_cal_curves(self):
         """绘制所有定标曲线概览。"""
@@ -394,55 +524,216 @@ class CalibrationPanel(QWidget):
         ax = self.chart.figure.add_subplot(111)
         for dl, curve in cal_curves:
             ax.plot(curve.frequency, curve.magnitude, linewidth=0.8,
-                    alpha=0.7, label=f"Δλ={dl:.0f}pm")
+                    alpha=0.7)
         ax.set_xlabel("频率 (GHz)")
         ax.set_ylabel("幅度 (dB)")
         ax.set_title("定标曲线集")
-        if len(cal_curves) <= 10:
-            ax.legend(fontsize=7, loc="upper right")
         ax.grid(True, alpha=0.3)
         self.chart.ax = ax
         self.chart.figure.tight_layout()
         self.chart.canvas.draw_idle()
 
-    def _plot_match_comparison(self, match_info: dict):
-        """绘制最佳匹配对比图。"""
-        meas_curve = match_info.get("best_meas_curve")
-        cal_curve = match_info.get("best_cal_curve")
-        if meas_curve is None or cal_curve is None:
+    def _plot_best_match(self, sign_data: dict):
+        """在操作页绘制最佳匹配曲线对比。
+
+        - 1 种方式：单张图占满
+        - 2-4 种方式：2×2 子图
+        """
+        self.chart.figure.clear()
+        modes = list(sign_data.keys())
+        n = len(modes)
+        if n == 0:
+            self.chart.canvas.draw_idle()
             return
 
-        self.chart.figure.clear()
-        ax = self.chart.figure.add_subplot(111)
-        ax.plot(meas_curve.frequency, meas_curve.magnitude,
-                color="tab:blue", linewidth=1,
-                label=f"实测 (V={match_info['best_voltage']:.2f}V)")
-        ax.plot(cal_curve.frequency, cal_curve.magnitude,
-                color="tab:red", linestyle="--", linewidth=1,
-                label=f"定标 (Δλ={match_info['best_delta_lambda']:.0f}pm)")
-        ax.set_xlabel("频率 (GHz)")
-        ax.set_ylabel("幅度 (dB)")
-        ax.set_title(f"曲线匹配对比  ρ={match_info['best_rho']:.4f}")
-        ax.legend()
-        ax.grid(True, alpha=0.3)
-        self.chart.ax = ax
+        if n == 1:
+            mode = modes[0]
+            info = sign_data[mode]
+            ax = self.chart.figure.add_subplot(111)
+            meas = info.get("best_meas_curve")
+            cal = info.get("best_cal_curve")
+            if meas is not None:
+                ax.plot(meas.frequency, meas.magnitude, "b-", linewidth=1,
+                        label=f"实测 V={info['best_voltage']:.2f}V")
+            if cal is not None:
+                ax.plot(cal.frequency, cal.magnitude, "r--", linewidth=1,
+                        label=f"定标 Δλ={info['best_delta_lambda']:.0f}pm")
+            ax.set_title(
+                f"{info['mode_name']}  ρ={info['best_rho']:.4f}", fontsize=11
+            )
+            ax.set_xlabel("频率 (GHz)", fontsize=10)
+            ax.set_ylabel("幅度 (dB)", fontsize=10)
+            ax.legend(fontsize=9)
+            ax.grid(True, alpha=0.3)
+        else:
+            rows = 2 if n > 2 else 1
+            cols = 2 if n > 1 else 1
+            for i, mode in enumerate(modes):
+                info = sign_data[mode]
+                ax = self.chart.figure.add_subplot(rows, cols, i + 1)
+                meas = info.get("best_meas_curve")
+                cal = info.get("best_cal_curve")
+                if meas is not None:
+                    ax.plot(meas.frequency, meas.magnitude, "b-", linewidth=0.8,
+                            label=f"实测 V={info['best_voltage']:.2f}V")
+                if cal is not None:
+                    ax.plot(cal.frequency, cal.magnitude, "r--", linewidth=0.8,
+                            label=f"定标 Δλ={info['best_delta_lambda']:.0f}pm")
+                ax.set_title(
+                    f"{info['mode_name']}  ρ={info['best_rho']:.3f}", fontsize=9
+                )
+                ax.set_xlabel("频率 (GHz)", fontsize=8)
+                ax.set_ylabel("幅度 (dB)", fontsize=8)
+                ax.legend(fontsize=6)
+                ax.grid(True, alpha=0.3)
+                ax.tick_params(labelsize=7)
+
+        self.chart.ax = (
+            self.chart.figure.axes[0] if self.chart.figure.axes else None
+        )
         self.chart.figure.tight_layout()
         self.chart.canvas.draw_idle()
 
-    # ==================================================================
-    # 清理
-    # ==================================================================
+    # ------------------------------------------------------------------
+    # 匹配分析页绘图
+    # ------------------------------------------------------------------
+
+    def _plot_analysis(self, sign_data: dict):
+        """在匹配分析页绘制 ρ-电压图。
+
+        - 1 种方式：单张图占满
+        - 2-4 种方式：各自独立子图 + 底部汇总图
+        """
+        fig = self.analysis_chart.figure
+        fig.clear()
+        modes = list(sign_data.keys())
+        n = len(modes)
+        if n == 0:
+            self.analysis_chart.canvas.draw_idle()
+            return
+
+        colors = ["tab:blue", "tab:orange", "tab:green", "tab:red"]
+        markers = ["o", "s", "^", "D"]
+
+        if n == 1:
+            # 单种方式：一张图占满
+            mode = modes[0]
+            info = sign_data[mode]
+            ax = fig.add_subplot(111)
+            voltages = info.get("voltages", [])
+            rhos = info.get("per_voltage_rho", [])
+            if voltages and rhos:
+                ax.plot(voltages, rhos, color=colors[0],
+                        marker=markers[0], markersize=5, linewidth=1.2)
+                best_v = info["best_voltage"]
+                best_rho = info["best_rho"]
+                ax.axvline(best_v, color="gray", linestyle=":", linewidth=0.8)
+                ax.plot(best_v, best_rho, marker="*", markersize=14,
+                        color=colors[0], zorder=5)
+                ax.annotate(
+                    f"V={best_v:.2f}V\nΔλ={info['best_delta_lambda']:.0f}pm\nρ={best_rho:.4f}",
+                    xy=(best_v, best_rho),
+                    xytext=(12, -15), textcoords="offset points",
+                    fontsize=9, color=colors[0],
+                )
+            ax.set_xlabel("电压 (V)", fontsize=10)
+            ax.set_ylabel("互相关系数 ρ", fontsize=10)
+            ax.set_title(f"{info['mode_name']}  ρ 随电压变化（★ = 最佳匹配点）",
+                         fontsize=11)
+            ax.grid(True, alpha=0.3)
+        else:
+            # 多种方式：上方各自子图 + 底部汇总
+            rows = 3 if n > 2 else 2
+            cols = 2
+
+            for i, mode in enumerate(modes):
+                info = sign_data[mode]
+                ax = fig.add_subplot(rows, cols, i + 1)
+                voltages = info.get("voltages", [])
+                rhos = info.get("per_voltage_rho", [])
+                if voltages and rhos:
+                    ax.plot(voltages, rhos,
+                            color=colors[i % len(colors)],
+                            marker=markers[i % len(markers)],
+                            markersize=4, linewidth=1)
+                    best_v = info["best_voltage"]
+                    best_rho = info["best_rho"]
+                    ax.axvline(best_v, color="gray", linestyle=":", linewidth=0.8)
+                    ax.plot(best_v, best_rho, marker="*", markersize=12,
+                            color=colors[i % len(colors)], zorder=5)
+                    ax.annotate(
+                        f"V={best_v:.2f}\nΔλ={info['best_delta_lambda']:.0f}pm",
+                        xy=(best_v, best_rho),
+                        xytext=(8, -10), textcoords="offset points",
+                        fontsize=7, color=colors[i % len(colors)],
+                    )
+                ax.set_title(f"{info['mode_name']}", fontsize=9)
+                ax.set_xlabel("电压 (V)", fontsize=8)
+                ax.set_ylabel("ρ", fontsize=8)
+                ax.grid(True, alpha=0.3)
+                ax.tick_params(labelsize=7)
+
+            # 汇总图
+            ax_sum = fig.add_subplot(rows, 1, rows)
+            for i, mode in enumerate(modes):
+                info = sign_data[mode]
+                voltages = info.get("voltages", [])
+                rhos = info.get("per_voltage_rho", [])
+                if voltages and rhos:
+                    ax_sum.plot(voltages, rhos,
+                                color=colors[i % len(colors)],
+                                marker=markers[i % len(markers)],
+                                markersize=4, linewidth=1,
+                                label=info["mode_name"])
+                    best_v = info["best_voltage"]
+                    best_rho = info["best_rho"]
+                    ax_sum.plot(best_v, best_rho, marker="*", markersize=10,
+                                color=colors[i % len(colors)], zorder=5)
+            ax_sum.set_xlabel("电压 (V)", fontsize=9)
+            ax_sum.set_ylabel("互相关系数 ρ", fontsize=9)
+            ax_sum.set_title("各匹配方式 ρ 随电压变化（★ = 最佳匹配点）", fontsize=9)
+            ax_sum.legend(fontsize=7, loc="lower right")
+            ax_sum.grid(True, alpha=0.3)
+            ax_sum.tick_params(labelsize=7)
+
+        self.analysis_chart.ax = fig.axes[0] if fig.axes else None
+        fig.tight_layout()
+        self.analysis_chart.canvas.draw_idle()
+
+    # ------------------------------------------------------------------
+    # 显示 / 切换
+    # ------------------------------------------------------------------
+
+    def _get_current_sign_key(self) -> str:
+        return "Δλ>0" if self.sign_combo.currentIndex() == 0 else "Δλ<0"
+
+    def _get_visible_modes(self) -> set:
+        """返回当前勾选的匹配方式 key 集合。"""
+        return {k for k, cb in self._mode_checks.items() if cb.isChecked()}
+
+    def _filter_sign_data(self, sign_data: dict) -> dict:
+        """按勾选的方式过滤 sign_data。"""
+        visible = self._get_visible_modes()
+        return {k: v for k, v in sign_data.items() if k in visible}
+
+    def _on_mode_filter_changed(self, _state: int):
+        """勾选变化时刷新图表。"""
+        self._display_match_results()
 
     def _display_match_results(self):
-        """显示当前选中正/负组的四种匹配结果。"""
+        """显示当前选中正/负组的匹配结果，更新两个页面。"""
         if not hasattr(self, '_match_results') or not self._match_results:
             return
-        sign_key = "Δλ>0" if self.sign_combo.currentIndex() == 0 else "Δλ<0"
+        sign_key = self._get_current_sign_key()
         sign_data = self._match_results.get(sign_key, {})
         if not sign_data:
             self.result_text.setPlainText(f"{sign_key} 组无匹配结果")
             return
 
+        # 按勾选过滤
+        filtered = self._filter_sign_data(sign_data)
+
+        # 文本结果（显示所有，不过滤）
         lines = [f"=== {sign_key} 匹配结果 ===\n"]
         for mode, info in sign_data.items():
             lines.append(
@@ -453,22 +744,34 @@ class CalibrationPanel(QWidget):
             )
         self.result_text.setPlainText("".join(lines))
 
-        # 绘制四种方式的对比图
-        self._plot_all_modes(sign_data)
+        # 操作页：曲线对比（按勾选过滤）
+        self._plot_best_match(filtered)
+        # 分析页：ρ vs 电压（按勾选过滤）
+        self._plot_analysis(filtered)
 
-    def _on_sign_changed(self, _index: int):
-        """切换正/负显示。"""
+    def _on_sign_changed(self, index: int):
+        self.analysis_sign_combo.blockSignals(True)
+        self.analysis_sign_combo.setCurrentIndex(index)
+        self.analysis_sign_combo.blockSignals(False)
         self._display_match_results()
+
+    def _on_analysis_sign_changed(self, index: int):
+        self.sign_combo.blockSignals(True)
+        self.sign_combo.setCurrentIndex(index)
+        self.sign_combo.blockSignals(False)
+        self._display_match_results()
+
+    # ------------------------------------------------------------------
+    # 重置
+    # ------------------------------------------------------------------
 
     def _on_close_clicked(self):
         """结束操作，重置测量和匹配状态，保留定标数据。"""
         self._log.append_log("定标流水线已重置（定标数据保留）", "INFO")
-        # 只清除测量和匹配状态，保留定标数据
         self._meas_dir = None
         self._pipeline_result = None
         if hasattr(self, '_match_results'):
             self._match_results = {}
-        # 清除 worker 中的测量数据和匹配结果，保留定标表
         self._worker._meas_curves = []
         self._worker._match_info = None
         self._worker._all_results = []
@@ -486,39 +789,12 @@ class CalibrationPanel(QWidget):
         self.result_text.clear()
         self.chart.clear()
         self.chart.canvas.draw_idle()
+        self.analysis_chart.figure.clear()
+        self.analysis_chart.canvas.draw_idle()
 
-    def _plot_all_modes(self, sign_data: dict):
-        """绘制四种匹配方式的对比图（2×2 子图）。"""
-        self.chart.figure.clear()
-        modes = list(sign_data.keys())
-        n = len(modes)
-        if n == 0:
-            self.chart.canvas.draw_idle()
-            return
-        rows = 2 if n > 2 else 1
-        cols = 2 if n > 1 else 1
-
-        for i, mode in enumerate(modes):
-            info = sign_data[mode]
-            ax = self.chart.figure.add_subplot(rows, cols, i + 1)
-            meas = info.get("best_meas_curve")
-            cal = info.get("best_cal_curve")
-            if meas is not None:
-                ax.plot(meas.frequency, meas.magnitude, "b-", linewidth=0.8,
-                        label=f"实测 V={info['best_voltage']:.2f}V")
-            if cal is not None:
-                ax.plot(cal.frequency, cal.magnitude, "r--", linewidth=0.8,
-                        label=f"定标 Δλ={info['best_delta_lambda']:.0f}pm")
-            ax.set_title(f"{info['mode_name']}  ρ={info['best_rho']:.3f}", fontsize=9)
-            ax.set_xlabel("频率 (GHz)", fontsize=8)
-            ax.set_ylabel("幅度 (dB)", fontsize=8)
-            ax.legend(fontsize=6)
-            ax.grid(True, alpha=0.3)
-            ax.tick_params(labelsize=7)
-
-        self.chart.ax = self.chart.figure.axes[0] if self.chart.figure.axes else None
-        self.chart.figure.tight_layout()
-        self.chart.canvas.draw_idle()
+    # ==================================================================
+    # 清理
+    # ==================================================================
 
     def cleanup(self):
         if self._thread.isRunning():
