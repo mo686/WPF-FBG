@@ -90,8 +90,15 @@ class CalibrationPanel(QWidget):
     def _init_operation_page(self, page: QWidget):
         main_layout = QHBoxLayout(page)
 
-        # --- 左侧：参数 + 按钮 + 结果 ---
-        left = QVBoxLayout()
+        # --- 左侧：参数 + 按钮 + 结果（可滚动）---
+        from PySide6.QtWidgets import QScrollArea
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setMinimumWidth(240)
+        scroll.setMaximumWidth(280)
+
+        left_widget = QWidget()
+        left = QVBoxLayout(left_widget)
 
         # 参数组
         param_group = QGroupBox("流水线参数")
@@ -117,6 +124,14 @@ class CalibrationPanel(QWidget):
         self.lambda_ref_input.setValue(1550.0)
         self.lambda_ref_input.setSuffix(" nm")
         form.addRow("参考波长 λ_ref:", self.lambda_ref_input)
+
+        self.lambda_meas_input = QDoubleSpinBox()
+        self.lambda_meas_input.setRange(0.0, 2000.0)
+        self.lambda_meas_input.setDecimals(3)
+        self.lambda_meas_input.setValue(0.0)
+        self.lambda_meas_input.setSuffix(" nm")
+        self.lambda_meas_input.setSpecialValueText("同 λ_ref")
+        form.addRow("测量波长 λ_meas:", self.lambda_meas_input)
 
         self.k_cand_input = QSpinBox()
         self.k_cand_input.setRange(1, 20)
@@ -227,7 +242,8 @@ class CalibrationPanel(QWidget):
         left.addWidget(result_group)
 
         left.addStretch()
-        main_layout.addLayout(left)
+        scroll.setWidget(left_widget)
+        main_layout.addWidget(scroll)
 
         # --- 右侧：主图表（定标曲线 / 最佳匹配对比）---
         self.chart = ChartWidget()
@@ -365,6 +381,7 @@ class CalibrationPanel(QWidget):
             alpha=self.alpha_input.value(),
             t0=self.t0_input.value(),
             lambda_ref=self.lambda_ref_input.value(),
+            lambda_meas=self.lambda_meas_input.value(),
         )
 
     def _on_save_result_clicked(self):

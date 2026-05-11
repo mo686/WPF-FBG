@@ -969,8 +969,8 @@ class CalibrationWorker(BaseWorker):
         finally:
             self.operation_finished.emit()
 
-    @Slot(float, float, float)
-    def run_evaluate(self, alpha: float = 9.08, t0: float = 20.0, lambda_ref: float = 1550.0):
+    @Slot(float, float, float, float)
+    def run_evaluate(self, alpha: float = 9.08, t0: float = 20.0, lambda_ref: float = 1550.0, lambda_meas: float = 0.0):
         """根据匹配结果计算温度。"""
         try:
             from src.calibration_pipeline import calculate_temperature
@@ -979,18 +979,35 @@ class CalibrationWorker(BaseWorker):
                 self.error_occurred.emit("请先执行匹配")
                 return
 
-            delta_lambda = self._match_info["best_delta_lambda"]
+            # 从 all_match_results 中找到全局最佳匹配（ρ最大）
+            all_results = self._match_info.get("all_match_results", {})
+            best_info = None
+            best_rho = -1.0
+            for sign_label, modes in all_results.items():
+                for mode, info in modes.items():
+                    if info["best_rho"] > best_rho:
+                        best_rho = info["best_rho"]
+                        best_info = info
+
+            if best_info is None:
+                self.error_occurred.emit("未找到有效匹配结果")
+                return
+
+            delta_lambda = best_info["best_delta_lambda"]
+            # lambda_meas=0 表示未指定，视为等于 lambda_ref
+            actual_lambda_meas = lambda_meas if lambda_meas > 0 else None
             temp_result = calculate_temperature(
                 delta_lambda=delta_lambda,
                 lambda_ref=lambda_ref,
+                lambda_meas=actual_lambda_meas,
                 alpha=alpha,
                 t0=t0,
             )
 
             eval_result = {
-                "best_voltage": self._match_info["best_voltage"],
-                "rho_max": self._match_info["best_rho"],
-                "delta_lambda": delta_lambda,
+                "best_voltage": best_info["best_voltage"],
+                "rho_max": best_info["best_rho"],
+                "delta_lambda": temp_result["delta_lambda"],
                 "lambda_fbg": temp_result["lambda_fbg"],
                 "delta_t": temp_result["delta_t"],
                 "temperature": temp_result["temperature"],

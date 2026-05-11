@@ -643,27 +643,43 @@ def find_best_voltage(
 def calculate_temperature(
     delta_lambda: float,
     lambda_ref: float = 1550.0,
+    lambda_meas: float | None = None,
     alpha: float = 9.08,
     t0: float = 20.0,
 ) -> dict:
     """
     根据波长偏移计算温度。
 
-    λ_FBG = λ_ref + Δλ/1000（pm 转 nm）
-    ΔT = Δλ / α
+    Δλ* = (λ_meas - λ_ref) * 1000 + Δλ_k   (pm)
+    当 λ_meas = λ_ref 时，Δλ* = Δλ_k
+
+    λ_FBG = λ_ref + Δλ*/1000（pm 转 nm）
+    ΔT = Δλ* / α
     T = T0 + ΔT
+
+    Parameters:
+        delta_lambda: Δλ_k, 匹配到的定标曲线对应的波长偏移 (pm)
+        lambda_ref: 定标参考波长 (nm)
+        lambda_meas: 测量时激光器实际波长 (nm)，为 None 时视为等于 lambda_ref
+        alpha: FBG 温度灵敏度系数 (pm/°C)
+        t0: 基准温度 (°C)
 
     Returns:
         {'lambda_fbg': float, 'delta_lambda': float,
          'delta_t': float, 'temperature': float}
     """
-    lambda_fbg = lambda_ref + delta_lambda / 1000.0
-    delta_t = delta_lambda / alpha
+    # Δλ* = (λ_meas - λ_ref) + Δλ_k
+    if lambda_meas is None:
+        lambda_meas = lambda_ref
+    delta_lambda_star = (lambda_meas - lambda_ref) * 1000.0 + delta_lambda
+
+    lambda_fbg = lambda_ref + delta_lambda_star / 1000.0
+    delta_t = delta_lambda_star / alpha
     temperature = t0 + delta_t
 
     return {
         "lambda_fbg": lambda_fbg,
-        "delta_lambda": delta_lambda,
+        "delta_lambda": delta_lambda_star,
         "delta_t": delta_t,
         "temperature": temperature,
     }
