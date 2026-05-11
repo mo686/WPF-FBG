@@ -1,0 +1,61 @@
+{
+  "description": "FBG temperature sensitivity calibration",
+  "date": "2026-04-19",
+  "temperature_range_C": [
+    20,
+    50
+  ],
+  "method": "Gaussian fit + linear regression",
+  "sensitivity_pm_per_C": 10.6163,
+  "sensitivity_uncertainty_pm_per_C": 0.1435,
+  "reference_wavelength_nm_at_25C": 1551.843249,
+  "lambda_0_nm": 1551.577842,
+  "R_squared": 0.9990867,
+  "max_residual_pm": 5.7745,
+  "rms_residual_pm": 3.2098,
+  "temperature_resolution_C": 0.3023,
+  "calibration_data": [
+    {
+      "temperature_C": 20,
+      "bragg_wavelength_nm": 1551.794692,
+      "wavelength_std_nm": 0.0001,
+      "residual_pm": 4.5249
+    },
+    {
+      "temperature_C": 25,
+      "bragg_wavelength_nm": 1551.840321,
+      "wavelength_std_nm": 0.000749,
+      "residual_pm": -2.9274
+    },
+    {
+      "temperature_C": 30,
+      "bragg_wavelength_nm": 1551.890555,
+      "wavelength_std_nm": 0.000197,
+      "residual_pm": -5.7745
+    },
+    {
+      "temperature_C": 35,
+      "bragg_wavelength_nm": 1551.951694,
+      "wavelength_std_nm": 0.000894,
+      "residual_pm": 2.2829
+    },
+    {
+      "temperature_C": 40,
+      "bragg_wavelength_nm": 1552.003525,
+      "wavelength_std_nm": 0.000279,
+      "residual_pm": 1.0326
+    },
+    {
+      "temperature_C": 45,
+      "bragg_wavelength_nm": 1552.057246,
+      "wavelength_std_nm": 0.000131,
+      "residual_pm": 1.672
+    },
+    {
+      "temperature_C": 50,
+      "bragg_wavelength_nm": 1552.107845,
+      "wavelength_std_nm": 0.000769,
+      "residual_pm": -0.8105
+    }
+  ]
+}

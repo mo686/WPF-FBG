@@ -15,6 +15,13 @@ from src.ui.main_window import MainWindow
 
 def main():
     app = QApplication(sys.argv)
+
+    # 加载全局样式表
+    qss_path = os.path.join(os.path.dirname(__file__), "styles", "theme.qss")
+    if os.path.isfile(qss_path):
+        with open(qss_path, "r", encoding="utf-8") as f:
+            app.setStyleSheet(f.read())
+
     window = MainWindow()
     window.show()
     sys.exit(app.exec())

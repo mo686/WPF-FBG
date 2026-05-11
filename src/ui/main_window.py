@@ -57,7 +57,7 @@ class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("光电实验室仪器控制系统")
+        self.setWindowTitle("光电仪器控制与自动化测试系统")
         self.resize(1280, 800)
 
         # 共享服务
