@@ -416,10 +416,9 @@ class VoltageScanPanel(QWidget):
                     ax.plot(wl, pw, color=colors[i], linewidth=1, label=f"{voltage:.3f}V ({power:.4f}W)")
         ax.set_xlabel("Wavelength (nm)")
         ax.set_ylabel("Insertion Loss (dB)")
-        ax.set_title("电压扫描插损汇总")
+        ax.set_title("Voltage Scan IL Summary")
         if n <= 20:
             ax.legend(fontsize=6, loc="upper right")
-        ax.grid(True, alpha=0.3)
         self.chart.ax = ax
         self.chart.figure.tight_layout()
         self.chart.canvas.draw_idle()
@@ -439,10 +438,9 @@ class VoltageScanPanel(QWidget):
             ax.plot(freq_ghz, mag, color=colors[i], linewidth=0.8, label=f"{voltage:.3f}V ({power:.4f}W)")
         ax.set_xlabel("Frequency (GHz)")
         ax.set_ylabel("Magnitude (dB)")
-        ax.set_title("电压扫描 VNA S21 汇总")
+        ax.set_title("Voltage Scan VNA S21 Summary")
         if n <= 20:
             ax.legend(fontsize=6, loc="upper right")
-        ax.grid(True, alpha=0.3)
         self.chart.ax = ax
         self.chart.figure.tight_layout()
         self.chart.canvas.draw_idle()

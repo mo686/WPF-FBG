@@ -7,8 +7,7 @@ import os
 from datetime import datetime
 from scipy import signal
 
-plt.rcParams['font.family'] = ['SimHei']  # 使用黑体
-plt.rcParams['axes.unicode_minus'] = False  # 正确显示负号
+import plot_style  # 学术论文绘图风格
 
 class Iterator:
     """
@@ -396,7 +395,7 @@ class Iterator:
                 # 标记最小值点
                 min_idx = np.argmin(values)
                 plt.plot(v1[min_idx], values[min_idx], 'r*', markersize=15, 
-                        label=f'{metric}最小值 ({v1[min_idx]:.3f}V, {values[min_idx]:.6f})')
+                        label=f'Min ({v1[min_idx]:.3f}V, {values[min_idx]:.6f})')
                 
                 plt.xlabel(f'Voltage {effective_dimensions[0]+1} (V)')
                 plt.ylabel(metric)
@@ -404,7 +403,7 @@ class Iterator:
                 # 构建标题，包含固定电压信息（只显示非0固定电压）
                 title = f'{metric} vs Voltage {effective_dimensions[0]+1}'
                 if fixed_dimensions:
-                    fixed_info = " | 固定电压: "
+                    fixed_info = " | Fixed: "
                     fixed_parts = []
                     for dim_idx, fixed_voltage in fixed_dimensions:
                         fixed_parts.append(f'V{dim_idx+1}={fixed_voltage:.3f}V')
@@ -412,7 +411,6 @@ class Iterator:
                     title += fixed_info
                 plt.title(title)
                 
-                plt.grid(True, alpha=0.3)
                 plt.legend()
                 plt.tight_layout()
                 
@@ -441,16 +439,16 @@ class Iterator:
                 min_idx = np.argmin(z)
                 ax.scatter(v1[min_idx], v2[min_idx], z[min_idx], 
                         color='red', s=100, marker='*', 
-                        label=f'最小值: {z[min_idx]:.6f}')
+                        label=f'Min: {z[min_idx]:.6f}')
                 
                 ax.set_xlabel(f'Voltage {effective_dimensions[0]+1} (V)')
                 ax.set_ylabel(f'Voltage {effective_dimensions[1]+1} (V)')
                 ax.set_zlabel(metric)
                 
                 # 构建标题，包含固定电压信息（只显示非0固定电压）
-                title = f'{metric} vs Voltages (红色星号标记最小值)'
+                title = f'{metric} vs Voltages (red star marks minimum)'
                 if fixed_dimensions:
-                    fixed_info = "\n固定电压: "
+                    fixed_info = "\nFixed: "
                     fixed_parts = []
                     for dim_idx, fixed_voltage in fixed_dimensions:
                         fixed_parts.append(f'V{dim_idx+1}={fixed_voltage:.3f}V')

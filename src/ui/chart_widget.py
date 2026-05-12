@@ -12,9 +12,11 @@ from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolb
 from matplotlib.figure import Figure
 from PySide6.QtWidgets import QLabel, QVBoxLayout, QWidget
 
-# 设置 matplotlib 中文字体支持
-matplotlib.rcParams['font.family'] = ['SimHei']  # 使用黑体
-matplotlib.rcParams['axes.unicode_minus'] = False  # 正确显示负号
+# 设置 matplotlib 学术论文风格
+import sys, os
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+from plot_style import ACADEMIC_STYLE
+matplotlib.rcParams.update(ACADEMIC_STYLE)
 
 
 class ChartWidget(QWidget):

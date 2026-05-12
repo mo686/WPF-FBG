@@ -10,6 +10,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 
+import sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'src'))
+import plot_style  # 学术论文绘图风格
+
 class CSVPlotter:
     """CSV数据绘图类"""
     
@@ -81,10 +85,9 @@ class CSVPlotter:
                         label=f'{voltage:.3f}V')
                 print(f"已添加电压 {voltage:.3f}V 的曲线")
             
-            plt.xlabel('Wavelength [nm]')
-            plt.ylabel('Insertion Loss [dB]')
+            plt.xlabel('Wavelength (nm)')
+            plt.ylabel('Insertion Loss (dB)')
             plt.title('Insertion Loss vs Wavelength')
-            plt.grid(True, alpha=0.3)
             plt.legend()
             plt.tight_layout()
             plt.show(block=False)
@@ -140,10 +143,9 @@ class CSVPlotter:
                             linewidth=1.5,
                             label=f'{voltage:.3f}V')
             
-            plt.xlabel('Wavelength [nm]')
-            plt.ylabel('Insertion Loss [dB]')
+            plt.xlabel('Wavelength (nm)')
+            plt.ylabel('Insertion Loss (dB)')
             plt.title(f'Insertion Loss vs Wavelength (Wavelength: {start_wl:.2f}-{end_wl:.2f} nm, Loss: {start_loss:.2f}-{end_loss:.2f} dB)')
-            plt.grid(True, alpha=0.3)
             plt.legend()
             plt.tight_layout()
             plt.show(block=False)

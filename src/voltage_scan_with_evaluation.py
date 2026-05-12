@@ -10,6 +10,8 @@ import matplotlib.pyplot as plt
 from zynq_voltage_controller import ZynqVoltageController
 from reference_measurement import ReferenceMeasurement
 
+import plot_style  # 学术论文绘图风格
+
 class VoltageScanEvaluator:
     """电压扫描与评价类"""
     
@@ -279,10 +281,9 @@ class VoltageScanEvaluator:
                 plt.plot(wavelengths, reference_power, 
                         label=f'Slot{slot_num} Ch{channel_num}')
                 
-                plt.xlabel('Wavelength [nm]')
-                plt.ylabel('Insertion Loss [dB]')
-                plt.title(f'Insertion Loss Measurement at {voltage:.3f}V')
-                plt.grid(True, alpha=0.3)
+                plt.xlabel('Wavelength (nm)')
+                plt.ylabel('Insertion Loss (dB)')
+                plt.title(f'Insertion Loss at {voltage:.3f}V')
                 plt.legend()
                 plt.tight_layout()
                 plt.show(block=False)
@@ -357,10 +358,9 @@ class VoltageScanEvaluator:
                         plt.plot(filtered_wavelengths, filtered_power, 
                                 label=f'Slot{slot_num} Ch{channel_num}')
                         
-                        plt.xlabel('Wavelength [nm]')
-                        plt.ylabel('Insertion Loss [dB]')
-                        plt.title(f'Insertion Loss Measurement at {voltage:.3f}V (Zoomed)')
-                        plt.grid(True, alpha=0.3)
+                        plt.xlabel('Wavelength (nm)')
+                        plt.ylabel('Insertion Loss (dB)')
+                        plt.title(f'Insertion Loss at {voltage:.3f}V (Zoomed)')
                         plt.legend()
                         plt.tight_layout()
                         plt.show(block=False)
@@ -436,10 +436,9 @@ class VoltageScanEvaluator:
                                 label=f'{voltage:.3f}V')
                         print(f"已添加电压 {voltage:.3f}V 的曲线")
             
-            plt.xlabel('Wavelength [nm]')
-            plt.ylabel('Insertion Loss [dB]')
-            plt.title('Insertion Loss Summary for All Voltages')
-            plt.grid(True, alpha=0.3)
+            plt.xlabel('Wavelength (nm)')
+            plt.ylabel('Insertion Loss (dB)')
+            plt.title('Insertion Loss Summary')
             plt.legend()
             plt.tight_layout()
             plt.show(block=False)

@@ -390,12 +390,11 @@ class MeasurementPanel(QWidget):
                         slot = item.get("SlotNumber", "?")
                         ch = item.get("ChannelNumber", "?")
                         ax.plot(wl[:min_len], pw[:min_len], linewidth=1,
-                                label=f"参考 Slot{slot} Ch{ch}")
+                                label=f"Ref Slot{slot} Ch{ch}")
             ax.set_xlabel("Wavelength (nm)")
             ax.set_ylabel("Power (dBm)")
             ax.set_title("Reference Measurement")
             ax.legend(fontsize=8)
-            ax.grid(True, alpha=0.3)
         self.chart.canvas.draw_idle()
 
     def _plot_measurement(self):
@@ -420,7 +419,6 @@ class MeasurementPanel(QWidget):
             ax.set_ylabel("Insertion Loss (dB)")
             ax.set_title("Insertion Loss Measurement")
             ax.legend(loc="upper right", fontsize=8)
-            ax.grid(True, alpha=0.3)
         self.chart.canvas.draw_idle()
 
     def _on_shutdown_clicked(self):

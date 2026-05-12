@@ -14,6 +14,8 @@ import msvcrt
 import datetime
 import serial.tools.list_ports
 
+import plot_style  # 学术论文绘图风格
+
 # Importing modules from the santec directory
 from santec import (TslInstrument, MpmInstrument, SpuDevice,
                     GetAddress, file_saving, StsProcess, log_to_screen)
@@ -302,10 +304,9 @@ class Visualizer:
                 plt.plot(wavelengths, reference_power, 
                         label=f'Slot{slot_num} Ch{channel_num}')
             
-            plt.xlabel('Wavelength [nm]')
-            plt.ylabel('Reference Power [dBm]')
+            plt.xlabel('Wavelength (nm)')
+            plt.ylabel('Reference Power (dBm)')
             plt.title('Reference Insertion Loss Measurement')
-            plt.grid(True, alpha=0.3)
             plt.legend()
             plt.tight_layout()
             plt.show(block=False)
@@ -334,10 +335,9 @@ class Visualizer:
                 channel_data = ilsts.il_data_array[i]
                 plt.plot(wavelengths, channel_data, label=f'CH{i+1}', linewidth=2)
             
-            plt.xlabel('Wavelength [nm]', fontsize=12)
-            plt.ylabel('Transmission [dBm]', fontsize=12)
+            plt.xlabel('Wavelength (nm)', fontsize=12)
+            plt.ylabel('Transmission (dBm)', fontsize=12)
             plt.title('Scan Data - All Selected Channels', fontsize=14)
-            plt.grid(True, alpha=0.3)
             plt.legend()
             plt.tight_layout()
             plt.show(block=False)

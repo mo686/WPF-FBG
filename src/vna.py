@@ -5,6 +5,8 @@ import pandas as pd
 import time
 import os
 
+import plot_style  # 学术论文绘图风格
+
 class VNA:
     """
     思仪3671G 矢量网络分析仪控制类
@@ -204,20 +206,18 @@ class VNA:
         try:
             freq_ghz = data['frequency'] / 1e9
             
-            plt.figure(figsize=(10, 6))
+            fig, axes = plt.subplots(2, 1, figsize=(10, 6))
 
-            plt.subplot(2, 1, 1)
-            plt.plot(freq_ghz, data['magnitude_dB'], 'b-', linewidth=1)
-            plt.grid(True)
-            plt.ylabel('Magnitude (dB)')
-            plt.title(f'{self.param} Magnitude Response')
+            ax1 = axes[0]
+            ax1.plot(freq_ghz, data['magnitude_dB'], 'b-', linewidth=1)
+            ax1.set_ylabel('Magnitude (dB)')
+            plot_style.add_subplot_label(ax1, '(a)')
 
-            plt.subplot(2, 1, 2)
-            plt.plot(freq_ghz, data['phase_deg'], 'r-', linewidth=1)
-            plt.grid(True)
-            plt.xlabel('Frequency (GHz)')
-            plt.ylabel('Phase (deg)')
-            plt.title(f'{self.param} Phase Response')
+            ax2 = axes[1]
+            ax2.plot(freq_ghz, data['phase_deg'], 'r-', linewidth=1)
+            ax2.set_xlabel('Frequency (GHz)')
+            ax2.set_ylabel('Phase (deg)')
+            plot_style.add_subplot_label(ax2, '(b)')
 
             plt.tight_layout()
             

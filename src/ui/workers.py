@@ -821,10 +821,10 @@ class CalibrationWorker(BaseWorker):
 
             modes = ["correlation", "fpeak_nearest", "normalized_shape", "fpeak_fit"]
             mode_names = {
-                "correlation": "归一化互相关",
-                "fpeak_nearest": "fpeak最近邻",
-                "normalized_shape": "归一化形状",
-                "fpeak_fit": "洛伦兹拟合",
+                "correlation": "Correlation",
+                "fpeak_nearest": "fpeak Nearest",
+                "normalized_shape": "Normalized Shape",
+                "fpeak_fit": "Lorentzian Fit",
             }
             signs = [("Δλ>0", "positive"), ("Δλ<0", "negative")]
 
@@ -906,7 +906,7 @@ class CalibrationWorker(BaseWorker):
 
             modes = ["correlation"]
             mode_names = {
-                "correlation": "归一化互相关",
+                "correlation": "Correlation",
             }
             bw_list = [0.0, 0.5, 1.0, 1.5, 2.0, 3.0, 5.0]
             k_list = [3, 5, 8, 10, 15]

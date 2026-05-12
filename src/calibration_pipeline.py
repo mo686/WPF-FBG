@@ -705,26 +705,28 @@ def plot_comparison(
     若指定 save_path 则保存图片，否则显示。
     """
     import matplotlib.pyplot as plt
+    import sys
+    sys.path.insert(0, str(Path(__file__).parent))
+    import plot_style  # 学术论文绘图风格
 
     fig, ax = plt.subplots(figsize=(10, 5))
     ax.plot(
         measured.frequency,
         measured.magnitude,
         color="tab:blue",
-        label=f"实测曲线 (V={voltage:.2f} V)",
+        label=f"Measured (V={voltage:.2f} V)",
     )
     ax.plot(
         calibration.frequency,
         calibration.magnitude,
         color="tab:red",
         linestyle="--",
-        label=f"定标曲线 (Δλ={delta_lambda:.1f} pm)",
+        label=f"Calibration ($\\Delta\\lambda$={delta_lambda:.1f} pm)",
     )
-    ax.set_xlabel("频率 (GHz)")
-    ax.set_ylabel("幅度 (dB)")
-    ax.set_title(f"曲线匹配对比  ρ={rho:.4f}")
+    ax.set_xlabel("Frequency (GHz)")
+    ax.set_ylabel("Magnitude (dB)")
+    ax.set_title(f"Curve Matching  $\\rho$={rho:.4f}")
     ax.legend()
-    ax.grid(True, alpha=0.3)
     fig.tight_layout()
 
     if save_path is not None:

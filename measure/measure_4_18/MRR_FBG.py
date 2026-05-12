@@ -4,6 +4,10 @@ import numpy as np
 from scipy.signal import find_peaks
 import matplotlib.pyplot as plt
 
+import sys, os
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'src'))
+import plot_style  # 学术论文绘图风格
+
 # 读取CSV数据
 def read_csv_data(file_path):
     voltage = []
@@ -117,7 +121,6 @@ def plot_results(file_path, result):
     plt.title('Wavelength Scan with Power Effect Analysis')
     plt.xlabel('Wavelength (nm)')
     plt.ylabel('Insertion Loss (dB)')
-    plt.grid(True, alpha=0.3)
     plt.legend()
     plt.tight_layout()
     

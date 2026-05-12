@@ -355,12 +355,11 @@ class SweepPanel(QWidget):
                 freq_ghz = r.frequency / 1e9
                 ax.plot(freq_ghz, r.magnitude_dB, linewidth=0.7,
                         alpha=0.7, label=f"Δλ={r.delta_lambda:.0f}pm")
-        ax.set_xlabel("频率 (GHz)")
-        ax.set_ylabel("幅度 (dB)")
-        ax.set_title("定标扫描 S21 曲线集")
+        ax.set_xlabel("Frequency (GHz)")
+        ax.set_ylabel("Magnitude (dB)")
+        ax.set_title("Calibration Sweep S21 Curves")
         if len([r for r in results if r.success]) <= 15:
             ax.legend(fontsize=6, loc="upper right")
-        ax.grid(True, alpha=0.3)
         self.chart.ax = ax
         self.chart.figure.tight_layout()
         self.chart.canvas.draw_idle()

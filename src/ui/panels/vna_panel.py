@@ -334,7 +334,6 @@ class VNAPanel(QWidget):
         ax1.plot(freq_ghz, mag, "b-", linewidth=1)
         ax1.set_ylabel("Magnitude (dB)")
         ax1.set_title(f"{param_name} Magnitude")
-        ax1.grid(True, alpha=0.3)
 
         # 下方子图：相位
         ax2 = self.chart.figure.add_subplot(2, 1, 2)
@@ -342,7 +341,6 @@ class VNAPanel(QWidget):
         ax2.set_xlabel("Frequency (GHz)")
         ax2.set_ylabel("Phase (deg)")
         ax2.set_title(f"{param_name} Phase")
-        ax2.grid(True, alpha=0.3)
 
         # 更新 ax 引用（用于鼠标悬停等）
         self.chart.ax = ax1

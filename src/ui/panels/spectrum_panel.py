@@ -285,14 +285,13 @@ class SpectrumPanel(QWidget):
     def _plot_spectrum(self):
         """绘制功率随波长变化曲线。"""
         self.chart.clear()
-        self.chart.plot(self._wavelengths, self._power_data, color="tab:blue", linewidth=1, label="原始数据")
+        self.chart.plot(self._wavelengths, self._power_data, color="tab:blue", linewidth=1, label="Raw data")
         self.chart.set_labels(
             xlabel="Wavelength (nm)",
             ylabel="Power (dBm)",
-            title="光谱数据",
+            title="Spectrum Data",
         )
         self.chart.ax.legend(loc="upper right", fontsize=8)
-        self.chart.ax.grid(True, alpha=0.3)
         self.chart.canvas.draw_idle()
 
     def _annotate_peaks_valleys(
@@ -310,7 +309,7 @@ class SpectrumPanel(QWidget):
         if len(peak_indices) > 0:
             ax.plot(
                 peak_wls, smoothed[peak_indices],
-                "rv", markersize=8, label="峰值",
+                "rv", markersize=8, label="Peaks",
             )
             for idx, wl in zip(peak_indices, peak_wls):
                 self.chart.add_annotation(
@@ -321,7 +320,7 @@ class SpectrumPanel(QWidget):
         if len(valley_indices) > 0:
             ax.plot(
                 valley_wls, smoothed[valley_indices],
-                "b^", markersize=8, label="谷值",
+                "b^", markersize=8, label="Valleys",
             )
             for idx, wl in zip(valley_indices, valley_wls):
                 self.chart.add_annotation(

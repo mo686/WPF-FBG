@@ -231,6 +231,29 @@ class CalibrationPanel(QWidget):
         left.addWidget(self.cal_status)
         left.addWidget(self.meas_status)
 
+        # FBG 光谱对比文件路径
+        fbg_group = QGroupBox("FBG Spectrum Comparison")
+        fbg_layout = QVBoxLayout()
+        from PySide6.QtWidgets import QLineEdit
+        self.fbg_file1_input = QLineEdit()
+        self.fbg_file1_input.setPlaceholderText("FBG file 1 path (.json)")
+        self.fbg_file2_input = QLineEdit()
+        self.fbg_file2_input.setPlaceholderText("FBG file 2 path (.json)")
+        self.btn_browse_fbg1 = QPushButton("Browse...")
+        self.btn_browse_fbg2 = QPushButton("Browse...")
+        self.btn_browse_fbg1.clicked.connect(self._browse_fbg_file1)
+        self.btn_browse_fbg2.clicked.connect(self._browse_fbg_file2)
+        row1 = QHBoxLayout()
+        row1.addWidget(self.fbg_file1_input, stretch=1)
+        row1.addWidget(self.btn_browse_fbg1)
+        row2 = QHBoxLayout()
+        row2.addWidget(self.fbg_file2_input, stretch=1)
+        row2.addWidget(self.btn_browse_fbg2)
+        fbg_layout.addLayout(row1)
+        fbg_layout.addLayout(row2)
+        fbg_group.setLayout(fbg_layout)
+        left.addWidget(fbg_group)
+
         # 结果显示
         result_group = QGroupBox("匹配结果")
         result_layout = QVBoxLayout()
@@ -334,6 +357,22 @@ class CalibrationPanel(QWidget):
     # ==================================================================
     # 按钮槽
     # ==================================================================
+
+    def _browse_fbg_file1(self):
+        """Browse for FBG spectrum file 1."""
+        path, _ = QFileDialog.getOpenFileName(
+            self, "Select FBG File 1", "", "JSON Files (*.json);;All Files (*)"
+        )
+        if path:
+            self.fbg_file1_input.setText(path)
+
+    def _browse_fbg_file2(self):
+        """Browse for FBG spectrum file 2."""
+        path, _ = QFileDialog.getOpenFileName(
+            self, "Select FBG File 2", "", "JSON Files (*.json);;All Files (*)"
+        )
+        if path:
+            self.fbg_file2_input.setText(path)
 
     def _on_load_cal_clicked(self):
         directory = QFileDialog.getExistingDirectory(
@@ -542,10 +581,9 @@ class CalibrationPanel(QWidget):
         for dl, curve in cal_curves:
             ax.plot(curve.frequency, curve.magnitude, linewidth=0.8,
                     alpha=0.7)
-        ax.set_xlabel("频率 (GHz)")
-        ax.set_ylabel("幅度 (dB)")
-        ax.set_title("定标曲线集")
-        ax.grid(True, alpha=0.3)
+        ax.set_xlabel("Frequency (GHz)")
+        ax.set_ylabel("Magnitude (dB)")
+        ax.set_title("Calibration Curves")
         self.chart.ax = ax
         self.chart.figure.tight_layout()
         self.chart.canvas.draw_idle()
@@ -553,8 +591,9 @@ class CalibrationPanel(QWidget):
     def _plot_best_match(self, sign_data: dict):
         """在操作页绘制最佳匹配曲线对比。
 
-        - 1 种方式：单张图占满
-        - 2-4 种方式：2×2 子图
+        布局：左侧 subplot (a) 为 FBG 光谱对比，右侧为匹配结果。
+        - 1 种方式：右侧单张图 (b)
+        - 2-4 种方式：右侧 2×2 子图 (b)(c)(d)(e)
         """
         self.chart.figure.clear()
         modes = list(sign_data.keys())
@@ -563,47 +602,100 @@ class CalibrationPanel(QWidget):
             self.chart.canvas.draw_idle()
             return
 
+        import re as _re
+
+        # Determine layout: left column for FBG spectrum, right for match results
         if n == 1:
-            mode = modes[0]
+            # 1×2 layout: (a) FBG spectrum, (b) match
+            ax_fbg = self.chart.figure.add_subplot(1, 2, 1)
+            ax_match = self.chart.figure.add_subplot(1, 2, 2)
+            match_axes = [ax_match]
+        else:
+            # Use GridSpec: left half for FBG, right half for 2×2 match subplots
+            from matplotlib.gridspec import GridSpec
+            gs = GridSpec(2, 4, figure=self.chart.figure)
+            ax_fbg = self.chart.figure.add_subplot(gs[:, :2])  # left half
+            match_axes = []
+            positions = [(0, 2), (0, 3), (1, 2), (1, 3)]
+            for i in range(min(n, 4)):
+                r, c = positions[i]
+                ax = self.chart.figure.add_subplot(gs[r, c])
+                match_axes.append(ax)
+
+        # --- Subplot (a): FBG spectrum comparison ---
+        fbg_file1 = self.fbg_file1_input.text().strip()
+        fbg_file2 = self.fbg_file2_input.text().strip()
+
+        if fbg_file1 and fbg_file2 and os.path.exists(fbg_file1) and os.path.exists(fbg_file2):
+            import json as _json
+            def _load_fbg(fp):
+                with open(fp, 'r', encoding='utf-8') as f:
+                    data = _json.load(f)
+                entry = data[0] if isinstance(data, list) else data
+                return np.array(entry['rescaled_wavelength']), np.array(entry['rescaled_reference_power'])
+
+            wl1, pw1 = _load_fbg(fbg_file1)
+            wl2, pw2 = _load_fbg(fbg_file2)
+
+            m1 = _re.search(r'(FBG_\d+)', os.path.basename(fbg_file1))
+            m2 = _re.search(r'(FBG_\d+)', os.path.basename(fbg_file2))
+            lbl1 = m1.group(1) if m1 else 'Spectrum 1'
+            lbl2 = m2.group(1) if m2 else 'Spectrum 2'
+
+            ax_fbg.plot(wl1, pw1, linewidth=1.2, label=lbl1)
+            ax_fbg.plot(wl2, pw2, linewidth=1.2, label=lbl2)
+
+            # Mark center wavelengths
+            c1 = wl1[np.argmax(pw1)]
+            c2 = wl2[np.argmax(pw2)]
+            ax_fbg.axvline(x=c1, color='C0', linestyle='--', alpha=0.7,
+                           label=f'{c1:.4f}')
+            ax_fbg.axvline(x=c2, color='C1', linestyle='--', alpha=0.7,
+                           label=f'{c2:.4f}')
+        else:
+            ax_fbg.text(0.5, 0.5, 'Set FBG file paths\nin left panel',
+                        transform=ax_fbg.transAxes, ha='center', va='center',
+                        fontsize=9, color='gray')
+
+        ax_fbg.set_xlabel("Wavelength (nm)")
+        ax_fbg.set_ylabel("Loss (dBm)")
+        ax_fbg.legend(loc='upper right')
+        from plot_style import add_subplot_label
+        add_subplot_label(ax_fbg, '(a)')
+
+        # --- Match subplots (b), (c), ... ---
+        sub_labels = ['(b)', '(c)', '(d)', '(e)']
+        corr_bw = self.corr_bw_input.value()  # matching bandwidth from UI
+
+        for i, mode in enumerate(modes[:len(match_axes)]):
             info = sign_data[mode]
-            ax = self.chart.figure.add_subplot(111)
+            ax = match_axes[i]
             meas = info.get("best_meas_curve")
             cal = info.get("best_cal_curve")
             if meas is not None:
-                ax.plot(meas.frequency, meas.magnitude, "b-", linewidth=1,
-                        label=f"实测 V={info['best_voltage']:.2f}V")
+                ax.plot(meas.frequency, meas.magnitude, "b-",
+                        label=f"Measured V={info['best_voltage']:.2f}V")
             if cal is not None:
-                ax.plot(cal.frequency, cal.magnitude, "r--", linewidth=1,
-                        label=f"定标 Δλ={info['best_delta_lambda']:.0f}pm")
+                ax.plot(cal.frequency, cal.magnitude, "r--",
+                        label=f"Calibration $\\Delta\\lambda$={info['best_delta_lambda']:.0f}pm")
+
+            # Shade the matching bandwidth range around the peak
+            if meas is not None and corr_bw > 0:
+                from src.calibration_pipeline import extract_peak
+                fpeak = extract_peak(meas)
+                f_lo = max(fpeak - corr_bw, meas.frequency[0])
+                f_hi = min(fpeak + corr_bw, meas.frequency[-1])
+                ax.axvspan(f_lo, f_hi, alpha=0.08, color='green',
+                           label=f'Match range (±{corr_bw:.1f} GHz)')
+                ax.axvline(fpeak, color='green', linestyle=':', linewidth=0.8, alpha=0.6)
+
             ax.set_title(
-                f"{info['mode_name']}  ρ={info['best_rho']:.4f}", fontsize=11
+                f"{info['mode_name']}  $\\rho$={info['best_rho']:.4f}"
             )
-            ax.set_xlabel("频率 (GHz)", fontsize=10)
-            ax.set_ylabel("幅度 (dB)", fontsize=10)
-            ax.legend(fontsize=9)
-            ax.grid(True, alpha=0.3)
-        else:
-            rows = 2 if n > 2 else 1
-            cols = 2 if n > 1 else 1
-            for i, mode in enumerate(modes):
-                info = sign_data[mode]
-                ax = self.chart.figure.add_subplot(rows, cols, i + 1)
-                meas = info.get("best_meas_curve")
-                cal = info.get("best_cal_curve")
-                if meas is not None:
-                    ax.plot(meas.frequency, meas.magnitude, "b-", linewidth=0.8,
-                            label=f"实测 V={info['best_voltage']:.2f}V")
-                if cal is not None:
-                    ax.plot(cal.frequency, cal.magnitude, "r--", linewidth=0.8,
-                            label=f"定标 Δλ={info['best_delta_lambda']:.0f}pm")
-                ax.set_title(
-                    f"{info['mode_name']}  ρ={info['best_rho']:.3f}", fontsize=9
-                )
-                ax.set_xlabel("频率 (GHz)", fontsize=8)
-                ax.set_ylabel("幅度 (dB)", fontsize=8)
-                ax.legend(fontsize=6)
-                ax.grid(True, alpha=0.3)
-                ax.tick_params(labelsize=7)
+            ax.set_xlabel("Frequency (GHz)")
+            ax.set_ylabel("Magnitude (dB)")
+            ax.legend()
+            add_subplot_label(ax, sub_labels[i])
 
         self.chart.ax = (
             self.chart.figure.axes[0] if self.chart.figure.axes else None
@@ -653,11 +745,9 @@ class CalibrationPanel(QWidget):
                     xytext=(12, -15), textcoords="offset points",
                     fontsize=9, color=colors[0],
                 )
-            ax.set_xlabel("电压 (V)", fontsize=10)
-            ax.set_ylabel("互相关系数 ρ", fontsize=10)
-            ax.set_title(f"{info['mode_name']}  ρ 随电压变化（★ = 最佳匹配点）",
-                         fontsize=11)
-            ax.grid(True, alpha=0.3)
+            ax.set_xlabel("Voltage (V)")
+            ax.set_ylabel("Correlation $\\rho$")
+            ax.set_title(f"{info['mode_name']}  $\\rho$ vs Voltage ($\\bigstar$ = best match)")
         else:
             # 多种方式：上方各自子图 + 底部汇总
             rows = 3 if n > 2 else 2
@@ -679,16 +769,15 @@ class CalibrationPanel(QWidget):
                     ax.plot(best_v, best_rho, marker="*", markersize=12,
                             color=colors[i % len(colors)], zorder=5)
                     ax.annotate(
-                        f"V={best_v:.2f}\nΔλ={info['best_delta_lambda']:.0f}pm",
+                        f"V={best_v:.2f}\n$\\Delta\\lambda$={info['best_delta_lambda']:.0f}pm",
                         xy=(best_v, best_rho),
                         xytext=(8, -10), textcoords="offset points",
                         fontsize=7, color=colors[i % len(colors)],
                     )
-                ax.set_title(f"{info['mode_name']}", fontsize=9)
-                ax.set_xlabel("电压 (V)", fontsize=8)
-                ax.set_ylabel("ρ", fontsize=8)
-                ax.grid(True, alpha=0.3)
-                ax.tick_params(labelsize=7)
+                ax.set_title(f"{info['mode_name']}")
+                ax.set_xlabel("Voltage (V)")
+                ax.set_ylabel("$\\rho$")
+                ax.tick_params(labelsize=9)
 
             # 汇总图
             ax_sum = fig.add_subplot(rows, 1, rows)
@@ -706,12 +795,11 @@ class CalibrationPanel(QWidget):
                     best_rho = info["best_rho"]
                     ax_sum.plot(best_v, best_rho, marker="*", markersize=10,
                                 color=colors[i % len(colors)], zorder=5)
-            ax_sum.set_xlabel("电压 (V)", fontsize=9)
-            ax_sum.set_ylabel("互相关系数 ρ", fontsize=9)
-            ax_sum.set_title("各匹配方式 ρ 随电压变化（★ = 最佳匹配点）", fontsize=9)
-            ax_sum.legend(fontsize=7, loc="lower right")
-            ax_sum.grid(True, alpha=0.3)
-            ax_sum.tick_params(labelsize=7)
+            ax_sum.set_xlabel("Voltage (V)")
+            ax_sum.set_ylabel("Correlation $\\rho$")
+            ax_sum.set_title("$\\rho$ vs Voltage ($\\bigstar$ = best match)")
+            ax_sum.legend(loc="lower right")
+            ax_sum.tick_params(labelsize=9)
 
         self.analysis_chart.ax = fig.axes[0] if fig.axes else None
         fig.tight_layout()

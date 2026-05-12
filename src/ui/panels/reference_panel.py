@@ -317,7 +317,6 @@ class ReferencePanel(QWidget):
             ax.set_ylabel("Reference Power (dBm)")
             ax.set_title("Reference Insertion Loss Measurement")
             ax.legend(fontsize=8)
-            ax.grid(True, alpha=0.3)
         self.chart.canvas.draw_idle()
 
     # ==================================================================

@@ -11,6 +11,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 from tkinter import Tk, filedialog
 
+import sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import plot_style  # 学术论文绘图风格
+
 def plot_csv_data(csv_file):
     """读取CSV文件并绘制数据"""
     print(f"正在读取CSV文件: {csv_file}")
@@ -61,10 +65,9 @@ def plot_csv_data(csv_file):
         print(f"已添加电压 {voltage:.3f}V 的曲线")
     
     # 设置图表属性
-    plt.xlabel('Wavelength [nm]')
-    plt.ylabel('Insertion Loss [dB]')
+    plt.xlabel('Wavelength (nm)')
+    plt.ylabel('Insertion Loss (dB)')
     plt.title('Insertion Loss from CSV Data')
-    plt.grid(True, alpha=0.3)
     plt.legend()
     plt.tight_layout()
     

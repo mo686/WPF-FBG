@@ -10,6 +10,8 @@ import json
 import time
 import matplotlib.pyplot as plt
 
+import plot_style  # 学术论文绘图风格
+
 # Importing modules from the santec directory
 from santec import (TslInstrument, MpmInstrument, SpuDevice,
                     GetAddress, file_saving, StsProcess, log_to_screen)
@@ -439,10 +441,9 @@ class Visualizer:
                 plt.plot(wavelengths, reference_power, 
                         label=f'Slot{slot_num} Ch{channel_num}')
             
-            plt.xlabel('Wavelength [nm]')
-            plt.ylabel('Reference Power [dBm]')
+            plt.xlabel('Wavelength (nm)')
+            plt.ylabel('Reference Power (dBm)')
             plt.title('Reference Insertion Loss Measurement')
-            plt.grid(True, alpha=0.3)
             plt.legend()
             plt.tight_layout()
             plt.show(block=False)

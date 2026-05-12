@@ -6,8 +6,7 @@ import pickle
 import os
 from datetime import datetime
 
-plt.rcParams['font.family'] = ['SimHei']  # 使用黑体
-plt.rcParams['axes.unicode_minus'] = False  # 正确显示负号
+import plot_style  # 学术论文绘图风格
 
 class QuickSearcher:
     """
@@ -302,27 +301,26 @@ class QuickSearcher:
             return
         
         # 绘制优化过程
-        plt.figure(figsize=(14, 10))
+        fig, axes = plt.subplots(2, 2, figsize=(14, 10))
         
-        # 子图1: FOM优化过程
-        plt.subplot(2, 2, 1)
+        # 子图(a): FOM优化过程
+        ax1 = axes[0, 0]
         fom_values = [record['fom'] for record in self.search_history]
         steps = list(range(len(fom_values)))
         
-        plt.plot(steps, fom_values, 'bo-', alpha=0.7, linewidth=1, markersize=3)
-        plt.xlabel('评估步数')
-        plt.ylabel('FOM值')
-        plt.title('FOM优化过程')
-        plt.grid(True, alpha=0.3)
+        ax1.plot(steps, fom_values, 'bo-', alpha=0.7, linewidth=1, markersize=3)
+        ax1.set_xlabel('Evaluation Step')
+        ax1.set_ylabel('FOM')
         
         # 标记最佳点
         best_idx = np.argmin(fom_values)
-        plt.plot(best_idx, fom_values[best_idx], 'r*', markersize=10, 
-                label=f'最佳FOM: {fom_values[best_idx]:.6f}')
-        plt.legend()
+        ax1.plot(best_idx, fom_values[best_idx], 'r*', markersize=10, 
+                label=f'Best FOM: {fom_values[best_idx]:.6f}')
+        ax1.legend()
+        plot_style.add_subplot_label(ax1, '(a)')
         
-        # 子图2: 各通道优化过程
-        plt.subplot(2, 2, 2)
+        # 子图(b): 各通道优化过程
+        ax2 = axes[0, 1]
         colors = plt.cm.Set1(np.linspace(0, 1, self.dimensions))
         
         for channel_idx in range(self.dimensions):
@@ -336,42 +334,39 @@ class QuickSearcher:
                     channel_foms.append(record['fom'])
             
             if channel_steps:
-                plt.plot(channel_steps, channel_foms, 'o-', color=colors[channel_idx], 
-                        label=f'通道 {actual_channel_num}', markersize=4)
+                ax2.plot(channel_steps, channel_foms, 'o-', color=colors[channel_idx], 
+                        label=f'Ch {actual_channel_num}', markersize=4)
         
-        plt.xlabel('评估步数')
-        plt.ylabel('FOM值')
-        plt.title('各通道优化过程')
-        plt.legend()
-        plt.grid(True, alpha=0.3)
+        ax2.set_xlabel('Evaluation Step')
+        ax2.set_ylabel('FOM')
+        ax2.legend()
+        plot_style.add_subplot_label(ax2, '(b)')
         
-        # 子图3: 实际电压变化过程
-        plt.subplot(2, 2, 3)
+        # 子图(c): 实际电压变化过程
+        ax3 = axes[1, 0]
         for channel_idx in range(self.total_channels):
             if channel_idx in self.active_channels:
                 # 只绘制激活通道的电压变化
                 voltages = [record['actual_voltages'][channel_idx] for record in self.search_history]
-                plt.plot(steps, voltages, 'o-', label=f'V{channel_idx+1}', markersize=2, alpha=0.7)
+                ax3.plot(steps, voltages, 'o-', label=f'V{channel_idx+1}', markersize=2, alpha=0.7)
         
-        plt.xlabel('评估步数')
-        plt.ylabel('电压值 (V)')
-        plt.title('实际电压变化过程')
-        plt.legend()
-        plt.grid(True, alpha=0.3)
+        ax3.set_xlabel('Evaluation Step')
+        ax3.set_ylabel('Voltage (V)')
+        ax3.legend()
+        plot_style.add_subplot_label(ax3, '(c)')
         
-        # 子图4: 优化路径总结
-        plt.subplot(2, 2, 4)
+        # 子图(d): 优化路径总结
+        ax4 = axes[1, 1]
         if len(self.optimization_path) >= 2:
             path_foms = [step['best_fom'] for step in self.optimization_path]
             path_channels = [step['actual_channel'] for step in self.optimization_path]
             
-            plt.plot(path_channels, path_foms, 'gs-', linewidth=2, markersize=8, 
-                    label='通道优化路径')
-            plt.xlabel('优化通道编号')
-            plt.ylabel('最佳FOM值')
-            plt.title('顺序优化路径')
-            plt.grid(True, alpha=0.3)
-            plt.legend()
+            ax4.plot(path_channels, path_foms, 'gs-', linewidth=2, markersize=8, 
+                    label='Optimization path')
+            ax4.set_xlabel('Channel')
+            ax4.set_ylabel('Best FOM')
+            ax4.legend()
+        plot_style.add_subplot_label(ax4, '(d)')
         
         plt.tight_layout()
         

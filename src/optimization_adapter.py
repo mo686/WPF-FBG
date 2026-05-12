@@ -6,6 +6,8 @@ import time
 import os
 from datetime import datetime
 
+import plot_style  # 学术论文绘图风格
+
 class OptimizationAdapter:
     """
     优化器适配器 - 接收已配置的算法对象和目标函数，提供完整优化流程
@@ -195,26 +197,24 @@ class OptimizationAdapter:
         foms = [record['fom'] for record in self.optimization_history]
         best_so_far = [min(foms[:i+1]) for i in range(len(foms))]
         
-        plt.figure(figsize=(12, 8))
+        fig, axes = plt.subplots(2, 1, figsize=(12, 8))
         
-        # 绘制所有评估点
-        plt.subplot(2, 1, 1)
-        plt.plot(range(1, len(foms) + 1), foms, 'bo-', alpha=0.7, linewidth=1, markersize=4, label='所有评估点')
-        plt.axhline(y=self.best_fom, color='r', linestyle='--', linewidth=2, 
-                   label=f'最佳值: {self.best_fom:.6f}')
-        plt.title(f'{self.optimizer_type}优化过程 - 目标函数值', fontsize=14)
-        plt.xlabel('评估序号', fontsize=12)
-        plt.ylabel('目标函数值', fontsize=12)
-        plt.legend()
-        plt.grid(True, alpha=0.3)
+        # 子图(a): 所有评估点
+        ax1 = axes[0]
+        ax1.plot(range(1, len(foms) + 1), foms, 'bo-', alpha=0.7, linewidth=1, markersize=4, label='All evaluations')
+        ax1.axhline(y=self.best_fom, color='r', linestyle='--', linewidth=2, 
+                   label=f'Best: {self.best_fom:.6f}')
+        ax1.set_xlabel('Evaluation Index')
+        ax1.set_ylabel('Objective Function Value')
+        ax1.legend()
+        plot_style.add_subplot_label(ax1, '(a)')
         
-        # 绘制最佳值变化
-        plt.subplot(2, 1, 2)
-        plt.plot(range(1, len(best_so_far) + 1), best_so_far, 'g-o', linewidth=2, markersize=4)
-        plt.title(f'{self.optimizer_type}优化过程 - 最佳值变化', fontsize=14)
-        plt.xlabel('评估序号', fontsize=12)
-        plt.ylabel('最佳目标函数值', fontsize=12)
-        plt.grid(True, alpha=0.3)
+        # 子图(b): 最佳值变化
+        ax2 = axes[1]
+        ax2.plot(range(1, len(best_so_far) + 1), best_so_far, 'g-o', linewidth=2, markersize=4)
+        ax2.set_xlabel('Evaluation Index')
+        ax2.set_ylabel('Best Objective Value')
+        plot_style.add_subplot_label(ax2, '(b)')
         
         plt.tight_layout()
         
@@ -225,8 +225,6 @@ class OptimizationAdapter:
         print(f"优化过程图片已保存: {plot_filename}")
         
         plt.show(block=False)
-        # plt.pause(0.1)
-        # plt.close()
     
     def _save_optimization_results(self, result, optimization_time, best_actual_voltages):
         """保存优化结果"""

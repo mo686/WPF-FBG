@@ -16,6 +16,10 @@ import numpy as np
 from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
 
+import sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'src'))
+import plot_style  # 学术论文绘图风格
+
 # ============================================================
 # 数据路径
 # ============================================================
@@ -216,26 +220,6 @@ def calibrate():
     # ============================================================
     # 绘图 — 学术论文风格 (白底、无网格、粗体子图标签)
     # ============================================================
-    plt.rcParams.update({
-        'font.family': 'sans-serif',
-        'font.sans-serif': ['Arial', 'DejaVu Sans'],
-        'font.size': 10,
-        'axes.linewidth': 1.2,
-        'axes.labelsize': 11,
-        'axes.titlesize': 11,
-        'xtick.major.width': 1.0,
-        'ytick.major.width': 1.0,
-        'xtick.direction': 'in',
-        'ytick.direction': 'in',
-        'xtick.top': True,
-        'ytick.right': True,
-        'legend.frameon': False,
-        'legend.fontsize': 9,
-        'figure.facecolor': 'white',
-        'axes.facecolor': 'white',
-        'savefig.facecolor': 'white',
-    })
-
     fig, axes = plt.subplots(1, 2, figsize=(10, 4))
 
     cmap = plt.cm.tab10
@@ -248,14 +232,13 @@ def calibrate():
         peak_wl = wl[peak_idx]
         mask = (wl >= peak_wl - 0.8) & (wl <= peak_wl + 0.8)
         ax1.plot(wl[mask], pw[mask], color=colors[i], linewidth=1.5,
-                 label=f'{temp} $^\\circ$C')
+                 label=f'{temp}$^\\circ$C')
 
     ax1.set_xlabel('Wavelength (nm)')
-    ax1.set_ylabel('Power (dBm)')
-    ax1.legend(loc='upper right', fontsize=8)
+    ax1.set_ylabel('Loss (dB)')
+    ax1.legend(loc='upper right')
     ax1.xaxis.set_major_locator(plt.MaxNLocator(5))
-    ax1.text(-0.12, 1.05, '(a)', transform=ax1.transAxes, fontsize=13,
-             fontweight='bold', verticalalignment='bottom')
+    plot_style.add_subplot_label(ax1, '(a)')
 
     # --- (b) Wavelength vs Temperature ---
     ax2 = axes[1]
@@ -268,12 +251,11 @@ def calibrate():
              label=f'Linear fit ($\\alpha$={sensitivity_g*1000:.2f} pm/$^\\circ$C)')
 
     ax2.set_xlabel('Temperature ($^\\circ$C)')
-    ax2.set_ylabel('Bragg Wavelength (nm)')
-    ax2.legend(loc='upper left', fontsize=9)
-    ax2.text(-0.12, 1.05, '(b)', transform=ax2.transAxes, fontsize=13,
-             fontweight='bold', verticalalignment='bottom')
+    ax2.set_ylabel('Wavelength (nm)')
+    ax2.legend(loc='upper left')
+    plot_style.add_subplot_label(ax2, '(b)')
     ax2.text(0.95, 0.08, f'$R^2$ = {r_squared_g:.6f}', transform=ax2.transAxes,
-             fontsize=9, ha='right', va='bottom')
+             ha='right', va='bottom')
 
     plt.tight_layout(pad=1.5)
 

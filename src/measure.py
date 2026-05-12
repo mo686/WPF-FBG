@@ -11,6 +11,8 @@ import time
 import matplotlib.pyplot as plt
 from reference_measurement import ReferenceMeasurement
 
+import plot_style  # 学术论文绘图风格
+
 class InsertionLossMeasurer:
     """插损测量类"""
     
@@ -136,10 +138,9 @@ class InsertionLossMeasurer:
             plt.plot(wavelengths, reference_power, 
                     label=f'Slot{slot_num} Ch{channel_num}')
             
-            plt.xlabel('Wavelength [nm]')
-            plt.ylabel('Insertion Loss [dB]')
+            plt.xlabel('Wavelength (nm)')
+            plt.ylabel('Insertion Loss (dB)')
             plt.title('Insertion Loss Measurement')
-            plt.grid(True, alpha=0.3)
             plt.legend()
             plt.tight_layout()
             plt.show(block=False)
@@ -187,10 +188,9 @@ class InsertionLossMeasurer:
             plt.plot(filtered_wavelengths, filtered_power, 
                     label=f'Slot{slot_num} Ch{channel_num}')
             
-            plt.xlabel('Wavelength [nm]')
-            plt.ylabel('Insertion Loss [dB]')
-            plt.title(f'Insertion Loss Measurement (Zoomed: {start_wl}-{end_wl} nm)')
-            plt.grid(True, alpha=0.3)
+            plt.xlabel('Wavelength (nm)')
+            plt.ylabel('Insertion Loss (dB)')
+            plt.title(f'Insertion Loss ({start_wl}-{end_wl} nm)')
             plt.legend()
             plt.tight_layout()
             plt.show(block=False)
