@@ -1,0 +1,82 @@
+{
+  "description": "FBG strain sensitivity calibration",
+  "date": "2026-05-24",
+  "initial_length_mm": 12.0,
+  "strain_range_microstrain": [
+    416.66666666673177,
+    1000.000000000038
+  ],
+  "method": "Gaussian fit + linear regression",
+  "sensitivity_pm_per_microstrain": 1.1654,
+  "sensitivity_uncertainty_pm_per_microstrain": 0.0068,
+  "reference_wavelength_nm": 1551.819011,
+  "R_squared": 0.9997954,
+  "max_residual_pm": 5.021,
+  "rms_residual_pm": 3.1833,
+  "calibration_data": [
+    {
+      "reading_mm": 5.23,
+      "delta_L_mm": 0.005,
+      "strain_microstrain": 416.67,
+      "bragg_wavelength_nm": 1552.305771,
+      "wavelength_std_nm": 0.0001,
+      "residual_pm": 1.1643
+    },
+    {
+      "reading_mm": 5.231,
+      "delta_L_mm": 0.006,
+      "strain_microstrain": 500.0,
+      "bragg_wavelength_nm": 1552.40203,
+      "wavelength_std_nm": 0.0001,
+      "residual_pm": 0.3048
+    },
+    {
+      "reading_mm": 5.232,
+      "delta_L_mm": 0.007,
+      "strain_microstrain": 583.33,
+      "bragg_wavelength_nm": 1552.502906,
+      "wavelength_std_nm": 0.0001,
+      "residual_pm": 4.0612
+    },
+    {
+      "reading_mm": 5.233,
+      "delta_L_mm": 0.008,
+      "strain_microstrain": 666.67,
+      "bragg_wavelength_nm": 1552.593022,
+      "wavelength_std_nm": 0.0001,
+      "residual_pm": -2.9419
+    },
+    {
+      "reading_mm": 5.234,
+      "delta_L_mm": 0.009,
+      "strain_microstrain": 750.0,
+      "bragg_wavelength_nm": 1552.688062,
+      "wavelength_std_nm": 0.0001,
+      "residual_pm": -5.021
+    },
+    {
+      "reading_mm": 5.235,
+      "delta_L_mm": 0.01,
+      "strain_microstrain": 833.33,
+      "bragg_wavelength_nm": 1552.786781,
+      "wavelength_std_nm": 0.0001,
+      "residual_pm": -3.4209
+    },
+    {
+      "reading_mm": 5.236,
+      "delta_L_mm": 0.011,
+      "strain_microstrain": 916.67,
+      "bragg_wavelength_nm": 1552.890709,
+      "wavelength_std_nm": 0.0001,
+      "residual_pm": 3.3877
+    },
+    {
+      "reading_mm": 5.237,
+      "delta_L_mm": 0.012,
+      "strain_microstrain": 1000.0,
+      "bragg_wavelength_nm": 1552.986906,
+      "wavelength_std_nm": 0.0001,
+      "residual_pm": 2.4658
+    }
+  ]
+}

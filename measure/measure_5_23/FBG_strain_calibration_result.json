@@ -1,0 +1,34 @@
+{
+  "description": "FBG strain sensitivity calibration",
+  "date": "2026-05-24",
+  "initial_length_mm": 12.0,
+  "strain_range_microstrain": [
+    416.66666666673177,
+    583.3333333333801
+  ],
+  "method": "Gaussian fit + linear regression",
+  "sensitivity_pm_per_microstrain": 1.2347,
+  "sensitivity_uncertainty_pm_per_microstrain": Infinity,
+  "reference_wavelength_nm": 1551.756018,
+  "R_squared": 1.0,
+  "max_residual_pm": 0.0,
+  "rms_residual_pm": 0.0,
+  "calibration_data": [
+    {
+      "reading_mm": 5.23,
+      "delta_L_mm": 0.005,
+      "strain_microstrain": 416.67,
+      "bragg_wavelength_nm": 1552.270472,
+      "wavelength_std_nm": 0.0001,
+      "residual_pm": 0.0
+    },
+    {
+      "reading_mm": 5.232,
+      "delta_L_mm": 0.007,
+      "strain_microstrain": 583.33,
+      "bragg_wavelength_nm": 1552.476254,
+      "wavelength_std_nm": 0.0001,
+      "residual_pm": 0.0
+    }
+  ]
+}
